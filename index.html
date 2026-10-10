@@ -3,112 +3,788 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CPEUM - Artículo 1o. | Legislación Mexicana</title>
+<meta name="description" content="Constitución Política de los Estados Unidos Mexicanos: texto vigente e historial de versiones de cada artículo. Prototipo.">
+<meta name="theme-color" content="#0f2a4d">
+<title>Constitución Política de los Estados Unidos Mexicanos | Legislación MX</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230f2a4d'/%3E%3Ctext x='16' y='23' font-size='20' font-family='Georgia,serif' fill='%23fff' text-anchor='middle'%3E%C2%A7%3C/text%3E%3C/svg%3E">
 <style>
-  :root { --bg:#f8f9fa; --sidebar:#fff; --accent:#003366; --border:#dee2e6; }
+  :root {
+    --brand: #0f2a4d;
+    --brand-2: #163a6a;
+    --accent: #1a5fb4;
+    --accent-bg: #e8f0fb;
+    --gold: #b8862b;
+    --bg: #f3f4f6;
+    --surface: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --border: #e2e6ea;
+    --ok: #1f7a4d;   --ok-bg: #e6f4ec;
+    --warn: #92400e; --warn-bg: #fff6e5; --warn-border: #f2c879;
+    --info: #1e4e8c; --info-bg: #eaf2fc;
+    --ins-bg: #dcfce7; --ins-fg: #14532d;
+    --del-bg: #fee2e2; --del-fg: #7f1d1d;
+    --radius: 10px;
+    --shadow: 0 1px 2px rgba(16,24,40,.06), 0 1px 3px rgba(16,24,40,.08);
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --serif: Georgia, "Charter", "Iowan Old Style", "Times New Roman", serif;
+    --header-h: 56px;
+    --sidebar-w: 320px;
+  }
   * { box-sizing: border-box; }
-  body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:var(--bg); color:#212529; }
-  .header { background:var(--accent); color:#fff; padding:1rem 1.5rem; display:flex; justify-content:space-between; align-items:center; }
-  .header h1 { margin:0; font-size:1.25rem; }
-  .layout { display:flex; min-height:calc(100vh - 60px); }
-  .sidebar { width:280px; background:var(--sidebar); border-right:1px solid var(--border); padding:1rem; overflow-y:auto; }
-  .content { flex:1; padding:1.5rem 2rem; max-width:900px; }
-  .tree ul { list-style:none; padding-left:1rem; }
-  .tree > ul { padding-left:0; }
-  .tree li { margin:.25rem 0; }
-  .tree a { color:var(--accent); text-decoration:none; }
-  .tree a:hover { text-decoration:underline; }
-  .article { background:#fff; border:1px solid var(--border); border-radius:8px; padding:1.5rem; margin-bottom:1.5rem; }
-  .article h2 { margin-top:0; color:var(--accent); }
-  .historial-btn { background:var(--accent); color:#fff; border:none; padding:.5rem 1rem; border-radius:4px; cursor:pointer; margin-top:1rem; }
-  .historial-panel { margin-top:1rem; border-top:1px solid var(--border); padding-top:1rem; display:none; }
-  .historial-panel.open { display:block; }
-  .version { border:1px solid var(--border); border-radius:6px; margin:.75rem 0; padding:1rem; background:#fafafa; }
-  .version h3 { margin:0 0 .5rem 0; font-size:1rem; }
-  .version .meta { font-size:.85rem; color:#6c757d; margin-bottom:.5rem; }
-  .version pre { white-space:pre-wrap; font-family:inherit; margin:0; }
-  .date-badge { font-size:.8rem; background:#e9ecef; padding:.15rem .4rem; border-radius:3px; }
-  footer { text-align:center; padding:1rem; font-size:.8rem; color:#6c757d; border-top:1px solid var(--border); }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; font-family: var(--sans); background: var(--bg); color: var(--text);
+    line-height: 1.5; -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); }
+  button { font: inherit; }
+  :focus-visible { outline: 3px solid #f59e0b; outline-offset: 2px; }
+  .skip { position: absolute; left: -9999px; top: 8px; background: #fff; padding: .5rem 1rem; z-index: 100; }
+  .skip:focus { left: 8px; }
+
+  /* ---------- Cabecera ---------- */
+  .topbar {
+    position: sticky; top: 0; z-index: 40; height: var(--header-h);
+    background: var(--brand); color: #fff; display: flex; align-items: center; gap: 1rem;
+    padding: 0 1rem; box-shadow: 0 1px 0 rgba(255,255,255,.08), 0 2px 8px rgba(0,0,0,.18);
+  }
+  .brand { display: flex; align-items: baseline; gap: .5rem; color: #fff; text-decoration: none; white-space: nowrap; }
+  .brand strong { font-size: 1.1rem; letter-spacing: .01em; }
+  .brand .pill { font-size: .65rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: var(--gold); color: #1f1300; padding: .15rem .45rem; border-radius: 999px; }
+  .topbar .spacer { flex: 1; }
+  .consulta { font-size: .85rem; opacity: .9; white-space: nowrap; }
+  .consulta b { font-weight: 600; }
+  .menu-btn {
+    display: none; background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.35);
+    border-radius: 6px; padding: .35rem .6rem; cursor: pointer; align-items: center; gap: .4rem;
+  }
+  .menu-btn:hover { background: rgba(255,255,255,.1); }
+
+  /* ---------- Layout ---------- */
+  .layout { display: flex; align-items: flex-start; min-height: calc(100vh - var(--header-h)); }
+  .sidebar {
+    width: var(--sidebar-w); flex: 0 0 var(--sidebar-w); background: var(--surface);
+    border-right: 1px solid var(--border); position: sticky; top: var(--header-h);
+    height: calc(100vh - var(--header-h)); overflow-y: auto; display: flex; flex-direction: column;
+  }
+  .sidebar-head { padding: 1rem 1rem .75rem; border-bottom: 1px solid var(--border); }
+  .norma-title { font-weight: 700; color: var(--brand); font-size: .95rem; line-height: 1.3; }
+  .norma-meta { font-size: .75rem; color: var(--muted); margin-top: .25rem; }
+  .search {
+    margin-top: .75rem; width: 100%; padding: .5rem .7rem; border: 1px solid #cfd5dc; border-radius: 8px;
+    font-size: .9rem; background: #fafbfc;
+  }
+  .search:focus { border-color: var(--accent); background: #fff; }
+  .tree { padding: .5rem .5rem 1rem; font-size: .875rem; flex: 1; }
+  .tree details { margin: 0; }
+  .tree summary {
+    list-style: none; cursor: pointer; display: flex; gap: .4rem; align-items: flex-start;
+    padding: .4rem .5rem; border-radius: 6px; color: var(--brand); font-weight: 600; user-select: none;
+  }
+  .tree summary::-webkit-details-marker { display: none; }
+  .tree summary:hover { background: #f1f4f8; }
+  .tree summary .chev { flex: 0 0 auto; width: 1em; height: 1em; margin-top: .25em; transition: transform .2s; color: var(--muted); }
+  .tree details[open] > summary .chev { transform: rotate(90deg); }
+  .tree summary .sub { display: block; font-weight: 400; color: var(--muted); font-size: .78rem; line-height: 1.3; }
+  .tree .lvl-1 > summary { font-size: .9rem; }
+  .tree .lvl-2, .tree .lvl-3, .tree ul.arts { margin-left: .8rem; border-left: 1px solid var(--border); padding-left: .25rem; }
+  .tree ul.arts { list-style: none; padding: .15rem 0 .25rem .25rem; margin-top: 0; }
+  .tree .art-link {
+    display: flex; align-items: baseline; gap: .5rem; padding: .3rem .5rem; border-radius: 6px;
+    color: var(--text); text-decoration: none; line-height: 1.3; border-left: 3px solid transparent;
+  }
+  .tree .art-link:hover { background: #f1f4f8; }
+  .tree .art-link[aria-current="page"] { background: var(--accent-bg); border-left-color: var(--accent); color: var(--brand); font-weight: 600; }
+  .tree .art-link .num { white-space: nowrap; }
+  .tree .art-link .tema { font-size: .75rem; color: var(--muted); font-weight: 400; display: block; }
+  .tree .art-link.pendiente { color: #9aa3ae; }
+  .dot { display: inline-block; width: .5rem; height: .5rem; border-radius: 50%; background: #c7ced6; flex: 0 0 auto; position: relative; top: -1px; }
+  .dot.verificado { background: var(--ok); }
+  .dot.prototipo { background: #e3a008; }
+  .tree.filtering li.oculto { display: none; }
+  .tree.filtering details { display: block; }
+  .tree.filtering details.sin-coincidencias { display: none; }
+  .sidebar-foot { padding: .6rem 1rem .9rem; border-top: 1px solid var(--border); font-size: .72rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: .35rem .8rem; }
+  .sidebar-foot span { display: inline-flex; align-items: center; gap: .3rem; }
+  .backdrop { display: none; position: fixed; inset: var(--header-h) 0 0 0; background: rgba(15,42,77,.45); z-index: 30; }
+
+  /* ---------- Contenido ---------- */
+  .content { flex: 1; min-width: 0; padding: 1.25rem 2rem 3rem; max-width: 980px; }
+  .breadcrumb { font-size: .8rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: .35rem; align-items: center; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--accent); text-decoration: underline; }
+  .breadcrumb .sep { opacity: .6; }
+  .breadcrumb b { color: var(--text); font-weight: 600; }
+  .toolbar {
+    display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; margin: .9rem 0 1rem;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: .6rem .9rem; box-shadow: var(--shadow);
+  }
+  .toolbar label { font-size: .85rem; color: var(--muted); display: inline-flex; align-items: center; gap: .5rem; }
+  .toolbar input[type=date] { font: inherit; font-size: .85rem; padding: .3rem .45rem; border: 1px solid #cfd5dc; border-radius: 6px; color: var(--text); background: #fff; }
+  .btn-link { background: none; border: none; color: var(--accent); cursor: pointer; padding: .2rem .3rem; font-size: .85rem; text-decoration: underline; }
+  .toolbar .estado { margin-left: auto; font-size: .8rem; color: var(--muted); }
+
+  .article { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.6rem 2rem 1.4rem; scroll-margin-top: calc(var(--header-h) + 12px); }
+  .article-head { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .8rem; }
+  .article h1 { margin: 0; font-size: 1.75rem; color: var(--brand); font-family: var(--serif); font-weight: 700; letter-spacing: .005em; }
+  .badge { font-size: .72rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: .2rem .5rem; border-radius: 999px; border: 1px solid transparent; white-space: nowrap; }
+  .badge.vigente { background: var(--ok-bg); color: var(--ok); border-color: #b7e0c8; }
+  .badge.historica { background: var(--info-bg); color: var(--info); border-color: #bfd3ee; }
+  .badge.verificado { background: #eef2f7; color: #334155; border-color: #d6dde6; }
+  .badge.prototipo { background: var(--warn-bg); color: var(--warn); border-color: var(--warn-border); }
+  .badge.pendiente { background: #f1f5f9; color: #64748b; border-color: #e2e8f0; }
+  .tema { margin: .35rem 0 0; color: var(--muted); font-size: .9rem; }
+  .tema-lbl { font-size: .68rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #94a3b8; margin-right: .2rem; }
+  .meta-line { margin: .8rem 0 0; font-size: .82rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: .25rem .9rem; }
+  .meta-line b { color: var(--text); font-weight: 600; }
+  .aviso { margin: 1rem 0 0; padding: .7rem .9rem; border-radius: 8px; font-size: .85rem; line-height: 1.45; border: 1px solid; }
+  .aviso.prototipo { background: var(--warn-bg); border-color: var(--warn-border); color: #5c3a05; }
+  .aviso.info { background: var(--info-bg); border-color: #bfd3ee; color: #163a6a; }
+  .aviso.pendiente { background: #f8fafc; border-color: #e2e8f0; color: #475569; }
+  .aviso a { color: inherit; }
+
+  .texto { font-family: var(--serif); font-size: 1.08rem; line-height: 1.75; margin-top: 1.1rem; color: #111827; }
+  .texto p { margin: 0 0 1em; text-align: left; hyphens: manual; }
+  .texto p:last-child { margin-bottom: 0; }
+  .texto p.apartado { font-weight: 700; margin-top: 1.2em; }
+  .texto p.fraccion { padding-left: 2.2em; text-indent: -2.2em; }
+  .texto p.inciso { padding-left: 3.6em; text-indent: -1.4em; }
+  .texto p.encabezado { font-weight: 700; }
+  .texto.diff { white-space: pre-wrap; }
+  .texto ins { background: var(--ins-bg); color: var(--ins-fg); text-decoration: none; border-radius: 3px; padding: 0 .1em; }
+  .texto del { background: var(--del-bg); color: var(--del-fg); text-decoration: line-through; border-radius: 3px; padding: 0 .1em; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.4rem; padding-top: 1.1rem; border-top: 1px solid var(--border); align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: .45rem; background: var(--brand); color: #fff; border: 1px solid var(--brand);
+    padding: .55rem 1rem; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: .9rem; transition: background .15s, transform .05s;
+  }
+  .btn:hover { background: var(--brand-2); }
+  .btn:active { transform: translateY(1px); }
+  .btn .count { background: rgba(255,255,255,.18); padding: .05rem .45rem; border-radius: 999px; font-size: .75rem; font-weight: 600; }
+  .btn .chev { width: .9em; height: .9em; transition: transform .25s; }
+  .btn[aria-expanded="true"] .chev { transform: rotate(180deg); }
+  .btn.secondary { background: #fff; color: var(--brand); border-color: #cfd5dc; font-weight: 500; }
+  .btn.secondary:hover { background: #f1f4f8; }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+
+  /* ---------- Historial (despliegue fluido bajo el artículo) ---------- */
+  .historial { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .4s cubic-bezier(.2,.7,.2,1), opacity .3s, margin-top .4s; opacity: 0; margin-top: 0; scroll-margin-top: calc(var(--header-h) + 12px); }
+  .historial.open { grid-template-rows: 1fr; opacity: 1; margin-top: 1.2rem; }
+  .historial > .historial-inner { min-height: 0; overflow: hidden; }
+  .historial-box { border: 1px solid var(--border); border-radius: var(--radius); background: #fbfcfd; }
+  .hist-head { padding: .9rem 1.1rem; border-bottom: 1px solid var(--border); display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem 1rem; }
+  .hist-head h2 { margin: 0; font-size: 1.05rem; color: var(--brand); }
+  .hist-head p { margin: 0; font-size: .82rem; color: var(--muted); }
+  .hist-body { display: grid; grid-template-columns: 290px 1fr; }
+  .versiones { list-style: none; margin: 0; padding: .6rem; border-right: 1px solid var(--border); background: #f6f8fa; border-radius: 0 0 0 var(--radius); }
+  .ver-btn {
+    width: 100%; text-align: left; background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: .55rem .7rem .55rem .9rem;
+    cursor: pointer; margin: 0 0 .45rem; position: relative; line-height: 1.35; color: var(--text);
+  }
+  .ver-btn:hover { border-color: #b9c3cf; }
+  .ver-btn[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-bg); box-shadow: inset 3px 0 0 var(--accent); }
+  .ver-btn .rango { font-size: .86rem; font-weight: 600; color: var(--brand); display: block; }
+  .ver-btn .sub { font-size: .75rem; color: var(--muted); display: block; margin-top: .15rem; }
+  .ver-btn .tag { font-size: .66rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; border-radius: 999px; padding: .1rem .4rem; margin-left: .35rem; vertical-align: middle; }
+  .ver-btn .tag.vig { background: var(--ok-bg); color: var(--ok); }
+  .ver-btn .tag.cons { background: #fff3cd; color: #7a5200; }
+  .ver-panel { padding: 1rem 1.3rem 1.3rem; min-width: 0; }
+  .ver-panel-head { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: baseline; justify-content: space-between; }
+  .ver-panel h3 { margin: 0; font-size: 1rem; color: var(--brand); }
+  .ver-meta { margin: .35rem 0 0; font-size: .8rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: .25rem .9rem; }
+  .ver-meta b { color: var(--text); font-weight: 600; }
+  .diff-toggle { font-size: .82rem; color: var(--muted); display: inline-flex; align-items: center; gap: .4rem; cursor: pointer; }
+  .diff-toggle input { accent-color: var(--accent); }
+  .diff-leyenda { font-size: .75rem; color: var(--muted); margin-top: .5rem; }
+  .diff-leyenda span { padding: 0 .3em; border-radius: 3px; }
+  .ver-panel .texto { font-size: 1.02rem; margin-top: .9rem; padding-top: .9rem; border-top: 1px dashed var(--border); }
+
+  .prevnext { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1.2rem; }
+  .prevnext a { text-decoration: none; font-size: .9rem; color: var(--brand); background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: .55rem .9rem; display: inline-flex; gap: .4rem; align-items: center; }
+  .prevnext a:hover { background: #f1f4f8; }
+  .prevnext .next { margin-left: auto; }
+  .prevnext a.disabled { opacity: .4; pointer-events: none; }
+  .legal { margin-top: 2rem; font-size: .78rem; color: var(--muted); line-height: 1.5; border-top: 1px solid var(--border); padding-top: 1rem; }
+  .legal p { margin: .3rem 0; }
+
+  .toast { position: fixed; left: 50%; bottom: 1.5rem; transform: translate(-50%, 20px); background: #111827; color: #fff; padding: .6rem 1rem; border-radius: 8px; font-size: .85rem; opacity: 0; transition: opacity .25s, transform .25s; z-index: 60; pointer-events: none; }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 960px) {
+    .menu-btn { display: inline-flex; }
+    .consulta { font-size: .75rem; }
+    .consulta .lbl { display: none; }
+    .sidebar {
+      position: fixed; left: 0; top: var(--header-h); bottom: 0; height: auto; z-index: 35;
+      transform: translateX(-100%); transition: transform .25s ease; box-shadow: 4px 0 20px rgba(0,0,0,.15); width: min(var(--sidebar-w), 88vw); flex-basis: auto;
+    }
+    body.menu-open .sidebar { transform: none; }
+    body.menu-open .backdrop { display: block; }
+    body.menu-open { overflow: hidden; }
+    .content { padding: 1rem 1rem 2.5rem; }
+    .article { padding: 1.2rem 1.1rem 1.1rem; }
+    .article h1 { font-size: 1.45rem; }
+    .texto { font-size: 1.02rem; line-height: 1.7; }
+    .hist-body { grid-template-columns: 1fr; }
+    .versiones { border-right: none; border-bottom: 1px solid var(--border); border-radius: 0; }
+    .ver-panel { padding: .9rem 1rem 1.1rem; }
+    .toolbar .estado { margin-left: 0; }
+  }
+  @media (max-width: 480px) {
+    .brand strong { font-size: 1rem; }
+    .consulta { display: none; }
+    .prevnext { flex-direction: column; }
+    .prevnext .next { margin-left: 0; }
+  }
+  @media print {
+    .topbar, .sidebar, .backdrop, .toolbar, .actions, .prevnext, .toast, .menu-btn { display: none !important; }
+    .layout { display: block; }
+    .content { max-width: none; padding: 0; }
+    .article { border: none; box-shadow: none; padding: 0; }
+    .historial { display: block; opacity: 1; }
+    .historial:not(.open) { display: none; }
+    .historial > .historial-inner { overflow: visible; }
+    .hist-body { grid-template-columns: 1fr; }
+    .versiones { display: none; }
+    a { color: inherit; text-decoration: none; }
+  }
 </style>
 </head>
 <body>
-<div class="header">
-  <h1>Constitución Política de los Estados Unidos Mexicanos</h1>
-  <span class="date-badge" id="consulta-fecha">Consulta: 10 de octubre de 2026</span>
-</div>
+<a class="skip" href="#articulo">Ir al contenido</a>
+
+<header class="topbar">
+  <button class="menu-btn" id="menu-btn" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir índice">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    Índice
+  </button>
+  <a class="brand" href="#/art/1"><strong>Legislación MX</strong><span class="pill">Prototipo</span></a>
+  <span class="spacer"></span>
+  <span class="consulta"><span class="lbl">Fecha de consulta: </span><b id="consulta-fecha"></b></span>
+</header>
+
 <div class="layout">
-  <aside class="sidebar">
-    <strong>Índice</strong>
-    <div class="tree">
-      <ul>
-        <li><a href="#">Título Primero</a>
-          <ul>
-            <li><a href="#">Capítulo I — De los Derechos Humanos y sus Garantías</a>
-              <ul>
-                <li><a href="#art1">Artículo 1o.</a></li>
-                <li><a href="#">Artículo 2o.</a></li>
-                <li><a href="#">Artículo 3o.</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-      </ul>
+  <aside class="sidebar" id="sidebar" aria-label="Índice de la norma">
+    <div class="sidebar-head">
+      <div class="norma-title" id="norma-title"></div>
+      <div class="norma-meta" id="norma-meta"></div>
+      <input class="search" id="buscar" type="search" placeholder="Ir al artículo… (p. ej. 123)" aria-label="Buscar artículo por número o tema" autocomplete="off">
+    </div>
+    <nav class="tree" id="tree" aria-label="Estructura de la Constitución"></nav>
+    <div class="sidebar-foot">
+      <span><i class="dot verificado"></i> verificado</span>
+      <span><i class="dot prototipo"></i> prototipo (texto simulado)</span>
+      <span><i class="dot"></i> pendiente de carga</span>
     </div>
   </aside>
-  <main class="content">
-    <div class="article" id="art1">
-      <h2>Artículo 1o.</h2>
-      <div id="texto-vigente">
-        <p>En los Estados Unidos Mexicanos todas las personas gozarán de los derechos humanos reconocidos en esta Constitución y en los tratados internacionales de los que el Estado Mexicano sea parte, así como de las garantías para su protección, cuyo ejercicio no podrá restringirse ni suspenderse, salvo en los casos y bajo las condiciones que esta Constitución establece.</p>
-        <p>Las normas relativas a los derechos humanos se interpretarán de conformidad con esta Constitución y con los tratados internacionales de la materia favoreciendo en todo tiempo a las personas la protección más amplia.</p>
-        <p>Todas las autoridades, en el ámbito de sus competencias, tienen la obligación de promover, respetar, proteger y garantizar los derechos humanos de conformidad con los principios de universalidad, interdependencia, indivisibilidad y progresividad. En consecuencia, el Estado deberá prevenir, investigar, sancionar y reparar las violaciones a los derechos humanos, en los términos que establezca la ley.</p>
-        <p>Está prohibida la esclavitud en los Estados Unidos Mexicanos. Los esclavos del extranjero que entren al territorio nacional alcanzarán, por este solo hecho, su libertad y la protección de las leyes.</p>
-        <p>Queda prohibida toda discriminación motivada por origen étnico o nacional, el género, la edad, las discapacidades, la condición social, las condiciones de salud, la religión, las opiniones, las preferencias sexuales, el estado civil o cualquier otra que atente contra la dignidad humana y tenga por objeto anular o menoscabar los derechos y libertades de las personas.</p>
-      </div>
-      <button class="historial-btn" onclick="toggleHistorial()">Ver historial</button>
-      <div class="historial-panel" id="historial">
-        <h3>Historial del artículo</h3>
-        <div class="version">
-          <h3>Versión vigente (desde 11-06-2011)</h3>
-          <div class="meta">Publicación: DOF 10-06-2011 · Entrada en vigor: 11-06-2011 · Capítulo: De los Derechos Humanos y sus Garantías</div>
-          <pre id="v4"></pre>
-        </div>
-        <div class="version">
-          <h3>Versión 04-12-2006</h3>
-          <div class="meta">Publicación: DOF 04-12-2006 · Entrada en vigor: al día siguiente · Capítulo: De las Garantías Individuales</div>
-          <pre id="v3"></pre>
-        </div>
-        <div class="version">
-          <h3>Versión 14-08-2001</h3>
-          <div class="meta">Publicación: DOF 14-08-2001 · Capítulo: De las Garantías Individuales</div>
-          <pre id="v2"></pre>
-        </div>
-        <div class="version">
-          <h3>Versión original (05-02-1917)</h3>
-          <div class="meta">Publicación: DOF 05-02-1917 · Entrada en vigor de la Constitución: 01-05-1917 · Capítulo: De las Garantías Individuales</div>
-          <pre id="v1"></pre>
-        </div>
-      </div>
+  <div class="backdrop" id="backdrop"></div>
+
+  <main class="content" id="contenido">
+    <nav class="breadcrumb" id="breadcrumb" aria-label="Ubicación"></nav>
+
+    <div class="toolbar">
+      <label for="fecha-al">Versión vigente al
+        <input type="date" id="fecha-al" min="1917-02-05">
+      </label>
+      <button class="btn-link" id="btn-hoy" type="button">Hoy</button>
+      <span class="estado" id="estado-vigencia"></span>
     </div>
-    <p style="font-size:.85rem;color:#6c757d;">Prototipo de demostración. Textos reconstruidos a partir de fuentes oficiales SCJN y DOF. No constituye texto oficial.</p>
+
+    <article class="article" id="articulo"></article>
+
+    <nav class="prevnext" id="prevnext" aria-label="Navegación entre artículos"></nav>
+
+    <footer class="legal" id="legal"></footer>
   </main>
 </div>
-<footer>Prototipo — Legislación mexicana vigente e histórica · Objetivo: monetizar tráfico útil</footer>
-<script>
-const versiones = {
-  v4: `En los Estados Unidos Mexicanos todas las personas gozarán de los derechos humanos reconocidos en esta Constitución y en los tratados internacionales de los que el Estado Mexicano sea parte, así como de las garantías para su protección, cuyo ejercicio no podrá restringirse ni suspenderse, salvo en los casos y bajo las condiciones que esta Constitución establece.\n\nLas normas relativas a los derechos humanos se interpretarán de conformidad con esta Constitución y con los tratados internacionales de la materia favoreciendo en todo tiempo a las personas la protección más amplia.\n\nTodas las autoridades, en el ámbito de sus competencias, tienen la obligación de promover, respetar, proteger y garantizar los derechos humanos de conformidad con los principios de universalidad, interdependencia, indivisibilidad y progresividad. En consecuencia, el Estado deberá prevenir, investigar, sancionar y reparar las violaciones a los derechos humanos, en los términos que establezca la ley.\n\nEstá prohibida la esclavitud en los Estados Unidos Mexicanos. Los esclavos del extranjero que entren al territorio nacional alcanzarán, por este solo hecho, su libertad y la protección de las leyes.\n\nQueda prohibida toda discriminación motivada por origen étnico o nacional, el género, la edad, las discapacidades, la condición social, las condiciones de salud, la religión, las opiniones, las preferencias sexuales, el estado civil o cualquier otra que atente contra la dignidad humana y tenga por objeto anular o menoscabar los derechos y libertades de las personas.`,
-  v3: `Artículo 1o.\nEn los Estados Unidos Mexicanos todo individuo gozará de las garantías que otorga esta Constitución, las cuales no podrán restringirse ni suspenderse, sino en los casos y con las condiciones que ella misma establece.\n\nEstá prohibida la esclavitud en los Estados Unidos Mexicanos. Los esclavos del extranjero que entren al territorio nacional alcanzarán, por este solo hecho, su libertad y la protección de las leyes.\n\nQueda prohibida toda discriminación motivada por origen étnico o nacional, el género, la edad, las discapacidades, la condición social, las condiciones de salud, la religión, las opiniones, las preferencias, el estado civil o cualquier otra que atente contra la dignidad humana y tenga por objeto anular o menoscabar los derechos y libertades de las personas.`,
-  v2: `Artículo 1o.\nEn los Estados Unidos Mexicanos todo individuo gozará de las garantías que otorga esta Constitución, las cuales no podrán restringirse ni suspenderse, sino en los casos y con las condiciones que ella misma establece.\n\nEstá prohibida la esclavitud en los Estados Unidos Mexicanos. Los esclavos del extranjero que entren al territorio nacional alcanzarán, por este solo hecho, su libertad y la protección de las leyes.\n\nQueda prohibida toda discriminación motivada por origen étnico o nacional, el género, la edad, las capacidades diferentes, la condición social, las condiciones de salud, la religión, las opiniones, las preferencias, el estado civil o cualquier otra que atente contra la dignidad humana y tenga por objeto anular o menoscabar los derechos y libertades de las personas.`,
-  v1: `Art. 1o.- En los Estados Unidos Mexicanos todo individuo gozará de las garantías que otorga esta Constitución, las cuales no podrán restringirse ni suspenderse, sino en los casos y con las condiciones que ella misma establece.`
-};
-document.getElementById('v4').textContent = versiones.v4;
-document.getElementById('v3').textContent = versiones.v3;
-document.getElementById('v2').textContent = versiones.v2;
-document.getElementById('v1').textContent = versiones.v1;
 
-function toggleHistorial() {
-  document.getElementById('historial').classList.toggle('open');
-}
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- DATA:START -->
+<script id="cpeum-data" type="application/json">
+{"norma":{"id":"cpeum","siglas":"CPEUM","nombre":"Constitución Política de los Estados Unidos Mexicanos","nombre_corto":"Constitución Política","publicacion":"1917-02-05","vigencia_desde":"1917-05-01","fuentes":[{"nombre":"Cámara de Diputados — Leyes Federales Vigentes","url":"https://www.diputados.gob.mx/LeyesBiblio/"},{"nombre":"Cámara de Diputados — Reformas constitucionales por artículo","url":"https://www.diputados.gob.mx/LeyesBiblio/ref/cpeum_art.htm"}],"aviso":"Prototipo de demostración. Sólo el Artículo 1o. está verificado contra fuentes oficiales; los demás artículos cargados contienen texto simulado y fechas ilustrativas. No constituye texto oficial."},"estructura":[{"tipo":"titulo","id":"t1","nombre":"Título Primero","hijos":[{"tipo":"capitulo","id":"t1-c1","nombre":"Capítulo I","subtitulo":"De los Derechos Humanos y sus Garantías","articulos":{"desde":1,"hasta":29}},{"tipo":"capitulo","id":"t1-c2","nombre":"Capítulo II","subtitulo":"De los Mexicanos","articulos":{"desde":30,"hasta":32}},{"tipo":"capitulo","id":"t1-c3","nombre":"Capítulo III","subtitulo":"De los Extranjeros","articulos":{"desde":33,"hasta":33}},{"tipo":"capitulo","id":"t1-c4","nombre":"Capítulo IV","subtitulo":"De los Ciudadanos Mexicanos","articulos":{"desde":34,"hasta":38}}]},{"tipo":"titulo","id":"t2","nombre":"Título Segundo","hijos":[{"tipo":"capitulo","id":"t2-c1","nombre":"Capítulo I","subtitulo":"De la Soberanía Nacional y de la Forma de Gobierno","articulos":{"desde":39,"hasta":41}},{"tipo":"capitulo","id":"t2-c2","nombre":"Capítulo II","subtitulo":"De las Partes Integrantes de la Federación y del Territorio Nacional","articulos":{"desde":42,"hasta":48}}]},{"tipo":"titulo","id":"t3","nombre":"Título Tercero","hijos":[{"tipo":"capitulo","id":"t3-c1","nombre":"Capítulo I","subtitulo":"De la División de Poderes","articulos":{"desde":49,"hasta":49}},{"tipo":"capitulo","id":"t3-c2","nombre":"Capítulo II","subtitulo":"Del Poder Legislativo","articulos":{"desde":50,"hasta":50},"hijos":[{"tipo":"seccion","id":"t3-c2-s1","nombre":"Sección I","subtitulo":"De la Elección e Instalación del Congreso","articulos":{"desde":51,"hasta":70}},{"tipo":"seccion","id":"t3-c2-s2","nombre":"Sección II","subtitulo":"De la Iniciativa y Formación de las Leyes","articulos":{"desde":71,"hasta":72}},{"tipo":"seccion","id":"t3-c2-s3","nombre":"Sección III","subtitulo":"De las Facultades del Congreso","articulos":{"desde":73,"hasta":77}},{"tipo":"seccion","id":"t3-c2-s4","nombre":"Sección IV","subtitulo":"De la Comisión Permanente","articulos":{"desde":78,"hasta":78}},{"tipo":"seccion","id":"t3-c2-s5","nombre":"Sección V","subtitulo":"De la Fiscalización Superior de la Federación","articulos":{"desde":79,"hasta":79}}]},{"tipo":"capitulo","id":"t3-c3","nombre":"Capítulo III","subtitulo":"Del Poder Ejecutivo","articulos":{"desde":80,"hasta":93}},{"tipo":"capitulo","id":"t3-c4","nombre":"Capítulo IV","subtitulo":"Del Poder Judicial","articulos":{"desde":94,"hasta":107}}]},{"tipo":"titulo","id":"t4","nombre":"Título Cuarto","subtitulo":"De las Responsabilidades de los Servidores Públicos, Particulares Vinculados con Faltas Administrativas Graves o Hechos de Corrupción, y Patrimonial del Estado","articulos":{"desde":108,"hasta":114}},{"tipo":"titulo","id":"t5","nombre":"Título Quinto","subtitulo":"De los Estados de la Federación y de la Ciudad de México","articulos":{"desde":115,"hasta":122}},{"tipo":"titulo","id":"t6","nombre":"Título Sexto","subtitulo":"Del Trabajo y de la Previsión Social","articulos":{"desde":123,"hasta":123}},{"tipo":"titulo","id":"t7","nombre":"Título Séptimo","subtitulo":"Prevenciones Generales","articulos":{"desde":124,"hasta":134}},{"tipo":"titulo","id":"t8","nombre":"Título Octavo","subtitulo":"De las Reformas de la Constitución","articulos":{"desde":135,"hasta":135}},{"tipo":"titulo","id":"t9","nombre":"Título Noveno","subtitulo":"De la Inviolabilidad de la Constitución","articulos":{"desde":136,"hasta":136}}],"articulos":{"1":{"numero":"1o.","tema":"Derechos humanos y sus garantías; prohibición de la esclavitud y de la discriminación","estado":"verificado","nota":"Golden case. Textos reconstruidos a partir de fuentes oficiales (DOF y SCJN); véase cpeum-art-1.json.","versiones":[{"id":"v1","etiqueta":"Original","publicacion":"1917-02-05","vigencia_desde":"1917-05-01","vigencia_hasta":"2001-08-13","capitulo":"De las Garantías Individuales","texto":"Art. 1o.- En los Estados Unidos Mexicanos todo individuo gozará de las garantías que otorga esta Constitución, las cuales no podrán restringirse ni suspenderse, sino en los casos y con las condiciones que ella misma establece."},{"id":"v2","etiqueta":"Post 14-08-2001","publicacion":"2001-08-14","vigencia_desde":"2001-08-15","vigencia_hasta":"2006-12-04","capitulo":"De las Garantías Individuales","texto":"Artículo 1o.\nEn los Estados Unidos Mexicanos todo individuo gozará de las garantías que otorga esta Constitución, las cuales no podrán restringirse ni suspenderse, sino en los casos y con las condiciones que ella misma establece.\n\nEstá prohibida la esclavitud en los Estados Unidos Mexicanos. Los esclavos del extranjero que entren al territorio nacional alcanzarán, por este solo hecho, su libertad y la protección de las leyes.\n\nQueda prohibida toda discriminación motivada por origen étnico o nacional, el género, la edad, las capacidades diferentes, la condición social, las condiciones de salud, la religión, las opiniones, las preferencias, el estado civil o cualquier otra que atente contra la dignidad humana y tenga por objeto anular o menoscabar los derechos y libertades de las personas."},{"id":"v3","etiqueta":"Post 04-12-2006","publicacion":"2006-12-04","vigencia_desde":"2006-12-05","vigencia_hasta":"2011-06-10","capitulo":"De las Garantías Individuales","texto":"Artículo 1o.\nEn los Estados Unidos Mexicanos todo individuo gozará de las garantías que otorga esta Constitución, las cuales no podrán restringirse ni suspenderse, sino en los casos y con las condiciones que ella misma establece.\n\nEstá prohibida la esclavitud en los Estados Unidos Mexicanos. Los esclavos del extranjero que entren al territorio nacional alcanzarán, por este solo hecho, su libertad y la protección de las leyes.\n\nQueda prohibida toda discriminación motivada por origen étnico o nacional, el género, la edad, las discapacidades, la condición social, las condiciones de salud, la religión, las opiniones, las preferencias, el estado civil o cualquier otra que atente contra la dignidad humana y tenga por objeto anular o menoscabar los derechos y libertades de las personas."},{"id":"v4","etiqueta":"Vigente (post 10-06-2011)","publicacion":"2011-06-10","vigencia_desde":"2011-06-11","vigencia_hasta":null,"capitulo":"De los Derechos Humanos y sus Garantías","texto":"En los Estados Unidos Mexicanos todas las personas gozarán de los derechos humanos reconocidos en esta Constitución y en los tratados internacionales de los que el Estado Mexicano sea parte, así como de las garantías para su protección, cuyo ejercicio no podrá restringirse ni suspenderse, salvo en los casos y bajo las condiciones que esta Constitución establece.\n\nLas normas relativas a los derechos humanos se interpretarán de conformidad con esta Constitución y con los tratados internacionales de la materia favoreciendo en todo tiempo a las personas la protección más amplia.\n\nTodas las autoridades, en el ámbito de sus competencias, tienen la obligación de promover, respetar, proteger y garantizar los derechos humanos de conformidad con los principios de universalidad, interdependencia, indivisibilidad y progresividad. En consecuencia, el Estado deberá prevenir, investigar, sancionar y reparar las violaciones a los derechos humanos, en los términos que establezca la ley.\n\nEstá prohibida la esclavitud en los Estados Unidos Mexicanos. Los esclavos del extranjero que entren al territorio nacional alcanzarán, por este solo hecho, su libertad y la protección de las leyes.\n\nQueda prohibida toda discriminación motivada por origen étnico o nacional, el género, la edad, las discapacidades, la condición social, las condiciones de salud, la religión, las opiniones, las preferencias sexuales, el estado civil o cualquier otra que atente contra la dignidad humana y tenga por objeto anular o menoscabar los derechos y libertades de las personas."}]},"2":{"numero":"2o.","tema":"Pueblos y comunidades indígenas","estado":"prototipo","nota":"Artículo de prototipo: texto simulado y fechas ilustrativas. El texto oficial se cargará desde el DOF.","versiones":[{"id":"p1","etiqueta":"Simulada A","publicacion":"1917-02-05","vigencia_desde":"1917-05-01","vigencia_hasta":"2001-08-13","capitulo":"De las Garantías Individuales","texto":"Este artículo, en su redacción anterior, era muy breve. Texto simulado del prototipo: no reproduce el texto constitucional.\n\nLa Nación tiene una composición de prueba para la maqueta. Este segundo párrafo simulado existe únicamente para comprobar la lectura de párrafos cortos en el historial."},{"id":"p2","etiqueta":"Simulada B (vigente)","publicacion":"2001-08-14","vigencia_desde":"2001-08-15","vigencia_hasta":null,"capitulo":"De los Derechos Humanos y sus Garantías","texto":"Este artículo, en su redacción vigente, es extenso y se divide en apartados. Texto simulado del prototipo: no reproduce el texto constitucional.\n\nLa Nación tiene una composición de prueba para la maqueta. Este segundo párrafo simulado existe únicamente para comprobar la lectura de párrafos largos y el salto de línea en pantallas estrechas, por lo que se extiende un poco más de lo habitual.\n\nA. Este apartado simulado ilustra la estructura de apartados del artículo y sirve para probar el diseño:\n\nI. Primera fracción simulada, con la extensión aproximada de una fracción breve;\n\nII. Segunda fracción simulada, un poco más larga, para comprobar el sangrado, el interlineado y la alineación del texto tanto en escritorio como en móvil;\n\nIII. Tercera fracción simulada.\n\nB. Segundo apartado simulado. La Federación, las entidades federativas y los municipios aparecen aquí únicamente como ejemplo de redacción institucional para la maqueta."}]},"3":{"numero":"3o.","tema":"Derecho a la educación","estado":"prototipo","nota":"Artículo de prototipo: texto simulado y fechas ilustrativas. El texto oficial se cargará desde el DOF.","versiones":[{"id":"p1","etiqueta":"Simulada A","publicacion":"1917-02-05","vigencia_desde":"1917-05-01","vigencia_hasta":"2019-05-15","capitulo":"De las Garantías Individuales","texto":"Toda persona de prueba tiene derecho a recibir un texto simulado. Texto simulado del prototipo: no reproduce el texto constitucional.\n\nLa educación simulada que imparta la maqueta será de prueba.\n\nI. Primera fracción simulada de la versión anterior;\n\nII. Segunda fracción simulada de la versión anterior."},{"id":"p2","etiqueta":"Simulada B (vigente)","publicacion":"2019-05-15","vigencia_desde":"2019-05-16","vigencia_hasta":null,"capitulo":"De los Derechos Humanos y sus Garantías","texto":"Toda persona de prueba tiene derecho a recibir un texto simulado, universal y de interfaz. Texto simulado del prototipo: no reproduce el texto constitucional.\n\nLa educación simulada que imparta la maqueta será de prueba, gratuita para el lector y laica en su diseño.\n\nI. Primera fracción simulada de la versión vigente, reformada para mostrar cambios en el comparador;\n\nII. Segunda fracción simulada de la versión vigente;\n\nIII. Tercera fracción simulada, añadida en esta versión para probar el resaltado de texto nuevo."}]},"4":{"numero":"4o.","tema":"Igualdad, familia, salud, medio ambiente, vivienda, niñez, cultura y deporte","estado":"prototipo","nota":"Artículo de prototipo: texto simulado y fechas ilustrativas. El texto oficial se cargará desde el DOF.","versiones":[{"id":"p1","etiqueta":"Simulada A","publicacion":"1917-02-05","vigencia_desde":"1917-05-01","vigencia_hasta":"1974-12-31","capitulo":"De las Garantías Individuales","texto":"Versión simulada inicial, de un solo párrafo, para probar historiales con textos muy cortos. Texto simulado del prototipo: no reproduce el texto constitucional."},{"id":"p2","etiqueta":"Simulada B","publicacion":"1974-12-31","vigencia_desde":"1975-01-01","vigencia_hasta":"2011-10-12","capitulo":"De las Garantías Individuales","texto":"Las personas de prueba son iguales ante la maqueta. Texto simulado del prototipo: no reproduce el texto constitucional.\n\nToda persona tiene derecho a un párrafo simulado sobre salud, y a otro sobre vivienda, que aquí se resumen en uno solo para la demostración."},{"id":"p3","etiqueta":"Simulada C (vigente)","publicacion":"2011-10-12","vigencia_desde":"2011-10-13","vigencia_hasta":null,"capitulo":"De los Derechos Humanos y sus Garantías","texto":"Las personas de prueba son iguales ante la maqueta. Texto simulado del prototipo: no reproduce el texto constitucional.\n\nToda persona tiene derecho a un párrafo simulado sobre salud, y a otro sobre vivienda, que aquí se resumen en uno solo para la demostración.\n\nToda persona tiene derecho a un párrafo simulado sobre medio ambiente y agua, añadido en esta versión.\n\nEn todas las decisiones de la maqueta se velará por el principio simulado del interés superior de la lectura."}]},"5":{"numero":"5o.","tema":"Libertad de profesión, industria, comercio y trabajo","estado":"prototipo","nota":"Artículo de prototipo: texto simulado y fechas ilustrativas. El texto oficial se cargará desde el DOF.","versiones":[{"id":"p1","etiqueta":"Simulada A","publicacion":"1917-02-05","vigencia_desde":"1917-05-01","vigencia_hasta":"1974-12-31","capitulo":"De las Garantías Individuales","texto":"A ninguna persona de prueba podrá impedirse que se dedique a la lectura simulada que le acomode. Texto simulado del prototipo: no reproduce el texto constitucional.\n\nLa ley de la maqueta determinará en cada entidad qué profesiones simuladas necesitan título para su ejercicio."},{"id":"p2","etiqueta":"Simulada B (vigente)","publicacion":"1974-12-31","vigencia_desde":"1975-01-01","vigencia_hasta":null,"capitulo":"De los Derechos Humanos y sus Garantías","texto":"A ninguna persona de prueba podrá impedirse que se dedique a la lectura simulada que le acomode, siendo lícita. Texto simulado del prototipo: no reproduce el texto constitucional.\n\nLa ley de la maqueta determinará en cada entidad qué profesiones simuladas necesitan título para su ejercicio, las condiciones para obtenerlo y las autoridades de prueba que han de expedirlo.\n\nNadie podrá ser obligado a prestar lecturas simuladas sin la justa retribución y sin su pleno consentimiento."}]},"6":{"numero":"6o.","tema":"Libertad de expresión y derecho de acceso a la información","estado":"prototipo","nota":"Artículo de prototipo: texto simulado y fechas ilustrativas. El texto oficial se cargará desde el DOF.","versiones":[{"id":"p1","etiqueta":"Simulada A","publicacion":"1917-02-05","vigencia_desde":"1917-05-01","vigencia_hasta":"2007-07-20","capitulo":"De las Garantías Individuales","texto":"La manifestación de ideas simuladas no será objeto de ninguna inquisición de la maqueta. Texto simulado del prototipo: no reproduce el texto constitucional."},{"id":"p2","etiqueta":"Simulada B (vigente)","publicacion":"2007-07-20","vigencia_desde":"2007-07-21","vigencia_hasta":null,"capitulo":"De los Derechos Humanos y sus Garantías","texto":"La manifestación de ideas simuladas no será objeto de ninguna inquisición de la maqueta. Texto simulado del prototipo: no reproduce el texto constitucional.\n\nToda persona tiene derecho al libre acceso a información simulada, plural y oportuna.\n\nA. Para el ejercicio del derecho simulado de acceso a la información, la maqueta se regirá por los siguientes principios y bases:\n\nI. Toda la información simulada es pública y sólo podrá reservarse temporalmente por razones de prueba;\n\nII. La información simulada que se refiere a la vida privada será protegida en los términos de la maqueta."}]},"39":{"numero":"39","tema":"Soberanía nacional","estado":"prototipo","nota":"Artículo de prototipo: texto simulado y fechas ilustrativas. El texto oficial se cargará desde el DOF.","versiones":[{"id":"p1","etiqueta":"Simulada A","publicacion":"1917-02-05","vigencia_desde":"1917-05-01","vigencia_hasta":"1999-12-31","capitulo":"De la Soberanía Nacional y de la Forma de Gobierno","texto":"La soberanía simulada reside esencial y originariamente en el lector. Texto simulado del prototipo: no reproduce el texto constitucional."},{"id":"p2","etiqueta":"Simulada B (vigente)","publicacion":"1999-12-31","vigencia_desde":"2000-01-01","vigencia_hasta":null,"capitulo":"De la Soberanía Nacional y de la Forma de Gobierno","texto":"La soberanía simulada reside esencial y originariamente en el lector. Todo poder de la maqueta dimana del lector y se instituye en beneficio de éste. Texto simulado del prototipo: no reproduce el texto constitucional.\n\nEl lector tiene en todo tiempo el inalienable derecho de alterar o modificar la forma de su maqueta."}]},"123":{"numero":"123","tema":"Trabajo y previsión social","estado":"prototipo","nota":"Artículo de prototipo: texto simulado y fechas ilustrativas. El texto oficial se cargará desde el DOF.","versiones":[{"id":"p1","etiqueta":"Simulada A","publicacion":"1917-02-05","vigencia_desde":"1917-05-01","vigencia_hasta":"1960-12-04","capitulo":"Del Trabajo y de la Previsión Social","texto":"El Congreso de la maqueta deberá expedir leyes simuladas sobre el trabajo, sin contravenir las bases siguientes. Texto simulado del prototipo: no reproduce el texto constitucional.\n\nI. La duración de la jornada simulada máxima será de ocho horas;\n\nII. La jornada simulada máxima nocturna será de siete horas;\n\nIII. Queda prohibida la utilización del trabajo simulado de los menores en la maqueta;\n\nIV. Por cada seis días de trabajo simulado deberá disfrutar el operario de un día de descanso, cuando menos."},{"id":"p2","etiqueta":"Simulada B (vigente)","publicacion":"1960-12-05","vigencia_desde":"1960-12-06","vigencia_hasta":null,"capitulo":"Del Trabajo y de la Previsión Social","texto":"Toda persona de prueba tiene derecho al trabajo simulado digno y socialmente útil. Texto simulado del prototipo: no reproduce el texto constitucional.\n\nEl Congreso de la maqueta deberá expedir leyes simuladas sobre el trabajo, las cuales regirán:\n\nA. Entre los obreros, jornaleros, empleados domésticos, artesanos y, de una manera general, todo contrato simulado de trabajo:\n\nI. La duración de la jornada simulada máxima será de ocho horas;\n\nII. La jornada simulada máxima nocturna será de siete horas. Quedan prohibidas las labores simuladas insalubres o peligrosas para los menores;\n\nIII. Queda prohibida la utilización del trabajo simulado de los menores de quince años en la maqueta;\n\nIV. Por cada seis días de trabajo simulado deberá disfrutar el operario de un día de descanso, cuando menos;\n\nV. Fracción simulada añadida en esta versión para probar listas largas dentro de un apartado.\n\nB. Entre los Poderes de la maqueta y sus trabajadores simulados:\n\nI. La jornada simulada diaria máxima de trabajo diurna y nocturna será de ocho y siete horas respectivamente;\n\nII. Por cada seis días de trabajo simulado, disfrutará el trabajador de un día de descanso, cuando menos, con goce de salario simulado íntegro."}]},"135":{"numero":"135","tema":"Reformas a la Constitución","estado":"prototipo","nota":"Artículo de prototipo: texto simulado y fechas ilustrativas. El texto oficial se cargará desde el DOF.","versiones":[{"id":"p1","etiqueta":"Simulada A","publicacion":"1917-02-05","vigencia_desde":"1917-05-01","vigencia_hasta":"1966-10-20","capitulo":"De las Reformas de la Constitución","texto":"La presente maqueta puede ser adicionada o reformada. Para que las adiciones o reformas simuladas lleguen a ser parte de la misma, se requiere que el Congreso de la maqueta las acuerde. Texto simulado del prototipo: no reproduce el texto constitucional."},{"id":"p2","etiqueta":"Simulada B (vigente)","publicacion":"1966-10-21","vigencia_desde":"1966-10-22","vigencia_hasta":null,"capitulo":"De las Reformas de la Constitución","texto":"La presente maqueta puede ser adicionada o reformada. Para que las adiciones o reformas simuladas lleguen a ser parte de la misma, se requiere que el Congreso de la maqueta, por el voto de las dos terceras partes de los lectores presentes, las acuerde, y que sean aprobadas por la mayoría de las legislaturas simuladas. Texto simulado del prototipo: no reproduce el texto constitucional.\n\nEl Congreso de la maqueta o la Comisión Permanente simulada, en su caso, harán el cómputo de los votos y la declaración de haber sido aprobadas las adiciones o reformas."}]}}}
+</script>
+<!-- DATA:END -->
+
+<script>
+(function () {
+  'use strict';
+
+  var DATA = JSON.parse(document.getElementById('cpeum-data').textContent);
+  var NORMA = DATA.norma;
+  var MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  var MESES_CORTOS = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  var DIAS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+
+  // ---------- utilidades ----------
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function hoyISO() { var d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+  function fmtFecha(iso, corto) {
+    if (!iso) return '';
+    var p = iso.split('-'); var y = +p[0], m = +p[1], d = +p[2];
+    return corto ? (d + ' ' + MESES_CORTOS[m - 1] + ' ' + y) : (d + ' de ' + MESES[m - 1] + ' de ' + y);
+  }
+  function fmtHoyLargo() { var d = new Date(); return DIAS[d.getDay()] + ' ' + d.getDate() + ' de ' + MESES[d.getMonth()] + ' de ' + d.getFullYear(); }
+  function numeroArt(n) { n = +n; return n <= 9 ? n + 'o.' : String(n); }
+  function cmpVersiones(a, b) { return a.vigencia_desde < b.vigencia_desde ? -1 : a.vigencia_desde > b.vigencia_desde ? 1 : 0; }
+
+  // ---------- índice plano de artículos (a partir de la estructura) ----------
+  var ARTS = [];          // orden de lectura
+  var ART_BY_NUM = {};    // "1" -> {num, path:[nodos], ...}
+  function expandir(nodo, path) {
+    var p = path.concat([nodo]);
+    if (nodo.articulos) {
+      for (var n = nodo.articulos.desde; n <= nodo.articulos.hasta; n++) {
+        var a = { num: String(n), path: p, data: DATA.articulos[String(n)] || null };
+        ARTS.push(a); ART_BY_NUM[a.num] = a;
+      }
+    }
+    (nodo.hijos || []).forEach(function (h) { expandir(h, p); });
+  }
+  DATA.estructura.forEach(function (t) { expandir(t, []); });
+  ARTS.sort(function (a, b) { return (+a.num) - (+b.num); });
+  ARTS.forEach(function (a, i) { a.idx = i; });
+
+  // ---------- estado ----------
+  var state = { art: null, fechaAl: hoyISO(), histOpen: false, versionSel: null, diff: false };
+
+  // ---------- árbol lateral ----------
+  var CHEV = '<svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4l6 6-6 6"/></svg>';
+  function treeHtml(nodo, lvl) {
+    var h = '<details class="lvl-' + lvl + '" data-node="' + esc(nodo.id) + '"' + (lvl === 1 ? ' open' : '') + '><summary>' + CHEV + '<span><span class="nombre">' + esc(nodo.nombre) + '</span>';
+    if (nodo.subtitulo) h += '<span class="sub">' + esc(nodo.subtitulo) + '</span>';
+    h += '</span></summary>';
+    if (nodo.articulos) {
+      h += '<ul class="arts">';
+      for (var n = nodo.articulos.desde; n <= nodo.articulos.hasta; n++) {
+        var d = DATA.articulos[String(n)];
+        var estado = d ? d.estado : 'pendiente';
+        h += '<li data-num="' + n + '" data-texto="' + esc((d && d.tema ? d.tema : '') + ' artículo ' + n).toLowerCase() + '">' +
+          '<a class="art-link ' + estado + '" href="#/art/' + n + '" data-num="' + n + '"' + (d ? '' : ' title="Pendiente de carga"') + '>' +
+          '<i class="dot ' + estado + '"></i><span><span class="num">Artículo ' + numeroArt(n) + '</span>' +
+          (d && d.tema ? '<span class="tema">' + esc(d.tema) + '</span>' : '') + '</span></a></li>';
+      }
+      h += '</ul>';
+    }
+    (nodo.hijos || []).forEach(function (c) { h += treeHtml(c, lvl + 1); });
+    return h + '</details>';
+  }
+  function renderTree() {
+    var tree = document.getElementById('tree');
+    tree.innerHTML = DATA.estructura.map(function (t) { return treeHtml(t, 1); }).join('');
+    document.getElementById('norma-title').textContent = NORMA.nombre;
+    document.getElementById('norma-meta').textContent = 'Publicada en el DOF el ' + fmtFecha(NORMA.publicacion) + ' · en vigor desde el ' + fmtFecha(NORMA.vigencia_desde);
+  }
+  function marcarActivo(num) {
+    var tree = document.getElementById('tree');
+    tree.querySelectorAll('.art-link[aria-current]').forEach(function (a) { a.removeAttribute('aria-current'); });
+    var link = tree.querySelector('.art-link[data-num="' + num + '"]');
+    if (!link) return;
+    link.setAttribute('aria-current', 'page');
+    var det = link.closest('details');
+    while (det) { det.open = true; det = det.parentElement.closest('details'); }
+    if (!tree.classList.contains('filtering')) {
+      var sb = document.getElementById('sidebar');
+      var r = link.getBoundingClientRect(), s = sb.getBoundingClientRect();
+      if (r.top < s.top || r.bottom > s.bottom) sb.scrollTop += (r.top - s.top) - s.height / 2;
+    }
+  }
+  function filtrarArbol(q) {
+    var tree = document.getElementById('tree');
+    q = q.trim().toLowerCase();
+    if (!q) {
+      tree.classList.remove('filtering');
+      tree.querySelectorAll('li.oculto').forEach(function (li) { li.classList.remove('oculto'); });
+      tree.querySelectorAll('details.sin-coincidencias').forEach(function (d) { d.classList.remove('sin-coincidencias'); });
+      if (state.art) marcarActivo(state.art);
+      return;
+    }
+    tree.classList.add('filtering');
+    var esNum = /^\d+$/.test(q);
+    tree.querySelectorAll('li[data-num]').forEach(function (li) {
+      var ok = esNum ? li.getAttribute('data-num').indexOf(q) === 0 : li.getAttribute('data-texto').indexOf(q) !== -1;
+      li.classList.toggle('oculto', !ok);
+    });
+    tree.querySelectorAll('details').forEach(function (d) { d.open = true; });
+    // oculta las ramas sin coincidencias (de dentro hacia fuera)
+    var dets = Array.prototype.slice.call(tree.querySelectorAll('details')).reverse();
+    dets.forEach(function (d) {
+      var vivo = d.querySelector('li[data-num]:not(.oculto)');
+      d.classList.toggle('sin-coincidencias', !vivo);
+    });
+  }
+
+  // ---------- vigencia ----------
+  function versionesDe(art) { return (art.data ? art.data.versiones.slice() : []).sort(cmpVersiones); }
+  function versionVigenteAl(vers, fecha) {
+    var sel = null;
+    vers.forEach(function (v) { if (v.vigencia_desde <= fecha) sel = v; });
+    return sel;
+  }
+  function rangoVigencia(v, corto) {
+    if (!v.vigencia_hasta) return 'Vigente desde el ' + fmtFecha(v.vigencia_desde, corto);
+    return 'Del ' + fmtFecha(v.vigencia_desde, corto) + ' al ' + fmtFecha(v.vigencia_hasta, corto);
+  }
+
+  // ---------- render del texto ----------
+  var ROMANOS = { I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000 };
+  function valorRomano(s) {
+    var t = 0;
+    for (var i = 0; i < s.length; i++) { var v = ROMANOS[s[i]], w = ROMANOS[s[i + 1]] || 0; t += v < w ? -v : v; }
+    return t;
+  }
+  // Clasifica cada párrafo (apartado A./B., fracción I./II., inciso a)/b)) de forma secuencial,
+  // para distinguir "C." / "D." (apartados) de los numerales romanos.
+  function clasificarParrafos(parrafos) {
+    var sigFrac = 1, sigAp = 'A';
+    return parrafos.map(function (p) {
+      var rom = p.match(/^([IVXLCDM]+)\.\s/), ap = p.match(/^([A-Z])\.\s/);
+      if (rom && valorRomano(rom[1]) === sigFrac) { sigFrac++; return 'fraccion'; }
+      if (ap && ap[1] === sigAp) { sigAp = String.fromCharCode(sigAp.charCodeAt(0) + 1); sigFrac = 1; return 'apartado'; }
+      if (rom) { sigFrac = valorRomano(rom[1]) + 1; return 'fraccion'; }
+      if (ap) { sigAp = String.fromCharCode(ap[1].charCodeAt(0) + 1); sigFrac = 1; return 'apartado'; }
+      if (/^[a-z]\)\s/.test(p)) return 'inciso';
+      if (/^(Art(ículo|\.)\s+\d+)/.test(p) && p.length < 40) return 'encabezado';
+      return '';
+    });
+  }
+  function textoHtml(texto) {
+    var parrafos = texto.split(/\n\s*\n/), clases = clasificarParrafos(parrafos);
+    return parrafos.map(function (p, i) {
+      return '<p' + (clases[i] ? ' class="' + clases[i] + '"' : '') + '>' + esc(p).replace(/\n/g, '<br>') + '</p>';
+    }).join('');
+  }
+
+  // ---------- diff palabra por palabra (LCS) ----------
+  function tokens(t) { return t.split(/(\s+)/).filter(Boolean); }
+  function claveTok(t) { return /^\s+$/.test(t) ? (t.indexOf('\n\n') !== -1 ? '¶' : ' ') : t; }
+  function diffTokens(a, b) {
+    var ta = tokens(a), tb = tokens(b), n = ta.length, m = tb.length;
+    if (n * m > 4000000) return null;
+    var ka = ta.map(claveTok), kb = tb.map(claveTok);
+    var W = m + 1, L = new Uint16Array((n + 1) * W);
+    for (var i = n - 1; i >= 0; i--) {
+      for (var j = m - 1; j >= 0; j--) {
+        L[i * W + j] = ka[i] === kb[j] ? L[(i + 1) * W + j + 1] + 1 : Math.max(L[(i + 1) * W + j], L[i * W + j + 1]);
+      }
+    }
+    var ops = []; i = 0; var jj = 0;
+    function push(tipo, txt) {
+      var last = ops[ops.length - 1];
+      if (last && last[0] === tipo) last[1] += txt; else ops.push([tipo, txt]);
+    }
+    while (i < n && jj < m) {
+      if (ka[i] === kb[jj]) { push('=', tb[jj]); i++; jj++; }
+      else if (L[(i + 1) * W + jj] >= L[i * W + jj + 1]) { push('-', ta[i]); i++; }
+      else { push('+', tb[jj]); jj++; }
+    }
+    while (i < n) { push('-', ta[i++]); }
+    while (jj < m) { push('+', tb[jj++]); }
+    return ops;
+  }
+  function diffHtml(anterior, actual) {
+    var ops = diffTokens(anterior, actual);
+    if (!ops) return null;
+    return ops.map(function (op) {
+      var t = esc(op[1]);
+      return op[0] === '=' ? t : op[0] === '+' ? '<ins>' + t + '</ins>' : '<del>' + t + '</del>';
+    }).join('');
+  }
+
+  // ---------- render del artículo ----------
+  function breadcrumbHtml(art) {
+    var h = '<a href="#/art/1">' + esc(NORMA.siglas) + '</a>';
+    art.path.forEach(function (n) {
+      h += '<span class="sep">›</span><span title="' + esc(n.subtitulo || '') + '">' + esc(n.nombre) + (n.tipo !== 'titulo' && n.subtitulo ? ' — ' + esc(n.subtitulo) : '') + '</span>';
+    });
+    return h + '<span class="sep">›</span><b>Artículo ' + numeroArt(art.num) + '</b>';
+  }
+
+  function renderArticle() {
+    var art = ART_BY_NUM[state.art];
+    var box = document.getElementById('articulo');
+    document.getElementById('breadcrumb').innerHTML = breadcrumbHtml(art);
+    marcarActivo(art.num);
+    document.title = 'Artículo ' + numeroArt(art.num) + ' — ' + NORMA.siglas + ' | Legislación MX';
+
+    var capNode = art.path[art.path.length - 1];
+    var hoy = hoyISO();
+    var esHoy = state.fechaAl === hoy;
+
+    if (!art.data) {
+      box.innerHTML =
+        '<div class="article-head"><h1>Artículo ' + numeroArt(art.num) + '</h1><span class="badge pendiente">Pendiente de carga</span></div>' +
+        '<p class="tema">' + esc(capNode.nombre) + (capNode.subtitulo ? ' — ' + esc(capNode.subtitulo) : '') + '</p>' +
+        '<div class="aviso pendiente">El texto de este artículo todavía no se ha cargado en el prototipo. La estructura de la Constitución es completa para poder navegar; el texto vigente y su historial se incorporarán desde las publicaciones del Diario Oficial de la Federación.</div>';
+      document.getElementById('estado-vigencia').textContent = '';
+      renderPrevNext(art);
+      return;
+    }
+
+    var vers = versionesDe(art);
+    var vig = versionVigenteAl(vers, state.fechaAl);
+    var actual = vers[vers.length - 1];
+    var mostrada = vig || actual;
+    var esActual = mostrada === actual;
+    var estadoBadge = art.data.estado === 'verificado'
+      ? '<span class="badge verificado" title="Texto cotejado con fuentes oficiales">Verificado</span>'
+      : '<span class="badge prototipo" title="Texto simulado, sólo para demostración">Prototipo</span>';
+    var vigBadge = esActual
+      ? '<span class="badge vigente">Vigente</span>'
+      : '<span class="badge historica">Versión histórica</span>';
+
+    var h = '<div class="article-head"><h1>Artículo ' + numeroArt(art.num) + '</h1>' + vigBadge + estadoBadge + '</div>';
+    if (art.data.tema) h += '<p class="tema"><span class="tema-lbl" title="Etiqueta editorial, no forma parte del texto">Tema</span> ' + esc(art.data.tema) + '</p>';
+
+    if (art.data.estado === 'prototipo') {
+      h += '<div class="aviso prototipo"><b>Artículo de prototipo.</b> El texto que sigue es <b>simulado</b> y las fechas de sus versiones son ilustrativas: sirven únicamente para probar la navegación, el historial y el diseño. No reproduce el texto constitucional.</div>';
+    }
+    if (!vig) {
+      h += '<div class="aviso info">En la fecha consultada (' + fmtFecha(state.fechaAl) + ') este artículo no tenía vigencia. Se muestra la versión vigente actual; la Constitución entró en vigor el ' + fmtFecha(NORMA.vigencia_desde) + '.</div>';
+    } else if (!esActual) {
+      h += '<div class="aviso info">Estás leyendo el texto vigente al <b>' + fmtFecha(state.fechaAl) + '</b> (' + rangoVigencia(mostrada).toLowerCase() + '). <a href="#" data-accion="hoy">Ver la versión vigente hoy</a>.</div>';
+    } else if (!esHoy) {
+      h += '<div class="aviso info">Al ' + fmtFecha(state.fechaAl) + ' estaba vigente la misma versión que hoy.</div>';
+    }
+
+    h += '<div class="meta-line">' +
+      '<span><b>' + esc(rangoVigencia(mostrada)) + '</b></span>' +
+      '<span>Publicación en el DOF: <b>' + fmtFecha(mostrada.publicacion) + '</b></span>' +
+      (mostrada.capitulo ? '<span>Capítulo: <b>' + esc(mostrada.capitulo) + '</b></span>' : '') +
+      '<span>' + vers.length + ' ' + (vers.length === 1 ? 'versión' : 'versiones') + '</span>' +
+      '</div>';
+    h += '<div class="texto" id="texto-vigente">' + textoHtml(mostrada.texto) + '</div>';
+
+    h += '<div class="actions">' +
+      '<button class="btn" id="btn-historial" type="button" aria-expanded="' + (state.histOpen ? 'true' : 'false') + '" aria-controls="historial">' +
+      '<svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l6 6 6-6"/></svg>' +
+      '<span id="btn-historial-txt">' + (state.histOpen ? 'Ocultar historial' : 'Ver historial') + '</span><span class="count">' + vers.length + ' ' + (vers.length === 1 ? 'versión' : 'versiones') + '</span></button>' +
+      '<button class="btn secondary" type="button" data-accion="copiar">Copiar enlace</button>' +
+      '<button class="btn secondary" type="button" data-accion="imprimir">Imprimir</button>' +
+      '</div>';
+
+    h += '<section class="historial' + (state.histOpen ? ' open' : '') + '" id="historial" aria-label="Historial del artículo"><div class="historial-inner"><div class="historial-box">' +
+      '<div class="hist-head"><h2>Historial del Artículo ' + numeroArt(art.num) + '</h2><p>' + vers.length + ' ' + (vers.length === 1 ? 'versión' : 'versiones') + ' · elige una para leer su texto íntegro</p></div>' +
+      '<div class="hist-body"><ol class="versiones" id="lista-versiones"></ol><div class="ver-panel" id="ver-panel"></div></div>' +
+      '</div></div></section>';
+
+    box.innerHTML = h;
+    document.getElementById('estado-vigencia').textContent = esActual
+      ? (esHoy ? 'Mostrando el texto vigente hoy' : 'Vigente también al ' + fmtFecha(state.fechaAl, true))
+      : 'Mostrando versión histórica';
+
+    // estado del historial
+    if (!state.versionSel || !vers.some(function (v) { return v.id === state.versionSel; })) {
+      var idx = vers.indexOf(mostrada);
+      state.versionSel = (idx > 0 ? vers[idx - 1] : mostrada).id;
+    }
+    renderVersiones(art, vers, mostrada);
+    renderPrevNext(art);
+  }
+
+  function renderVersiones(art, vers, mostrada) {
+    var ol = document.getElementById('lista-versiones');
+    var actual = vers[vers.length - 1];
+    ol.innerHTML = vers.slice().reverse().map(function (v, i, arr) {
+      var esOriginal = v === vers[0];
+      var tags = (v === actual ? '<span class="tag vig">Vigente</span>' : '') + (v === mostrada && v !== actual ? '<span class="tag cons">Consultada</span>' : '');
+      return '<li><button class="ver-btn" type="button" data-version="' + esc(v.id) + '" aria-pressed="' + (v.id === state.versionSel ? 'true' : 'false') + '">' +
+        '<span class="rango">' + esc(rangoVigencia(v, true)) + '</span>' +
+        '<span class="sub">' + (esOriginal ? 'Texto original · ' : 'Reforma · ') + 'DOF ' + fmtFecha(v.publicacion, true) + tags + '</span>' +
+        '</button></li>';
+    }).join('');
+    renderVersionPanel(art, vers);
+  }
+
+  function renderVersionPanel(art, vers) {
+    var panel = document.getElementById('ver-panel');
+    var idx = -1;
+    vers.forEach(function (v, i) { if (v.id === state.versionSel) idx = i; });
+    if (idx < 0) { panel.innerHTML = ''; return; }
+    var v = vers[idx], prev = idx > 0 ? vers[idx - 1] : null, actual = vers[vers.length - 1];
+    var titulo = v === actual ? 'Versión vigente' : (idx === 0 ? 'Texto original' : 'Versión histórica');
+    var rango = rangoVigencia(v).replace(/^Vigente desde el /, 'desde el ').replace(/^Del /, 'del ');
+    var h = '<div class="ver-panel-head"><div><h3>' + titulo + ' — ' + esc(rango) + '</h3>' +
+      '<div class="ver-meta"><span>Publicación en el DOF: <b>' + fmtFecha(v.publicacion) + '</b></span>' +
+      (v.capitulo ? '<span>Capítulo: <b>' + esc(v.capitulo) + '</b></span>' : '') +
+      (v.etiqueta ? '<span>Etiqueta: <b>' + esc(v.etiqueta) + '</b></span>' : '') + '</div></div>' +
+      '<label class="diff-toggle"><input type="checkbox" id="diff-toggle"' + (state.diff && prev ? ' checked' : '') + (prev ? '' : ' disabled') + '> Resaltar cambios respecto a la versión anterior' + (prev ? '' : ' (no hay)') + '</label></div>';
+    var cuerpo;
+    if (state.diff && prev) {
+      var d = diffHtml(prev.texto, v.texto);
+      if (d) {
+        cuerpo = '<div class="diff-leyenda"><span style="background:var(--ins-bg);color:var(--ins-fg)">texto añadido</span> · <span style="background:var(--del-bg);color:var(--del-fg)">texto suprimido</span> respecto a la versión ' + esc(rangoVigencia(prev, true).toLowerCase()) + '</div>' +
+          '<div class="texto diff">' + d + '</div>';
+      } else {
+        cuerpo = '<div class="aviso info">El comparador no está disponible para textos tan extensos en este prototipo.</div><div class="texto">' + textoHtml(v.texto) + '</div>';
+      }
+    } else {
+      cuerpo = '<div class="texto">' + textoHtml(v.texto) + '</div>';
+    }
+    panel.innerHTML = h + cuerpo;
+  }
+
+  function renderPrevNext(art) {
+    var prev = ARTS[art.idx - 1], next = ARTS[art.idx + 1];
+    document.getElementById('prevnext').innerHTML =
+      (prev ? '<a class="prev" href="#/art/' + prev.num + '" rel="prev">‹ Artículo ' + numeroArt(prev.num) + '</a>' : '<span></span>') +
+      (next ? '<a class="next" href="#/art/' + next.num + '" rel="next">Artículo ' + numeroArt(next.num) + ' ›</a>' : '<span></span>');
+  }
+
+  function renderLegal() {
+    var f = (NORMA.fuentes || []).map(function (s) { return '<a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.nombre) + '</a>'; }).join(' · ');
+    document.getElementById('legal').innerHTML =
+      '<p><b>Aviso.</b> ' + esc(NORMA.aviso) + '</p>' +
+      (f ? '<p>Fuentes oficiales de referencia: ' + f + '.</p>' : '') +
+      '<p>Fecha de consulta: ' + fmtHoyLargo() + '.</p>';
+  }
+
+  // ---------- historial ----------
+  function setHistorial(open) {
+    state.histOpen = open;
+    var sec = document.getElementById('historial'), btn = document.getElementById('btn-historial');
+    if (!sec || !btn) return;
+    sec.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.getElementById('btn-historial-txt').textContent = open ? 'Ocultar historial' : 'Ver historial';
+    if (open) {
+      setTimeout(function () { sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 120);
+    }
+  }
+  function seleccionarVersion(id) {
+    state.versionSel = id;
+    var art = ART_BY_NUM[state.art], vers = versionesDe(art);
+    document.querySelectorAll('.ver-btn').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-version') === id ? 'true' : 'false'); });
+    renderVersionPanel(art, vers);
+    escribirHash();
+  }
+
+  // ---------- rutas (#/art/1, #/art/1/v/v2, ?al=AAAA-MM-DD) ----------
+  function leerHash() {
+    var hash = location.hash.replace(/^#\/?/, '');
+    var q = {}, qi = hash.indexOf('?');
+    if (qi !== -1) {
+      hash.slice(qi + 1).split('&').forEach(function (kv) { var p = kv.split('='); q[decodeURIComponent(p[0])] = decodeURIComponent(p[1] || ''); });
+      hash = hash.slice(0, qi);
+    }
+    var m = hash.match(/^art\/(\d+)(?:\/v\/([\w-]+))?/);
+    var num = m && ART_BY_NUM[m[1]] ? m[1] : (m ? null : ARTS[0].num);
+    return { num: num, version: m ? m[2] : null, al: /^\d{4}-\d{2}-\d{2}$/.test(q.al || '') ? q.al : null, raw: hash };
+  }
+  var escribiendo = false;
+  function escribirHash() {
+    var h = '#/art/' + state.art;
+    if (state.histOpen && state.versionSel) h += '/v/' + state.versionSel;
+    if (state.fechaAl !== hoyISO()) h += '?al=' + state.fechaAl;
+    if (location.hash !== h) { escribiendo = true; location.hash = h; }
+  }
+  function aplicarRuta() {
+    var r = leerHash();
+    if (!r.num) { // ruta desconocida -> primer artículo
+      location.replace('#/art/' + ARTS[0].num); return;
+    }
+    var cambioArt = r.num !== state.art;
+    state.art = r.num;
+    state.fechaAl = r.al || hoyISO();
+    document.getElementById('fecha-al').value = state.fechaAl;
+    if (r.version) { state.versionSel = r.version; state.histOpen = true; }
+    else if (cambioArt) { state.versionSel = null; state.histOpen = false; state.diff = false; }
+    renderArticle();
+    if (cambioArt) {
+      cerrarMenu();
+      if (!r.version) window.scrollTo({ top: 0 });
+    }
+    if (r.version) setTimeout(function () { var s = document.getElementById('historial'); if (s) s.scrollIntoView({ block: 'start' }); }, 50);
+  }
+
+  // ---------- menú móvil ----------
+  function abrirMenu() { document.body.classList.add('menu-open'); document.getElementById('menu-btn').setAttribute('aria-expanded', 'true'); }
+  function cerrarMenu() { document.body.classList.remove('menu-open'); document.getElementById('menu-btn').setAttribute('aria-expanded', 'false'); }
+
+  // ---------- toast ----------
+  var toastTimer;
+  function toast(msg) {
+    var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
+    clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.classList.remove('show'); }, 2200);
+  }
+
+  // ---------- eventos ----------
+  document.getElementById('menu-btn').addEventListener('click', function () { document.body.classList.contains('menu-open') ? cerrarMenu() : abrirMenu(); });
+  document.getElementById('backdrop').addEventListener('click', cerrarMenu);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') cerrarMenu(); });
+
+  document.getElementById('buscar').addEventListener('input', function (e) { filtrarArbol(e.target.value); });
+  document.getElementById('buscar').addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter') return;
+    var q = e.target.value.trim(), destino = null;
+    if (/^\d+$/.test(q) && ART_BY_NUM[q]) destino = q;
+    else { var first = document.querySelector('#tree li[data-num]:not(.oculto) .art-link'); if (first) destino = first.getAttribute('data-num'); }
+    if (destino) { e.target.value = ''; filtrarArbol(''); irA(destino); }
+  });
+
+  function cambiarFecha(iso) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(iso)) return;
+    state.fechaAl = iso; state.versionSel = null;
+    document.getElementById('fecha-al').value = iso;
+    renderArticle(); escribirHash();
+    document.getElementById('articulo').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  document.getElementById('fecha-al').addEventListener('change', function (e) { cambiarFecha(e.target.value); });
+  document.getElementById('btn-hoy').addEventListener('click', function () { cambiarFecha(hoyISO()); });
+
+  document.getElementById('articulo').addEventListener('click', function (e) {
+    var btn = e.target.closest('#btn-historial');
+    if (btn) { setHistorial(!state.histOpen); escribirHash(); return; }
+    var vb = e.target.closest('.ver-btn');
+    if (vb) { seleccionarVersion(vb.getAttribute('data-version')); return; }
+    var acc = e.target.closest('[data-accion]');
+    if (!acc) return;
+    var a = acc.getAttribute('data-accion');
+    if (a === 'copiar') {
+      var url = location.href;
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(function () { toast('Enlace copiado'); }, function () { toast(url); });
+      else toast(url);
+    } else if (a === 'imprimir') {
+      window.print();
+    } else if (a === 'hoy') {
+      e.preventDefault();
+      cambiarFecha(hoyISO());
+    }
+  });
+  document.getElementById('articulo').addEventListener('change', function (e) {
+    if (e.target.id === 'diff-toggle') { state.diff = e.target.checked; renderVersionPanel(ART_BY_NUM[state.art], versionesDe(ART_BY_NUM[state.art])); }
+  });
+
+  // Los enlaces internos a artículos conservan la fecha "vigente al" elegida.
+  function irA(num) {
+    var h = '#/art/' + num + (state.fechaAl !== hoyISO() ? '?al=' + state.fechaAl : '');
+    if (location.hash === h) { aplicarRuta(); } else { location.hash = h; }
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href^="#/art/"]');
+    if (!a || a.classList.contains('disabled')) return;
+    var m = a.getAttribute('href').match(/^#\/art\/(\d+)/);
+    if (!m) return;
+    e.preventDefault();
+    irA(m[1]);
+  });
+
+  window.addEventListener('hashchange', function () {
+    if (escribiendo) { escribiendo = false; return; }
+    aplicarRuta();
+  });
+
+  // ---------- arranque ----------
+  document.getElementById('consulta-fecha').textContent = fmtHoyLargo();
+  document.getElementById('fecha-al').max = hoyISO();
+  renderTree();
+  renderLegal();
+  aplicarRuta();
+})();
 </script>
 </body>
 </html>
