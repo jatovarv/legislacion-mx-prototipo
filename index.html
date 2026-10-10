@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CPEUM - Artículo 1o. | Legislación Mexicana</title>
+<style>
+  :root { --bg:#f8f9fa; --sidebar:#fff; --accent:#003366; --border:#dee2e6; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:var(--bg); color:#212529; }
+  .header { background:var(--accent); color:#fff; padding:1rem 1.5rem; display:flex; justify-content:space-between; align-items:center; }
+  .header h1 { margin:0; font-size:1.25rem; }
+  .layout { display:flex; min-height:calc(100vh - 60px); }
+  .sidebar { width:280px; background:var(--sidebar); border-right:1px solid var(--border); padding:1rem; overflow-y:auto; }
+  .content { flex:1; padding:1.5rem 2rem; max-width:900px; }
+  .tree ul { list-style:none; padding-left:1rem; }
+  .tree > ul { padding-left:0; }
+  .tree li { margin:.25rem 0; }
+  .tree a { color:var(--accent); text-decoration:none; }
+  .tree a:hover { text-decoration:underline; }
+  .article { background:#fff; border:1px solid var(--border); border-radius:8px; padding:1.5rem; margin-bottom:1.5rem; }
+  .article h2 { margin-top:0; color:var(--accent); }
+  .historial-btn { background:var(--accent); color:#fff; border:none; padding:.5rem 1rem; border-radius:4px; cursor:pointer; margin-top:1rem; }
+  .historial-panel { margin-top:1rem; border-top:1px solid var(--border); padding-top:1rem; display:none; }
+  .historial-panel.open { display:block; }
+  .version { border:1px solid var(--border); border-radius:6px; margin:.75rem 0; padding:1rem; background:#fafafa; }
+  .version h3 { margin:0 0 .5rem 0; font-size:1rem; }
+  .version .meta { font-size:.85rem; color:#6c757d; margin-bottom:.5rem; }
+  .version pre { white-space:pre-wrap; font-family:inherit; margin:0; }
+  .date-badge { font-size:.8rem; background:#e9ecef; padding:.15rem .4rem; border-radius:3px; }
+  footer { text-align:center; padding:1rem; font-size:.8rem; color:#6c757d; border-top:1px solid var(--border); }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Constitución Política de los Estados Unidos Mexicanos</h1>
+  <span class="date-badge" id="consulta-fecha">Consulta: 10 de octubre de 2026</span>
+</div>
+<div class="layout">
+  <aside class="sidebar">
+    <strong>Índice</strong>
+    <div class="tree">
+      <ul>
+        <li><a href="#">Título Primero</a>
+          <ul>
+            <li><a href="#">Capítulo I — De los Derechos Humanos y sus Garantías</a>
+              <ul>
+                <li><a href="#art1">Artículo 1o.</a></li>
+                <li><a href="#">Artículo 2o.</a></li>
+                <li><a href="#">Artículo 3o.</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </aside>
+  <main class="content">
+    <div class="article" id="art1">
+      <h2>Artículo 1o.</h2>
+      <div id="texto-vigente">
+        <p>En los Estados Unidos Mexicanos todas las personas gozarán de los derechos humanos reconocidos en esta Constitución y en los tratados internacionales de los que el Estado Mexicano sea parte, así como de las garantías para su protección, cuyo ejercicio no podrá restringirse ni suspenderse, salvo en los casos y bajo las condiciones que esta Constitución establece.</p>
+        <p>Las normas relativas a los derechos humanos se interpretarán de conformidad con esta Constitución y con los tratados internacionales de la materia favoreciendo en todo tiempo a las personas la protección más amplia.</p>
+        <p>Todas las autoridades, en el ámbito de sus competencias, tienen la obligación de promover, respetar, proteger y garantizar los derechos humanos de conformidad con los principios de universalidad, interdependencia, indivisibilidad y progresividad. En consecuencia, el Estado deberá prevenir, investigar, sancionar y reparar las violaciones a los derechos humanos, en los términos que establezca la ley.</p>
+        <p>Está prohibida la esclavitud en los Estados Unidos Mexicanos. Los esclavos del extranjero que entren al territorio nacional alcanzarán, por este solo hecho, su libertad y la protección de las leyes.</p>
+        <p>Queda prohibida toda discriminación motivada por origen étnico o nacional, el género, la edad, las discapacidades, la condición social, las condiciones de salud, la religión, las opiniones, las preferencias sexuales, el estado civil o cualquier otra que atente contra la dignidad humana y tenga por objeto anular o menoscabar los derechos y libertades de las personas.</p>
+      </div>
+      <button class="historial-btn" onclick="toggleHistorial()">Ver historial</button>
+      <div class="historial-panel" id="historial">
+        <h3>Historial del artículo</h3>
+        <div class="version">
+          <h3>Versión vigente (desde 11-06-2011)</h3>
+          <div class="meta">Publicación: DOF 10-06-2011 · Entrada en vigor: 11-06-2011 · Capítulo: De los Derechos Humanos y sus Garantías</div>
+          <pre id="v4"></pre>
+        </div>
+        <div class="version">
+          <h3>Versión 04-12-2006</h3>
+          <div class="meta">Publicación: DOF 04-12-2006 · Entrada en vigor: al día siguiente · Capítulo: De las Garantías Individuales</div>
+          <pre id="v3"></pre>
+        </div>
+        <div class="version">
+          <h3>Versión 14-08-2001</h3>
+          <div class="meta">Publicación: DOF 14-08-2001 · Capítulo: De las Garantías Individuales</div>
+          <pre id="v2"></pre>
+        </div>
+        <div class="version">
+          <h3>Versión original (05-02-1917)</h3>
+          <div class="meta">Publicación: DOF 05-02-1917 · Entrada en vigor de la Constitución: 01-05-1917 · Capítulo: De las Garantías Individuales</div>
+          <pre id="v1"></pre>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:.85rem;color:#6c757d;">Prototipo de demostración. Textos reconstruidos a partir de fuentes oficiales SCJN y DOF. No constituye texto oficial.</p>
+  </main>
+</div>
+<footer>Prototipo — Legislación mexicana vigente e histórica · Objetivo: monetizar tráfico útil</footer>
+<script>
+const versiones = {
+  v4: `En los Estados Unidos Mexicanos todas las personas gozarán de los derechos humanos reconocidos en esta Constitución y en los tratados internacionales de los que el Estado Mexicano sea parte, así como de las garantías para su protección, cuyo ejercicio no podrá restringirse ni suspenderse, salvo en los casos y bajo las condiciones que esta Constitución establece.\n\nLas normas relativas a los derechos humanos se interpretarán de conformidad con esta Constitución y con los tratados internacionales de la materia favoreciendo en todo tiempo a las personas la protección más amplia.\n\nTodas las autoridades, en el ámbito de sus competencias, tienen la obligación de promover, respetar, proteger y garantizar los derechos humanos de conformidad con los principios de universalidad, interdependencia, indivisibilidad y progresividad. En consecuencia, el Estado deberá prevenir, investigar, sancionar y reparar las violaciones a los derechos humanos, en los términos que establezca la ley.\n\nEstá prohibida la esclavitud en los Estados Unidos Mexicanos. Los esclavos del extranjero que entren al territorio nacional alcanzarán, por este solo hecho, su libertad y la protección de las leyes.\n\nQueda prohibida toda discriminación motivada por origen étnico o nacional, el género, la edad, las discapacidades, la condición social, las condiciones de salud, la religión, las opiniones, las preferencias sexuales, el estado civil o cualquier otra que atente contra la dignidad humana y tenga por objeto anular o menoscabar los derechos y libertades de las personas.`,
+  v3: `Artículo 1o.\nEn los Estados Unidos Mexicanos todo individuo gozará de las garantías que otorga esta Constitución, las cuales no podrán restringirse ni suspenderse, sino en los casos y con las condiciones que ella misma establece.\n\nEstá prohibida la esclavitud en los Estados Unidos Mexicanos. Los esclavos del extranjero que entren al territorio nacional alcanzarán, por este solo hecho, su libertad y la protección de las leyes.\n\nQueda prohibida toda discriminación motivada por origen étnico o nacional, el género, la edad, las discapacidades, la condición social, las condiciones de salud, la religión, las opiniones, las preferencias, el estado civil o cualquier otra que atente contra la dignidad humana y tenga por objeto anular o menoscabar los derechos y libertades de las personas.`,
+  v2: `Artículo 1o.\nEn los Estados Unidos Mexicanos todo individuo gozará de las garantías que otorga esta Constitución, las cuales no podrán restringirse ni suspenderse, sino en los casos y con las condiciones que ella misma establece.\n\nEstá prohibida la esclavitud en los Estados Unidos Mexicanos. Los esclavos del extranjero que entren al territorio nacional alcanzarán, por este solo hecho, su libertad y la protección de las leyes.\n\nQueda prohibida toda discriminación motivada por origen étnico o nacional, el género, la edad, las capacidades diferentes, la condición social, las condiciones de salud, la religión, las opiniones, las preferencias, el estado civil o cualquier otra que atente contra la dignidad humana y tenga por objeto anular o menoscabar los derechos y libertades de las personas.`,
+  v1: `Art. 1o.- En los Estados Unidos Mexicanos todo individuo gozará de las garantías que otorga esta Constitución, las cuales no podrán restringirse ni suspenderse, sino en los casos y con las condiciones que ella misma establece.`
+};
+document.getElementById('v4').textContent = versiones.v4;
+document.getElementById('v3').textContent = versiones.v3;
+document.getElementById('v2').textContent = versiones.v2;
+document.getElementById('v1').textContent = versiones.v1;
+
+function toggleHistorial() {
+  document.getElementById('historial').classList.toggle('open');
+}
+</script>
+</body>
+</html>
