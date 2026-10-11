@@ -1,0 +1,34 @@
+name: Vigilancia Diaria DOF Fase 1
+
+on:
+  # Cron desactivado temporalmente para validación de permisos en el repositorio
+  # schedule:
+  #   - cron: '0 14 * * 1-5'
+  #   - cron: '0 22 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  vigilancia:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Instalar dependencias
+        run: pip install requests beautifulsoup4
+
+      - name: Ejecutar script de vigilancia
+        run: python script_vigilancia.py
+
+      - name: Guardar log en repositorio
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add vigilancia/*.json
+          git commit -m "Actualización de logs DOF Fase 1" || exit 0
+          git push
