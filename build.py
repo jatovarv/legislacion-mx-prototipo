@@ -64,6 +64,13 @@ def rango_vigencia(v):
     return f"Del {fmt_fecha(v['vigencia_desde'])} al {fmt_fecha(v['vigencia_hasta'])}"
 
 
+def vigencia_marca(v):
+    if v.get("vigencia_verificada") is not False:
+        return ""
+    return (f' <span class="por-cotejar" title="{esc(v.get("vigencia_nota") or "Entrada en vigor pendiente de cotejo con el decreto")}">'
+            f"vigencia por cotejar</span>")
+
+
 def valor_romano(s):
     total = 0
     for i, ch in enumerate(s):
@@ -172,6 +179,7 @@ CSS = """
   .meta dt { font-weight:500; }
   .meta dd { margin:0; color:var(--text); font-weight:600; }
   .dof-link { font-weight:600; text-decoration:none; border-bottom:1px solid transparent; }
+  .por-cotejar { font-size:.68rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:#92400e; background:#fff6e5; border:1px solid #f2c879; border-radius:999px; padding:.05rem .4rem; cursor:help; white-space:nowrap; }
   .dof-link:hover { border-bottom-color:var(--accent); }
   .texto { font-family:var(--serif); font-size:1.08rem; line-height:1.75; margin-top:1.2rem; color:#111827; }
   .texto p { margin:0 0 1em; }
@@ -232,12 +240,15 @@ def pagina_articulo(data, num, art, site_url, fecha_build):
     migas.append(f"<b>Artículo {esc(n_label)}</b>")
 
     meta_vig = [
-        ("Vigencia", esc(rango_vigencia(vig))),
+        ("Vigencia", esc(rango_vigencia(vig)) + vigencia_marca(vig)),
         ("Publicación en el DOF", esc(fmt_fecha(vig["publicacion"]))),
     ]
     if vig.get("capitulo"):
         meta_vig.append(("Capítulo", esc(vig["capitulo"])))
-    meta_vig.append(("Versiones", f"{len(vers)} (texto original de {fmt_fecha(vers[0]['publicacion'])} y {len(anteriores)} reformas)" if len(vers) > 1 else "1"))
+    n_fe = sum(1 for v in vers if v.get("tipo") == "fe_de_erratas")
+    n_ref = len(anteriores) - n_fe
+    detalle = f"texto original de {fmt_fecha(vers[0]['publicacion'])}, {n_ref} {'reforma' if n_ref == 1 else 'reformas'}" + (f" y {n_fe} fe de erratas" if n_fe else "")
+    meta_vig.append(("Versiones", f"{len(vers)} ({detalle})" if len(vers) > 1 else "1"))
     if dof_link_html(vig):
         meta_vig.append(("Fuente oficial", dof_link_html(vig)))
     meta_html = "".join(f"<dt>{k}</dt><dd>{v}</dd>" for k, v in meta_vig)
@@ -245,14 +256,14 @@ def pagina_articulo(data, num, art, site_url, fecha_build):
     hist = []
     for v in anteriores:
         es_original = v is vers[0]
-        meta_v = [("Vigencia", esc(rango_vigencia(v))), ("Publicación en el DOF", esc(fmt_fecha(v["publicacion"])))]
+        meta_v = [("Vigencia", esc(rango_vigencia(v)) + vigencia_marca(v)), ("Publicación en el DOF", esc(fmt_fecha(v["publicacion"])))]
         if v.get("capitulo"):
             meta_v.append(("Capítulo", esc(v["capitulo"])))
         if dof_link_html(v):
             meta_v.append(("Fuente oficial", dof_link_html(v)))
         hist.append(
             f'<details class="version" id="version-{esc(v["id"])}">'
-            f'<summary>{"Texto original" if es_original else "Reforma"} · {esc(rango_vigencia(v).lower())} '
+            f'<summary>{"Fe de erratas" if v.get("tipo") == "fe_de_erratas" else "Texto original" if es_original else "Reforma"} · {esc(rango_vigencia(v).lower())} '
             f'<small>DOF {esc(fmt_fecha(v["publicacion"], corto=True))}</small></summary>'
             f'<div class="cuerpo"><dl class="meta">{"".join(f"<dt>{k}</dt><dd>{val}</dd>" for k, val in meta_v)}</dl>'
             f'<div class="texto">{texto_html(v["texto"])}</div></div></details>'

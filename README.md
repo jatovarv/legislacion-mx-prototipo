@@ -7,10 +7,11 @@ Prototipo navegable de legislación mexicana vigente e histórica (CPEUM, despu�
 | Archivo | Para qué sirve |
 |---|---|
 | `index.html` | Navegador interactivo (HTML + CSS + JS, sin dependencias). Lleva los datos embebidos, así que funciona abriéndolo en local (doble clic) o publicado en GitHub Pages. |
-| `articulos/N.html` | **Páginas estáticas para SEO**, una por artículo verificado (hoy `articulos/1.html`): texto vigente íntegro, fechas, enlace al DOF y versiones anteriores, legibles sin JavaScript. Generadas; no se editan a mano. |
+| `articulos/N.html` | **Páginas estáticas para SEO**, una por artículo verificado (hoy `articulos/1.html` y `articulos/4.html`): texto vigente íntegro, fechas, enlace al DOF y versiones anteriores, legibles sin JavaScript. Generadas; no se editan a mano. |
 | `sitemap.xml`, `robots.txt` | Para buscadores. Generados. |
 | `cpeum.json` | **Fuente de datos editable**: estructura completa de la CPEUM (Títulos, Capítulos, Secciones y rangos de artículos) + los artículos cargados con sus versiones. |
 | `cpeum-art-1.json` | Golden case del Artículo 1o. (4 versiones cotejadas con DOF/SCJN). `cpeum.json` lo incluye verbatim. |
+| `cpeum-art-4.json` | Golden case del Artículo 4o.: 25 versiones (texto original, 23 reformas y 1 fe de erratas) extraídas del PDF «Historia del texto del artículo» de la SCJN y cotejadas con el texto consolidado de la Cámara de Diputados; el bloque `fuentes` documenta el método y las advertencias. |
 | `build.py` | Genera todo lo anterior a partir de `cpeum.json`: inyecta los datos en `index.html` (entre `<!-- DATA:START -->` y `<!-- DATA:END -->`), escribe `articulos/N.html`, `sitemap.xml` y `robots.txt`. Sin dependencias: `python3 build.py`. |
 
 ## Funciones del prototipo
@@ -23,14 +24,14 @@ Prototipo navegable de legislación mexicana vigente e histórica (CPEUM, despu�
 
 ## Estado de los textos
 
-- **Verificado**: sólo el Artículo 1o. (golden case).
-- **Prototipo** (punto ámbar y aviso visible): artículos 2o., 3o., 4o., 5o., 6o., 39, 123 y 135. Su texto es **simulado** y sus fechas son ilustrativas; sirven únicamente para probar la navegación, el historial y el diseño. No reproducen el texto constitucional.
+- **Verificado**: Artículos 1o. y 4o. (golden cases). En el 4o., `vigencia_verificada: false` marca las versiones cuya entrada en vigor se asume al día siguiente de la publicación (regla general) porque el decreto sólo existe escaneado; la interfaz las señala con «vigencia por cotejar».
+- **Prototipo** (punto ámbar y aviso visible): artículos 2o., 3o., 5o., 6o., 39, 123 y 135. Su texto es **simulado** y sus fechas son ilustrativas; sirven únicamente para probar la navegación, el historial y el diseño. No reproducen el texto constitucional.
 - **Pendiente** (punto gris): el resto; navegables, sin texto.
 - La etiqueta `tema` de cada artículo es editorial, no forma parte del texto oficial.
 
 ## Cómo añadir o corregir un artículo
 
-1. En `cpeum.json`, dentro de `articulos`, añade la clave con el número (`"7"`) y sus `versiones` ordenadas de la más antigua a la vigente. Campos de cada versión: `id`, `etiqueta`, `publicacion` (fecha DOF), `vigencia_desde`, `vigencia_hasta` (`null` si está vigente), `capitulo`, `texto`; opcionalmente `dof_url` y `dof_etiqueta`, que muestran el enlace «Ver decreto en el DOF» junto a la metadata de la versión.
+1. En `cpeum.json`, dentro de `articulos`, añade la clave con el número (`"7"`) y sus `versiones` ordenadas de la más antigua a la vigente. Campos de cada versión: `id`, `etiqueta`, `publicacion` (fecha DOF), `vigencia_desde`, `vigencia_hasta` (`null` si está vigente), `capitulo`, `texto`; opcionalmente `dof_url` y `dof_etiqueta` (enlace «Ver decreto en el DOF»), `tipo` (`original`, `reforma`, `fe_de_erratas`), `vigencia_verificada` y `vigencia_nota`.
 2. En `texto`, separa párrafos con una línea en blanco. Los apartados (`A. `), fracciones (`I. `) e incisos (`a) `) se reconocen por su prefijo y se formatean solos.
 3. Marca `"estado": "verificado"` sólo cuando el texto esté cotejado con el DOF; mientras tanto, `"prototipo"`.
 4. Ejecuta `python3 build.py` para regenerar `index.html`, las páginas estáticas, `sitemap.xml` y `robots.txt`. Sólo los artículos con `"estado": "verificado"` obtienen página estática; los de prototipo nunca se publican como página indexable.
