@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jatovarv.github.io/legislacion-mx-prototipo/sitemap.xml
