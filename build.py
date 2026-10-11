@@ -129,6 +129,14 @@ def dof_link_html(v):
             f'title="Abre la publicación oficial en una pestaña nueva">{esc(texto)} ↗</a>')
 
 
+def fuente_link_html(v):
+    url = v.get("fuente_url")
+    if not isinstance(url, str) or not re.match(r"^https?://", url, re.I):
+        return ""
+    return (f'<a class="dof-link" href="{esc(url)}" target="_blank" rel="noopener noreferrer" '
+            f'title="Abre el texto consolidado oficial en una pestaña nueva">{esc(v.get("fuente_etiqueta") or "Ver fuente oficial")} ↗</a>')
+
+
 def ruta_estructura(estructura, num):
     """Devuelve la lista de nodos (Título > Capítulo > Sección) que contienen el artículo."""
     def visitar(nodo, camino):
@@ -174,6 +182,8 @@ CSS = """
   .badge { font-size:.7rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; padding:.2rem .5rem; border-radius:999px; border:1px solid transparent; }
   .badge.vigente { background:var(--ok-bg); color:var(--ok); border-color:#b7e0c8; }
   .badge.verificado { background:#eef2f7; color:#334155; border-color:#d6dde6; }
+  .badge.historial { background:#eaf2fc; color:#1e4e8c; border-color:#bfd3ee; }
+  .aviso-historial { margin:.9rem 0 0; padding:.6rem .9rem; border-radius:8px; background:#eaf2fc; border:1px solid #bfd3ee; color:#163a6a; font-size:.85rem; }
   .tema { margin:.6rem 0 0; color:var(--muted); font-size:.92rem; }
   .meta { margin:.9rem 0 0; padding:.75rem .9rem; background:#f8fafc; border:1px solid var(--border); border-radius:8px; font-size:.85rem; color:var(--muted); display:grid; grid-template-columns:max-content 1fr; gap:.3rem .8rem; }
   .meta dt { font-weight:500; }
@@ -220,6 +230,7 @@ CSS = """
 
 def pagina_articulo(data, num, art, site_url, fecha_build):
     norma = data["norma"]
+    verificado = art.get("estado") == "verificado"
     vers = sorted(art["versiones"], key=lambda v: v["vigencia_desde"])
     vig = vers[-1]
     anteriores = list(reversed(vers[:-1]))
@@ -229,9 +240,13 @@ def pagina_articulo(data, num, art, site_url, fecha_build):
     url = f"{site_url}/articulos/{num}.html"
     titulo = f"Artículo {n_label} de la {norma['nombre']} — texto vigente"
     primer_parrafo = re.split(r"\n\s*\n", vig["texto"])[0].replace("\n", " ")
-    descripcion = (f"Texto vigente íntegro del Artículo {n_label} de la {norma['siglas']} "
-                   f"({rango_vigencia(vig).lower()}, DOF {fmt_fecha(vig['publicacion'])}), con fechas de vigencia, "
-                   f"enlace al decreto en el Diario Oficial de la Federación y {len(anteriores)} versiones anteriores desde {fmt_fecha(vers[0]['vigencia_desde'])}.")
+    if verificado:
+        descripcion = (f"Texto vigente íntegro del Artículo {n_label} de la {norma['siglas']} "
+                       f"({rango_vigencia(vig).lower()}, DOF {fmt_fecha(vig['publicacion'])}), con fechas de vigencia, "
+                       f"enlace al decreto en el Diario Oficial de la Federación y {len(anteriores)} versiones anteriores desde {fmt_fecha(vers[0]['vigencia_desde'])}.")
+    else:
+        descripcion = (f"Texto vigente íntegro del Artículo {n_label} de la {norma['siglas']}, conforme al texto consolidado de la Cámara de Diputados "
+                       f"(última reforma del artículo: DOF {fmt_fecha(vig['publicacion'])}). Historial de versiones en construcción.")
 
     migas = [f'<a href="../index.html">{esc(norma["siglas"])}</a>']
     for nodo in camino:
@@ -251,6 +266,8 @@ def pagina_articulo(data, num, art, site_url, fecha_build):
     meta_vig.append(("Versiones", f"{len(vers)} ({detalle})" if len(vers) > 1 else "1"))
     if dof_link_html(vig):
         meta_vig.append(("Fuente oficial", dof_link_html(vig)))
+    elif fuente_link_html(vig):
+        meta_vig.append(("Fuente oficial", fuente_link_html(vig)))
     meta_html = "".join(f"<dt>{k}</dt><dd>{v}</dd>" for k, v in meta_vig)
 
     hist = []
@@ -336,9 +353,10 @@ def pagina_articulo(data, num, art, site_url, fecha_build):
   <nav class="breadcrumb" aria-label="Ubicación">{' <span aria-hidden="true">›</span> '.join(migas)}</nav>
   <article>
     <h1><span class="num">Artículo {esc(n_label)}</span> de la {esc(norma['nombre'])}</h1>
-    <div class="badges"><span class="badge vigente">Texto vigente</span><span class="badge verificado" title="Cotejado con las publicaciones oficiales">Verificado</span></div>
+    <div class="badges"><span class="badge vigente">Texto vigente</span>{'<span class="badge verificado" title="Cotejado con las publicaciones oficiales">Verificado</span>' if verificado else '<span class="badge historial" title="Las versiones anteriores se cargarán desde el DOF">Historial en construcción</span>'}</div>
     {f'<p class="tema">Tema: {esc(art["tema"])}</p>' if art.get("tema") else ''}
     <dl class="meta">{meta_html}</dl>
+    {'' if verificado else '<p class="aviso-historial">Texto vigente. Historial en construcción.</p>'}
     <!-- espacio reservado para publicidad (fuera de alcance por ahora) -->
     <div class="texto" id="texto-vigente">
 {texto_html(vig['texto'])}
@@ -350,7 +368,7 @@ def pagina_articulo(data, num, art, site_url, fecha_build):
     {historial_html}
     <section id="fuentes" class="fuentes" aria-labelledby="h-fuentes">
       <h2 id="h-fuentes">Fuentes oficiales</h2>
-      <p>Texto cotejado con las publicaciones del Diario Oficial de la Federación enlazadas en cada versión y con la compilación histórica de la Suprema Corte de Justicia de la Nación.</p>
+      <p>{'Texto cotejado con las publicaciones del Diario Oficial de la Federación enlazadas en cada versión y con la compilación histórica de la Suprema Corte de Justicia de la Nación.' if verificado else f'Texto tomado del texto consolidado vigente de la Cámara de Diputados (última reforma de la Constitución: DOF {fmt_fecha(norma.get("ultima_reforma_consolidado", ""))}). Las versiones anteriores y los enlaces a cada decreto se cargarán desde el DOF y la compilación de la SCJN.'}</p>
       <ul>{fuentes}</ul>
     </section>
   </article>
@@ -380,7 +398,13 @@ def robots_txt(site_url):
 
 # ----------------------------------------------------------------------------- index.html
 def inyectar_index(data):
-    payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+    # Las notas editoriales (notas_scjn / notas_camara) no se usan en la interfaz: se omiten del embebido.
+    ligero = json.loads(json.dumps(data))
+    for art in ligero["articulos"].values():
+        for v in art["versiones"]:
+            for k in [k for k in v if k.startswith("notas")]:
+                del v[k]
+    payload = json.dumps(ligero, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     block = f'{START}\n<script id="cpeum-data" type="application/json">\n{payload}\n</script>\n{END}'
     html_txt = INDEX.read_text(encoding="utf-8")
     pattern = re.compile(re.escape(START) + r".*?" + re.escape(END), re.S)
@@ -405,12 +429,12 @@ def main(argv=None):
     ARTICULOS_DIR.mkdir(exist_ok=True)
     paginas = []
     for num, art in sorted(data["articulos"].items(), key=lambda kv: int(kv[0])):
-        if art.get("estado") != "verificado":
+        if art.get("estado") not in ("verificado", "vigente"):
             continue  # los artículos de prototipo (texto simulado) no se publican como página estática
         destino = ARTICULOS_DIR / f"{num}.html"
         destino.write_text(pagina_articulo(data, num, art, site_url, args.fecha), encoding="utf-8")
         paginas.append(num)
-        print(f"articulos/{num}.html: Artículo {numero_art(num)} ({len(art['versiones'])} versiones)")
+        print(f"articulos/{num}.html: Artículo {numero_art(num)} ({len(art['versiones'])} {'versión' if len(art['versiones']) == 1 else 'versiones'})")
     if not paginas:
         print("Aviso: ningún artículo con estado 'verificado'; no se generaron páginas estáticas.")
 

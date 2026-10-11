@@ -7,7 +7,7 @@ Prototipo navegable de legislación mexicana vigente e histórica (CPEUM, despu�
 | Archivo | Para qué sirve |
 |---|---|
 | `index.html` | Navegador interactivo (HTML + CSS + JS, sin dependencias). Lleva los datos embebidos, así que funciona abriéndolo en local (doble clic) o publicado en GitHub Pages. |
-| `articulos/N.html` | **Páginas estáticas para SEO**, una por artículo verificado (hoy `articulos/1.html` y `articulos/4.html`): texto vigente íntegro, fechas, enlace al DOF y versiones anteriores, legibles sin JavaScript. Generadas; no se editan a mano. |
+| `articulos/N.html` | **Páginas estáticas para SEO**, una por cada uno de los 136 artículos (texto vigente; los verificados incluyen además su historial): texto vigente íntegro, fechas, enlace al DOF y versiones anteriores, legibles sin JavaScript. Generadas; no se editan a mano. |
 | `sitemap.xml`, `robots.txt` | Para buscadores. Generados. |
 | `cpeum.json` | **Fuente de datos editable**: estructura completa de la CPEUM (Títulos, Capítulos, Secciones y rangos de artículos) + los artículos cargados con sus versiones. |
 | `cpeum-art-1.json` | Golden case del Artículo 1o. (4 versiones cotejadas con DOF/SCJN). `cpeum.json` lo incluye verbatim. |
@@ -25,8 +25,8 @@ Prototipo navegable de legislación mexicana vigente e histórica (CPEUM, despu�
 ## Estado de los textos
 
 - **Verificado**: Artículos 1o. y 4o. (golden cases). En el 4o., `vigencia_verificada: false` marca las versiones cuya entrada en vigor se asume al día siguiente de la publicación (regla general) porque el decreto sólo existe escaneado; la interfaz las señala con «vigencia por cotejar».
-- **Prototipo** (punto ámbar y aviso visible): artículos 2o., 3o., 5o., 6o., 39, 123 y 135. Su texto es **simulado** y sus fechas son ilustrativas; sirven únicamente para probar la navegación, el historial y el diseño. No reproducen el texto constitucional.
-- **Pendiente** (punto gris): el resto; navegables, sin texto.
+- **Vigente, historial en construcción** (punto azul): los otros 134 artículos. Texto vigente real extraído con `build.py`/pdfplumber del texto consolidado de la Cámara de Diputados (`CPEUM.pdf`, última reforma DOF 07-10-2026), separando las notas de la Cámara («Párrafo reformado DOF…») y los transitorios; `publicacion` es la fecha de la última reforma que citan esas notas. Sin versiones anteriores todavía.
+- **Prototipo** (punto ámbar): ya no queda ninguno; el estado sigue soportado por si se necesita.
 - La etiqueta `tema` de cada artículo es editorial, no forma parte del texto oficial.
 
 ## Cómo añadir o corregir un artículo
@@ -50,4 +50,4 @@ El navegador interactivo usa rutas por `#`, que Google indexa mal; las páginas 
 
 ## Siguiente paso recomendado para monetizar
 
-Cargar más artículos reales en `cpeum.json` con `"estado": "verificado"`: cada uno genera su página estática y entra al sitemap sin tocar código.
+Completar el historial de los 134 artículos en estado `vigente` (como se hizo con el 1o. y el 4o.: PDF «Historia del texto» de la SCJN + decretos del DOF) y pasarlos a `verificado`. Las páginas y el sitemap ya existen; sólo cambia el contenido.
