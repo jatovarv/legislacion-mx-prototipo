@@ -6,10 +6,12 @@ Prototipo navegable de legislación mexicana vigente e histórica (CPEUM, despu�
 
 | Archivo | Para qué sirve |
 |---|---|
-| `index.html` | Sitio completo (HTML + CSS + JS, sin dependencias). Lleva los datos embebidos, así que funciona abriéndolo en local (doble clic) o publicado en GitHub Pages. |
+| `index.html` | Navegador interactivo (HTML + CSS + JS, sin dependencias). Lleva los datos embebidos, así que funciona abriéndolo en local (doble clic) o publicado en GitHub Pages. |
+| `articulos/N.html` | **Páginas estáticas para SEO**, una por artículo verificado (hoy `articulos/1.html`): texto vigente íntegro, fechas, enlace al DOF y versiones anteriores, legibles sin JavaScript. Generadas; no se editan a mano. |
+| `sitemap.xml`, `robots.txt` | Para buscadores. Generados. |
 | `cpeum.json` | **Fuente de datos editable**: estructura completa de la CPEUM (Títulos, Capítulos, Secciones y rangos de artículos) + los artículos cargados con sus versiones. |
 | `cpeum-art-1.json` | Golden case del Artículo 1o. (4 versiones cotejadas con DOF/SCJN). `cpeum.json` lo incluye verbatim. |
-| `build.py` | Inyecta `cpeum.json` dentro de `index.html` (entre `<!-- DATA:START -->` y `<!-- DATA:END -->`). Sin dependencias: `python3 build.py`. |
+| `build.py` | Genera todo lo anterior a partir de `cpeum.json`: inyecta los datos en `index.html` (entre `<!-- DATA:START -->` y `<!-- DATA:END -->`), escribe `articulos/N.html`, `sitemap.xml` y `robots.txt`. Sin dependencias: `python3 build.py`. |
 
 ## Funciones del prototipo
 
@@ -31,14 +33,20 @@ Prototipo navegable de legislación mexicana vigente e histórica (CPEUM, despu�
 1. En `cpeum.json`, dentro de `articulos`, añade la clave con el número (`"7"`) y sus `versiones` ordenadas de la más antigua a la vigente. Campos de cada versión: `id`, `etiqueta`, `publicacion` (fecha DOF), `vigencia_desde`, `vigencia_hasta` (`null` si está vigente), `capitulo`, `texto`; opcionalmente `dof_url` y `dof_etiqueta`, que muestran el enlace «Ver decreto en el DOF» junto a la metadata de la versión.
 2. En `texto`, separa párrafos con una línea en blanco. Los apartados (`A. `), fracciones (`I. `) e incisos (`a) `) se reconocen por su prefijo y se formatean solos.
 3. Marca `"estado": "verificado"` sólo cuando el texto esté cotejado con el DOF; mientras tanto, `"prototipo"`.
-4. Ejecuta `python3 build.py` para regenerar `index.html`.
+4. Ejecuta `python3 build.py` para regenerar `index.html`, las páginas estáticas, `sitemap.xml` y `robots.txt`. Sólo los artículos con `"estado": "verificado"` obtienen página estática; los de prototipo nunca se publican como página indexable.
 
 Fuentes oficiales para la carga: [Leyes Federales Vigentes](https://www.diputados.gob.mx/LeyesBiblio/) y [Reformas constitucionales por artículo](https://www.diputados.gob.mx/LeyesBiblio/ref/cpeum_art.htm) (Cámara de Diputados), más el DOF de cada reforma.
 
 ## Publicar gratis
 
-GitHub Pages: *Settings → Pages → Deploy from a branch → `main` / root*. El sitio queda en `https://<usuario>.github.io/legislacion-mx-prototipo/`.
+GitHub Pages: *Settings → Pages → Deploy from a branch → `main` / root*. El sitio queda en `https://<usuario>.github.io/legislacion-mx-prototipo/` y el Artículo 1o. en `https://<usuario>.github.io/legislacion-mx-prototipo/articulos/1.html`.
+
+Las URL absolutas de `canonical`, `sitemap.xml` y `robots.txt` salen de la URL base: por defecto `https://jatovarv.github.io/legislacion-mx-prototipo`. Con dominio propio, regenera con `python3 build.py --site-url https://tudominio.mx` y vuelve a hacer commit.
+
+## Páginas estáticas (SEO)
+
+El navegador interactivo usa rutas por `#`, que Google indexa mal; las páginas de `articulos/` son las que captan tráfico de búsqueda. Cada una lleva título y descripción propios, `canonical`, Open Graph y datos estructurados (`schema.org/Legislation` + `BreadcrumbList`), y enlaza al navegador interactivo para comparar versiones. Hay un comentario HTML que marca el hueco reservado para publicidad.
 
 ## Siguiente paso recomendado para monetizar
 
-El prototipo es una sola página con rutas por `#`, que Google indexa mal. Para captar tráfico de búsqueda, generar con `build.py` una página estática por artículo (`cpeum/articulo-1.html`, …) con la misma interfaz y datos; el esquema de `cpeum.json` ya lo permite.
+Cargar más artículos reales en `cpeum.json` con `"estado": "verificado"`: cada uno genera su página estática y entra al sitemap sin tocar código.
