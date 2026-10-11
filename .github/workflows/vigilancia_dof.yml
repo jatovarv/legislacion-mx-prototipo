@@ -1,7 +1,7 @@
 name: Vigilancia Diaria DOF Fase 1
 
 on:
-  # Cron desactivado temporalmente para validación de permisos en el repositorio
+  # Cron desactivado temporalmente para validación
   # schedule:
   #   - cron: '0 14 * * 1-5'
   #   - cron: '0 22 * * 1-5'
@@ -10,6 +10,8 @@ on:
 jobs:
   vigilancia:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Clonar repositorio
         uses: actions/checkout@v3
@@ -20,7 +22,7 @@ jobs:
           python-version: '3.10'
 
       - name: Instalar dependencias
-        run: pip install requests beautifulsoup4
+        run: pip install requests beautifulsoup4 tzdata
 
       - name: Ejecutar script de vigilancia
         run: python script_vigilancia.py
