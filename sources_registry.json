@@ -1,7 +1,7 @@
 {
-  "registry_version": "1.0",
+  "registry_version": "1.1",
   "consultation_date": "2026-10-10",
-  "notes": "Registro de fuentes oficiales basado en inventario aprobado de ChatGPT Pro 500. CPEUM lista para producción. CCCDMX genealogía sustentada; texto vigente 2026 marcado pendiente de cierre.",
+  "notes": "Registro de fuentes oficiales. CPEUM lista para producción. CCDF: última reforma verificada 20-08-2026 (GOCDMX 1929 Bis). Fecha Congreso 02-09-2026 registrada como conflicto de metadatos. Texto consolidado DOCX pendiente de descarga y hash.",
   "sources": [
     {
       "source_id": "cpeum-camara-vigente",
@@ -49,18 +49,31 @@
       "observaciones": "Texto original, no reforma. Punto de partida del golden case."
     },
     {
-      "source_id": "ccdf-congreso-cdmx",
+      "source_id": "ccdf-consejeria-consolidado",
       "norma": "CCDF",
       "canonical_title": "Código Civil para el Distrito Federal",
       "aliases": ["CCCDMX", "Código Civil de la Ciudad de México"],
-      "tipo": "ficha_oficial_vigente",
-      "autoridad": "Congreso de la Ciudad de México — Marco Legal",
-      "url": "https://www.congresocdmx.gob.mx/",
-      "ultima_reforma_reportada": "2026-09-02",
+      "tipo": "texto_consolidado_candidato",
+      "autoridad": "Consejería Jurídica y de Servicios Legales de la Ciudad de México",
+      "url": "https://data.consejeria.cdmx.gob.mx/images/leyes/2025/CODIGOS_2025/CODIGO_CIVIL_PARA_EL_DF_15.4.docx",
+      "ultima_reforma_reportada": "2026-08-20",
       "prioridad": 1,
-      "estado": "metadato_confirmado_texto_pendiente",
-      "verification_status": "official_metadata_confirmed_direct_gazette_pending",
-      "observaciones": "Nombre oficial vigente sigue siendo 'Código Civil para el Distrito Federal'. Última reforma indicada 02-09-2026. PDF consolidado fiable posterior a esa fecha pendiente de cierre. Discrepancia con Consejería (20-08-2026)."
+      "estado": "candidato",
+      "sha256": null,
+      "sha256_status": "pendiente_descarga_y_hash",
+      "observaciones": "Fuente consolidada recomendada. Pendiente descarga y cálculo de hash propio. Carpeta '2025' en URL no debe interpretarse como fecha de corte."
+    },
+    {
+      "source_id": "ccdf-gaceta-1929-bis",
+      "norma": "CCDF",
+      "tipo": "gaceta_oficial_reforma",
+      "autoridad": "Gaceta Oficial de la Ciudad de México",
+      "edicion": "1929 Bis",
+      "fecha_publicacion": "2026-08-20",
+      "vigencia_desde": "2026-08-21",
+      "articulos_afectados": ["1834", "1502-I"],
+      "estado": "verificada",
+      "observaciones": "Autoridad primaria de la última reforma verificada. Síntesis SCJN confirma artículos y vigencia al día siguiente. PDF oficial directo pendiente de localización estable."
     },
     {
       "source_id": "ccdf-genealogia",
@@ -82,16 +95,26 @@
       "observaciones": "Genealogía sustentada. No reescribir retroactivamente 'Distrito Federal' por 'Ciudad de México' en textos históricos."
     }
   ],
+  "conflictos_documentados": [
+    {
+      "id": "ccdf-congreso-02-09-2026",
+      "fuente": "Congreso de la Ciudad de México — Marco Legal",
+      "fecha_reportada": "2026-09-02",
+      "clasificacion": "conflicto_metadato",
+      "confianza": "alta",
+      "accion": "no_crear_evento_reforma",
+      "observaciones": "No se localizó decreto que sustente la fecha. Contradice Consejería y síntesis SCJN. Conservar como conflicto de auditoría."
+    }
+  ],
   "pendientes_cierre": [
     {
-      "id": "ccdf-texto-vigente-2026",
-      "descripcion": "PDF consolidado exacto del Código Civil para el Distrito Federal posterior a reforma 02-09-2026",
-      "estado": "pendiente",
-      "razon": "Discrepancia entre Congreso (02-09-2026) y Consejería (20-08-2026). PDF localizado en dominio del Congreso es inconsistente/stale."
+      "id": "ccdf-docx-hash",
+      "descripcion": "Descargar DOCX de Consejería y calcular SHA-256 propio; cotejar arts. 1834 y 1502 contra Gaceta",
+      "estado": "pendiente"
     },
     {
-      "id": "ccdf-gaceta-02-09-2026",
-      "descripcion": "URL directa estable de la Gaceta Oficial de la Ciudad de México correspondiente a la reforma del 02-09-2026",
+      "id": "ccdf-gaceta-pdf-estable",
+      "descripcion": "Localizar URL estable del PDF de la GOCDMX edición 1929 Bis (20-08-2026)",
       "estado": "pendiente"
     }
   ]
