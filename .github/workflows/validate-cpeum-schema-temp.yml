@@ -1,0 +1,64 @@
+name: Validación temporal del esquema CPEUM
+
+on:
+  push:
+    branches:
+      - fix/esquema-historial-cpeum
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instalar jsonschema
+        run: python -m pip install --disable-pip-version-check jsonschema
+      - name: Validar 136 artículos y golden cases
+        run: |
+          python - <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          from jsonschema import Draft202012Validator, FormatChecker
+
+          schema_path = Path("docs/cpeum-articulo-historial.schema.json")
+          schema = json.loads(schema_path.read_text(encoding="utf-8"))
+          Draft202012Validator.check_schema(schema)
+          validator = Draft202012Validator(schema, format_checker=FormatChecker())
+
+          data = json.loads(Path("cpeum.json").read_text(encoding="utf-8"))
+          articulos = data.get("articulos", {})
+          if len(articulos) != 136:
+              raise SystemExit(f"Se esperaban 136 artículos; se encontraron {len(articulos)}")
+
+          errores = []
+          for numero, articulo in articulos.items():
+              for error in validator.iter_errors(articulo):
+                  ruta = ".".join(str(x) for x in error.absolute_path) or "<raíz>"
+                  errores.append(f"cpeum.json artículo {numero} [{ruta}]: {error.message}")
+
+          for archivo in ("cpeum-art-1.json", "cpeum-art-4.json"):
+              golden = json.loads(Path(archivo).read_text(encoding="utf-8"))
+              articulo = {
+                  "numero": golden.get("articulo"),
+                  "estado": "verificado",
+                  "versiones": golden.get("versiones", []),
+              }
+              if "fuentes" in golden:
+                  articulo["fuentes"] = golden["fuentes"]
+              for error in validator.iter_errors(articulo):
+                  ruta = ".".join(str(x) for x in error.absolute_path) or "<raíz>"
+                  errores.append(f"{archivo} [{ruta}]: {error.message}")
+
+          if errores:
+              print("\n".join(errores[:200]))
+              print(f"\nTotal de errores: {len(errores)}")
+              sys.exit(1)
+
+          print("Esquema JSON válido.")
+          print("cpeum.json: 136/136 artículos válidos.")
+          print("Golden case Art. 1: válido.")
+          print("Golden case Art. 4: válido.")
+          PY
