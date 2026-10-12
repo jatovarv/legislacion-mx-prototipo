@@ -1,0 +1,180 @@
+{
+  "schema_version": "1.0",
+  "fecha_consulta": "2026-10-11",
+  "zona_horaria": "America/Mexico_City",
+  "integracion": {
+    "destino": "sources_registry.json",
+    "operacion": "upsert",
+    "claves": {
+      "sources": "source_id",
+      "conflictos_documentados": "id",
+      "pendientes_cierre": "id"
+    },
+    "instruccion": "Fusionar cada arreglo por su clave; no sustituir ni eliminar los registros de la CPEUM. Este archivo no contiene texto normativo."
+  },
+  "dictamen": {
+    "id": "ccdf-cierre-ultima-reforma-2026-08-20",
+    "norma": "CCDF",
+    "canonical_title": "Código Civil para el Distrito Federal",
+    "aliases": [
+      "CCCDMX",
+      "Código Civil de la Ciudad de México"
+    ],
+    "jurisdiccion_actual": "Ciudad de México",
+    "objeto_del_cierre": "Fecha y fuente de la última reforma verificable al corte",
+    "resultado": "cerrado_con_discrepancia_documentada",
+    "ultima_reforma_verificada": "2026-08-20",
+    "publicacion": {
+      "medio": "Gaceta Oficial de la Ciudad de México",
+      "edicion": "1929 Bis",
+      "fecha": "2026-08-20",
+      "url_oficial_estable": null,
+      "url_status": "pendiente_localizacion"
+    },
+    "vigencia_desde": "2026-08-21",
+    "vigencia_verificada": true,
+    "articulos_afectados": [
+      {
+        "articulo": "1834",
+        "evento": "reforma"
+      },
+      {
+        "articulo": "1502",
+        "fraccion": "I",
+        "evento": "reforma"
+      }
+    ],
+    "confianza": "alta",
+    "conclusion": "Se adopta 2026-08-20 como última reforma verificada. La fecha 2026-09-02 mostrada por el Congreso de la Ciudad de México se conserva como conflicto de metadatos y no genera una reforma mientras no se localice el decreto correspondiente.",
+    "alcance_no_cubierto": [
+      "No se reproduce ni certifica el texto normativo consolidado.",
+      "Sigue pendiente el hash y el cotejo íntegro del DOCX de la Consejería.",
+      "Sigue pendiente una URL oficial estable del PDF de la Gaceta 1929 Bis."
+    ],
+    "evidencia_repositorio": [
+      "docs/brief-gpt-cierre-ccdf-vigente.md",
+      "sources_registry.json",
+      "docs/sources_registry.json"
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "ccdf-consejeria-ficha",
+      "norma": "CCDF",
+      "canonical_title": "Código Civil para el Distrito Federal",
+      "tipo": "ficha_oficial_texto_consolidado",
+      "autoridad": "Consejería Jurídica y de Servicios Legales de la Ciudad de México",
+      "url": "https://data.consejeria.cdmx.gob.mx/index.php/articulo-leyes-y-reglamentos/29-codigos/32-codigo-civil-para-el-distrito-federal",
+      "ultima_reforma_reportada": "2026-08-20",
+      "fecha_consulta": "2026-10-11",
+      "prioridad": 1,
+      "estado": "confirmado_para_metadato",
+      "observaciones": "Confirma la fecha 20-08-2026. Su dato de publicación original '26-05-1926' es inconsistente con la genealogía documentada de 1928 y no debe importarse."
+    },
+    {
+      "source_id": "ccdf-consejeria-consolidado",
+      "norma": "CCDF",
+      "canonical_title": "Código Civil para el Distrito Federal",
+      "aliases": [
+        "CCCDMX",
+        "Código Civil de la Ciudad de México"
+      ],
+      "tipo": "texto_consolidado_candidato",
+      "autoridad": "Consejería Jurídica y de Servicios Legales de la Ciudad de México",
+      "url": "https://data.consejeria.cdmx.gob.mx/images/leyes/2025/CODIGOS_2025/CODIGO_CIVIL_PARA_EL_DF_15.4.docx",
+      "ultima_reforma_reportada": "2026-08-20",
+      "prioridad": 1,
+      "estado": "candidato",
+      "sha256": null,
+      "sha256_status": "pendiente_descarga_y_hash",
+      "observaciones": "La carpeta '2025' de la URL no prueba la fecha de corte. Debe descargarse, calcularse su hash y cotejarse contra la reforma de 20-08-2026."
+    },
+    {
+      "source_id": "ccdf-gaceta-1929-bis",
+      "norma": "CCDF",
+      "tipo": "gaceta_oficial_reforma",
+      "autoridad": "Gaceta Oficial de la Ciudad de México",
+      "edicion": "1929 Bis",
+      "fecha_publicacion": "2026-08-20",
+      "vigencia_desde": "2026-08-21",
+      "vigencia_verificada": true,
+      "articulos_afectados": [
+        "1834",
+        "1502-I"
+      ],
+      "url": null,
+      "url_status": "pendiente_url_oficial_estable",
+      "prioridad": 1,
+      "estado": "verificada",
+      "observaciones": "Autoridad primaria del evento. La edición, fecha, artículos afectados y vigencia están documentados en el cierre del repositorio; no se inventa una URL por patrón."
+    },
+    {
+      "source_id": "ccdf-scjn-sintesis-2026-08-20",
+      "norma": "CCDF",
+      "tipo": "sintesis_oficial_gocdmx",
+      "autoridad": "Suprema Corte de Justicia de la Nación",
+      "fecha_documento": "2026-08-20",
+      "edicion_referida": "GOCDMX 1929 Bis",
+      "url": null,
+      "url_status": "pendiente_enlace_directo_revalidado",
+      "prioridad": 2,
+      "estado": "confirmado_por_documentacion_del_repositorio",
+      "observaciones": "La documentación del repositorio atribuye a esta síntesis la identificación de los artículos 1834 y 1502-I y la entrada en vigor al día siguiente."
+    }
+  ],
+  "conflictos_documentados": [
+    {
+      "id": "ccdf-congreso-02-09-2026",
+      "norma": "CCDF",
+      "fuente": "Congreso de la Ciudad de México — Marco Legal",
+      "fuente_url": "https://congresocdmx.gob.mx/archivos/legislativas/marco-legal-cdmx-107-2.html",
+      "valor_reportado": {
+        "ultima_reforma": "2026-09-02",
+        "fecha_publicacion_archivo": "2026-09-04"
+      },
+      "clasificacion": "conflicto_metadato",
+      "confianza": "alta",
+      "estado": "abierto_no_bloqueante",
+      "accion": "no_crear_evento_reforma",
+      "observaciones": "No se localizó un decreto de 02-09-2026 que sustente el metadato. La discrepancia se conserva para auditoría y no desplaza el cierre de 20-08-2026."
+    },
+    {
+      "id": "ccdf-consejeria-fecha-original-1926",
+      "norma": "CCDF",
+      "fuente": "Consejería Jurídica y de Servicios Legales de la Ciudad de México",
+      "fuente_url": "https://data.consejeria.cdmx.gob.mx/index.php/articulo-leyes-y-reglamentos/29-codigos/32-codigo-civil-para-el-distrito-federal",
+      "valor_reportado": "1926-05-26",
+      "valor_adoptado": [
+        "1928-05-26",
+        "1928-07-14",
+        "1928-08-03",
+        "1928-08-31"
+      ],
+      "clasificacion": "error_metadato_probable",
+      "confianza": "alta",
+      "estado": "documentado",
+      "accion": "no_importar_fecha_original_desde_ficha",
+      "observaciones": "La ficha oficial muestra 1926, mientras la genealogía del registro documenta las cuatro publicaciones parciales de 1928."
+    }
+  ],
+  "pendientes_cierre": [
+    {
+      "id": "ccdf-docx-hash",
+      "descripcion": "Descargar el DOCX de Consejería, calcular SHA-256 y cotejar los artículos 1834 y 1502-I contra la Gaceta.",
+      "estado": "pendiente",
+      "bloquea_dictamen_ultima_reforma": false
+    },
+    {
+      "id": "ccdf-gaceta-pdf-estable",
+      "descripcion": "Localizar y verificar una URL oficial estable del PDF de la GOCDMX edición 1929 Bis de 20-08-2026.",
+      "estado": "pendiente",
+      "bloquea_dictamen_ultima_reforma": false
+    },
+    {
+      "id": "ccdf-congreso-02-09-2026-decreto",
+      "descripcion": "Mantener búsqueda controlada del supuesto decreto de 02-09-2026; si aparece, reabrir el dictamen antes de crear un evento de reforma.",
+      "estado": "pendiente",
+      "bloquea_dictamen_ultima_reforma": false
+    }
+  ]
+}
