@@ -204,20 +204,47 @@ for n in range(1, 137):
         nv["notas_scjn"] = notas
         nv["encabezado_scjn"] = v["encabezado_scjn"]
         versiones.append(nv)
+    # B2: fe de erratas / aclaración publicada antes de la entrada en vigor de la Constitución (1o. de mayo de 1917):
+    # corrige la publicación original, no crea vigencia propia. El texto corregido es el que entra en vigor el 1917-05-01;
+    # el original tal como se publicó nunca rigió por sí solo.
+    for i in range(1, len(versiones)):
+        v = versiones[i]
+        if v["tipo"] in ("fe_de_erratas", "aclaracion") and v.get("publicacion") and v["publicacion"] < "1917-05-01":
+            v["vigencia_desde"] = "1917-05-01"; v["vigencia_verificada"] = True
+            v["vigencia_nota"] = ("Fe de erratas a la publicación original (DOF " + v["publicacion"][8:] + "-" + v["publicacion"][5:7] + "-" + v["publicacion"][:4] +
+                                  "): el texto corregido es el que entró en vigor el 1o. de mayo de 1917 (artículo 1o. transitorio de la Constitución).")
+            ant = versiones[i - 1]
+            if ant["tipo"] == "original":
+                ant["vigencia_nunca_rigio"] = True
+                ant["vigencia_nota"] = ("Texto tal como se publicó el 5 de febrero de 1917, corregido por fe de erratas antes de la entrada en vigor de la "
+                                        "Constitución (1o. de mayo de 1917): no rigió por sí solo; se conserva como texto publicado.")
     # vigencia_hasta
     for a, b in zip(versiones, versiones[1:]):
-        if a["vigencia_desde"] and b["vigencia_desde"]:
+        if a.get("vigencia_nunca_rigio"):
+            a["vigencia_hasta"] = a["vigencia_desde"]  # mismo día: no rigió por sí sola (ver nota)
+        elif a["vigencia_desde"] and b["vigencia_desde"]:
             h = dia(b["vigencia_desde"], -1)
             if h < a["vigencia_desde"]:
                 h = a["vigencia_desde"]; a["vigencia_nota"] += " Texto intermedio: el siguiente decreto entró en vigor el mismo día."
             a["vigencia_hasta"] = h
         else:
+            # B3: la versión siguiente no tiene fecha confirmada -> fin de vigencia indeterminado (no "vigente desde")
             a["vigencia_hasta"] = None
-            if b["vigencia_desde"] is None: a["vigencia_nota"] += " Fin de vigencia indeterminado: la versión siguiente no tiene fecha confirmada."
+            a["vigencia_hasta_indeterminada"] = True
+            a["vigencia_nota"] += " Fin de vigencia indeterminado: la versión siguiente no tiene fecha confirmada."
     versiones[-1]["vigencia_hasta"] = None
     versiones[-1]["etiqueta"] = "Vigente" + (f" (post {versiones[-1]['publicacion'][8:]}-{versiones[-1]['publicacion'][5:7]}-{versiones[-1]['publicacion'][:4]})" if versiones[-1].get("publicacion") else "")
 
     coincide = comparable(versiones[-1]["texto"]) == comparable(vigente_consol)
+    if coincide and not versiones[-1].get("publicacion"):
+        # la última versión SCJN coincide con el consolidado pero no tiene fecha: se da por vigente con la fecha de
+        # publicación que citan las notas de la Cámara (consolidado), y queda marcada pendiente de cotejo.
+        vig = art["versiones"][-1]
+        versiones[-1].update({"publicacion": vig["publicacion"], "vigencia_desde": vig["vigencia_desde"], "vigencia_verificada": False,
+                              "fecha_pendiente": True, "vigencia_nota": "Fecha tomada de las notas del consolidado de la Cámara (última reforma del artículo); el PDF de la SCJN no permitió leerla. Pendiente de cotejo. " + versiones[-1]["vigencia_nota"]})
+        versiones[-1]["etiqueta"] = f"Vigente (post {vig['publicacion'][8:]}-{vig['publicacion'][5:7]}-{vig['publicacion'][:4]}, fecha por cotejar)"
+        if len(versiones) > 1 and versiones[-2].get("vigencia_hasta_indeterminada") and versiones[-2]["vigencia_desde"]:
+            versiones[-2]["vigencia_hasta"] = dia(vig["vigencia_desde"], -1); versiones[-2].pop("vigencia_hasta_indeterminada", None)
     if coincide:
         art["estado"] = "verificado"
         art["nota"] = ("Historial extraído del PDF «Historia del texto del artículo» de la SCJN; la versión vigente coincide con el texto consolidado "
@@ -232,9 +259,15 @@ for n in range(1, 137):
         vig = art["versiones"][-1]
         vig.update({"id": f"v{len(versiones)+1}", "etiqueta": "Vigente (consolidado Cámara de Diputados)", "tipo": "vigente",
                     "vigencia_nota": "Texto del consolidado de la Cámara; no procede del PDF de la SCJN. " + vig.get("vigencia_nota", "")})
-        if versiones[-1]["vigencia_desde"] and vig["vigencia_desde"] and vig["vigencia_desde"] > versiones[-1]["vigencia_desde"]:
-            versiones[-1]["vigencia_hasta"] = dia(vig["vigencia_desde"], -1)
-        versiones[-1]["etiqueta"] = versiones[-1]["etiqueta"].replace("Vigente", "Última versión SCJN")
+        ult = versiones[-1]
+        if ult["vigencia_desde"] and vig["vigencia_desde"] and vig["vigencia_desde"] > ult["vigencia_desde"]:
+            ult["vigencia_hasta"] = dia(vig["vigencia_desde"], -1)
+        elif ult["vigencia_desde"]:
+            ult["vigencia_hasta"] = ult["vigencia_desde"]   # misma fecha que el consolidado: no se da por vigente (ver nota)
+            ult["vigencia_nota"] += " Cerrada el mismo día: su texto no coincide con el consolidado de la Cámara (defecto de extracción o reforma no reflejada); el texto vigente es el del consolidado."
+        else:
+            ult["vigencia_hasta_indeterminada"] = True
+        ult["etiqueta"] = ult["etiqueta"].replace("Vigente", "Última versión SCJN")
         versiones.append(vig)
         reporte["historial_parcial"].append((n, versiones[-2].get("publicacion"), art["versiones"][-1]["publicacion"]))
     art["versiones"] = versiones

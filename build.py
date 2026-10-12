@@ -61,6 +61,10 @@ def numero_art(n):
 def rango_vigencia(v):
     if not v.get("vigencia_desde"):
         return "Fecha de publicación pendiente de cotejo" + (f" (pista: DOF {fmt_fecha(v['fecha_sugerida'])})" if v.get("fecha_sugerida") else "")
+    if v.get("vigencia_nunca_rigio"):
+        return f"Publicado el {fmt_fecha(v['publicacion'])}, corregido antes de entrar en vigor"
+    if v.get("vigencia_hasta_indeterminada"):
+        return f"Desde el {fmt_fecha(v['vigencia_desde'])} hasta fecha por determinar"
     if not v.get("vigencia_hasta"):
         return f"Vigente desde el {fmt_fecha(v['vigencia_desde'])}"
     return f"Del {fmt_fecha(v['vigencia_desde'])} al {fmt_fecha(v['vigencia_hasta'])}"
