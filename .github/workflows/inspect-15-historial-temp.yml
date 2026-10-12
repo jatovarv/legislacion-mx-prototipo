@@ -1,0 +1,118 @@
+name: Inspección temporal de 15 historiales
+
+on:
+  push:
+    branches:
+      - docs/15-articulos-historial-cotejo
+
+jobs:
+  inspeccionar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Inspeccionar metadatos y últimas versiones
+        run: |
+          python - <<'PY'
+          import difflib
+          import hashlib
+          import json
+          import re
+          from pathlib import Path
+
+          OBJETIVO = ["2", "3", "10", "20", "22", "35", "72", "82", "99", "100", "107", "109", "116", "122", "123"]
+          data = json.loads(Path("cpeum.json").read_text(encoding="utf-8"))
+          articulos = data["articulos"]
+
+          def compactar_texto(texto):
+              return re.sub(r"\s+", " ", texto or "").strip()
+
+          def resumen_version(v, indice):
+              texto = v.get("texto") or ""
+              limpio = compactar_texto(texto)
+              campos = {
+                  "indice": indice,
+                  "id": v.get("id"),
+                  "etiqueta": v.get("etiqueta"),
+                  "tipo": v.get("tipo"),
+                  "publicacion": v.get("publicacion"),
+                  "fecha_inferida": v.get("fecha_inferida"),
+                  "origen_fecha": v.get("origen_fecha"),
+                  "fecha_pendiente": v.get("fecha_pendiente"),
+                  "fecha_sugerida": v.get("fecha_sugerida"),
+                  "vigencia_desde": v.get("vigencia_desde"),
+                  "vigencia_hasta": v.get("vigencia_hasta"),
+                  "vigencia_verificada": v.get("vigencia_verificada"),
+                  "vigencia_hasta_indeterminada": v.get("vigencia_hasta_indeterminada"),
+                  "vigencia_nunca_rigio": v.get("vigencia_nunca_rigio"),
+                  "vigencia_nota": v.get("vigencia_nota"),
+                  "encabezado_scjn": v.get("encabezado_scjn"),
+                  "fuente_historial": v.get("fuente_historial"),
+                  "dof_url": v.get("dof_url"),
+                  "scjn_url": v.get("scjn_url"),
+                  "fuente_url": v.get("fuente_url"),
+                  "notas_camara": v.get("notas_camara"),
+                  "notas_scjn_ultimas": (v.get("notas_scjn") or [])[-5:],
+                  "observaciones": v.get("observaciones"),
+                  "texto_caracteres": len(texto),
+                  "texto_sha256": hashlib.sha256(limpio.encode("utf-8")).hexdigest(),
+                  "texto_inicio": limpio[:260],
+                  "texto_final": limpio[-260:] if limpio else "",
+              }
+              return campos
+
+          salida = []
+          for numero in OBJETIVO:
+              art = articulos[numero]
+              versiones = art.get("versiones", [])
+              registro = {
+                  "numero": numero,
+                  "estado": art.get("estado"),
+                  "tema": art.get("tema"),
+                  "nota": art.get("nota"),
+                  "fuente_historial": art.get("fuente_historial"),
+                  "fuentes": art.get("fuentes"),
+                  "notas_camara_articulo": art.get("notas_camara"),
+                  "observaciones_articulo": art.get("observaciones"),
+                  "claves_articulo": sorted(art.keys()),
+                  "total_versiones": len(versiones),
+                  "versiones_relevantes": [],
+              }
+
+              # Últimas tres versiones y cualquier versión con banderas o pendientes.
+              relevantes = set(range(max(0, len(versiones) - 3), len(versiones)))
+              for i, v in enumerate(versiones):
+                  if any(v.get(k) not in (None, False, [], "") for k in (
+                      "fecha_pendiente", "fecha_sugerida", "vigencia_hasta_indeterminada",
+                      "vigencia_nunca_rigio", "encabezado_scjn", "observaciones"
+                  )):
+                      relevantes.add(i)
+              registro["versiones_relevantes"] = [resumen_version(versiones[i], i) for i in sorted(relevantes)]
+
+              if len(versiones) >= 2:
+                  a = compactar_texto(versiones[-2].get("texto"))
+                  b = compactar_texto(versiones[-1].get("texto"))
+                  sm = difflib.SequenceMatcher(None, a, b, autojunk=False)
+                  cambios = []
+                  for tag, i1, i2, j1, j2 in sm.get_opcodes():
+                      if tag != "equal":
+                          cambios.append({
+                              "tipo": tag,
+                              "anterior": a[max(0, i1-90):min(len(a), i2+90)],
+                              "ultima": b[max(0, j1-90):min(len(b), j2+90)],
+                          })
+                      if len(cambios) == 4:
+                          break
+                  registro["comparacion_ultimas_dos"] = {
+                      "ratio": round(sm.ratio(), 6),
+                      "texto_igual_normalizado": a == b,
+                      "cambios_iniciales": cambios,
+                  }
+              salida.append(registro)
+
+          print("=== INSPECCION_15_JSON_INICIO ===")
+          print(json.dumps(salida, ensure_ascii=False, indent=2))
+          print("=== INSPECCION_15_JSON_FIN ===")
+          PY
