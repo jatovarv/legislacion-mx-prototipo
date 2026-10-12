@@ -59,6 +59,8 @@ def numero_art(n):
 
 
 def rango_vigencia(v):
+    if not v.get("vigencia_desde"):
+        return "Fecha de publicación pendiente de cotejo" + (f" (pista: DOF {fmt_fecha(v['fecha_sugerida'])})" if v.get("fecha_sugerida") else "")
     if not v.get("vigencia_hasta"):
         return f"Vigente desde el {fmt_fecha(v['vigencia_desde'])}"
     return f"Del {fmt_fecha(v['vigencia_desde'])} al {fmt_fecha(v['vigencia_hasta'])}"
@@ -231,7 +233,7 @@ CSS = """
 def pagina_articulo(data, num, art, site_url, fecha_build):
     norma = data["norma"]
     verificado = art.get("estado") == "verificado"
-    vers = sorted(art["versiones"], key=lambda v: v["vigencia_desde"])
+    vers = list(art["versiones"])  # ya en orden cronológico en cpeum.json
     vig = vers[-1]
     anteriores = list(reversed(vers[:-1]))
     camino = ruta_estructura(data["estructura"], int(num))
@@ -243,7 +245,7 @@ def pagina_articulo(data, num, art, site_url, fecha_build):
     if verificado:
         descripcion = (f"Texto vigente íntegro del Artículo {n_label} de la {norma['siglas']} "
                        f"({rango_vigencia(vig).lower()}, DOF {fmt_fecha(vig['publicacion'])}), con fechas de vigencia, "
-                       f"enlace al decreto en el Diario Oficial de la Federación y {len(anteriores)} versiones anteriores desde {fmt_fecha(vers[0]['vigencia_desde'])}.")
+                       f"{'enlace al decreto en el Diario Oficial de la Federación y ' if vig.get('dof_url') else ''}{len(anteriores)} versiones anteriores" + (f" desde {fmt_fecha(vers[0]['vigencia_desde'])}" if vers[0].get('vigencia_desde') else "") + ".")
     else:
         descripcion = (f"Texto vigente íntegro del Artículo {n_label} de la {norma['siglas']}, conforme al texto consolidado de la Cámara de Diputados "
                        f"(última reforma del artículo: DOF {fmt_fecha(vig['publicacion'])}). Historial de versiones en construcción.")
@@ -256,14 +258,15 @@ def pagina_articulo(data, num, art, site_url, fecha_build):
 
     meta_vig = [
         ("Vigencia", esc(rango_vigencia(vig)) + vigencia_marca(vig)),
-        ("Publicación en el DOF", esc(fmt_fecha(vig["publicacion"]))),
+        ("Publicación en el DOF", esc(fmt_fecha(vig["publicacion"])) if vig.get("publicacion") else "pendiente de cotejo"),
     ]
     if vig.get("capitulo"):
         meta_vig.append(("Capítulo", esc(vig["capitulo"])))
     n_fe = sum(1 for v in vers if v.get("tipo") == "fe_de_erratas")
     n_ref = len(anteriores) - n_fe
-    detalle = f"texto original de {fmt_fecha(vers[0]['publicacion'])}, {n_ref} {'reforma' if n_ref == 1 else 'reformas'}" + (f" y {n_fe} fe de erratas" if n_fe else "")
-    meta_vig.append(("Versiones", f"{len(vers)} ({detalle})" if len(vers) > 1 else "1"))
+    detalle = (f"texto original de {fmt_fecha(vers[0]['publicacion'])}, " if vers[0].get("publicacion") else "") + f"{n_ref} {'reforma' if n_ref == 1 else 'reformas'}" + (f" y {n_fe} fe de erratas" if n_fe else "")
+    n_pend = sum(1 for v in vers if not v.get("publicacion"))
+    meta_vig.append(("Versiones", (f"{len(vers)} ({detalle})" if len(vers) > 1 else "1") + (f"; {n_pend} con fecha pendiente de cotejo" if n_pend else "")))
     if dof_link_html(vig):
         meta_vig.append(("Fuente oficial", dof_link_html(vig)))
     elif fuente_link_html(vig):
@@ -273,15 +276,15 @@ def pagina_articulo(data, num, art, site_url, fecha_build):
     hist = []
     for v in anteriores:
         es_original = v is vers[0]
-        meta_v = [("Vigencia", esc(rango_vigencia(v)) + vigencia_marca(v)), ("Publicación en el DOF", esc(fmt_fecha(v["publicacion"])))]
+        meta_v = [("Vigencia", esc(rango_vigencia(v)) + vigencia_marca(v)), ("Publicación en el DOF", esc(fmt_fecha(v["publicacion"])) if v.get("publicacion") else "pendiente de cotejo")]
         if v.get("capitulo"):
             meta_v.append(("Capítulo", esc(v["capitulo"])))
         if dof_link_html(v):
             meta_v.append(("Fuente oficial", dof_link_html(v)))
         hist.append(
             f'<details class="version" id="version-{esc(v["id"])}">'
-            f'<summary>{"Fe de erratas" if v.get("tipo") == "fe_de_erratas" else "Texto original" if es_original else "Reforma"} · {esc(rango_vigencia(v).lower())} '
-            f'<small>DOF {esc(fmt_fecha(v["publicacion"], corto=True))}</small></summary>'
+            f'<summary>{"Fe de erratas" if v.get("tipo") == "fe_de_erratas" else "Aclaración" if v.get("tipo") == "aclaracion" else "Texto original" if es_original else "Reforma"} · {esc(rango_vigencia(v).lower())} '
+            f'<small>{("DOF " + esc(fmt_fecha(v["publicacion"], corto=True))) if v.get("publicacion") else "fecha pendiente"}</small></summary>'
             f'<div class="cuerpo"><dl class="meta">{"".join(f"<dt>{k}</dt><dd>{val}</dd>" for k, val in meta_v)}</dl>'
             f'<div class="texto">{texto_html(v["texto"])}</div></div></details>'
         )
@@ -310,8 +313,8 @@ def pagina_articulo(data, num, art, site_url, fecha_build):
                 "legislationType": "Constitución",
                 "legislationIdentifier": f"{norma['siglas']}, artículo {n_label}",
                 "legislationJurisdiction": {"@type": "AdministrativeArea", "name": "Estados Unidos Mexicanos"},
-                "legislationDateVersion": vig["vigencia_desde"],
-                "datePublished": vig["publicacion"],
+                **({"legislationDateVersion": vig["vigencia_desde"]} if vig.get("vigencia_desde") else {}),
+                **({"datePublished": vig["publicacion"]} if vig.get("publicacion") else {}),
                 "isPartOf": {"@type": "Legislation", "name": norma["nombre"], "legislationDate": norma["publicacion"]},
                 **({"sameAs": vig["dof_url"]} if vig.get("dof_url") else {}),
             },
@@ -353,10 +356,10 @@ def pagina_articulo(data, num, art, site_url, fecha_build):
   <nav class="breadcrumb" aria-label="Ubicación">{' <span aria-hidden="true">›</span> '.join(migas)}</nav>
   <article>
     <h1><span class="num">Artículo {esc(n_label)}</span> de la {esc(norma['nombre'])}</h1>
-    <div class="badges"><span class="badge vigente">Texto vigente</span>{'<span class="badge verificado" title="Cotejado con las publicaciones oficiales">Verificado</span>' if verificado else '<span class="badge historial" title="Las versiones anteriores se cargarán desde el DOF">Historial en construcción</span>'}</div>
+    <div class="badges"><span class="badge vigente">Texto vigente</span>{'<span class="badge verificado" title="Cotejado con las publicaciones oficiales">Verificado</span>' if verificado else '<span class="badge historial" title="El historial de la SCJN no coincide todavía con el texto vigente del consolidado">Historial por cotejar</span>' if art.get("estado") == "historial_parcial" else '<span class="badge historial" title="Las versiones anteriores se cargarán desde el DOF">Historial en construcción</span>'}</div>
     {f'<p class="tema">Tema: {esc(art["tema"])}</p>' if art.get("tema") else ''}
     <dl class="meta">{meta_html}</dl>
-    {'' if verificado else '<p class="aviso-historial">Texto vigente. Historial en construcción.</p>'}
+    {'' if verificado else '<p class="aviso-historial">Texto vigente. ' + (esc(art.get("nota", "")) if art.get("estado") == "historial_parcial" else 'Historial en construcción.') + '</p>'}
     <!-- espacio reservado para publicidad (fuera de alcance por ahora) -->
     <div class="texto" id="texto-vigente">
 {texto_html(vig['texto'])}
@@ -397,13 +400,23 @@ def robots_txt(site_url):
 
 
 # ----------------------------------------------------------------------------- index.html
+HISTORIAL_DIR = ROOT / "historial"
+
+def limpiar_version(v):
+    return {k: val for k, val in v.items() if not k.startswith("notas") and k != "encabezado_scjn"}
+
+
 def inyectar_index(data):
-    # Las notas editoriales (notas_scjn / notas_camara) no se usan en la interfaz: se omiten del embebido.
+    """Embebe en index.html sólo la estructura y la versión vigente de cada artículo (~0.6 MB); el historial
+    completo de cada artículo se publica en historial/N.json y el navegador lo carga al abrir «Ver historial»."""
     ligero = json.loads(json.dumps(data))
-    for art in ligero["articulos"].values():
-        for v in art["versiones"]:
-            for k in [k for k in v if k.startswith("notas")]:
-                del v[k]
+    HISTORIAL_DIR.mkdir(exist_ok=True)
+    for num, art in ligero["articulos"].items():
+        versiones = [limpiar_version(v) for v in art["versiones"]]
+        (HISTORIAL_DIR / f"{num}.json").write_text(json.dumps({"numero": num, "versiones": versiones}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+        art["total_versiones"] = len(versiones)
+        art["versiones"] = [versiones[-1]]
+        art["historial_url"] = f"historial/{num}.json"
     payload = json.dumps(ligero, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     block = f'{START}\n<script id="cpeum-data" type="application/json">\n{payload}\n</script>\n{END}'
     html_txt = INDEX.read_text(encoding="utf-8")
@@ -424,12 +437,12 @@ def main(argv=None):
 
     data = json.loads(DATA.read_text(encoding="utf-8"))  # valida el JSON
     n_bytes = inyectar_index(data)
-    print(f"index.html: {len(data['articulos'])} artículos embebidos ({n_bytes:,} bytes de datos)")
+    print(f"index.html: {len(data['articulos'])} artículos embebidos ({n_bytes:,} bytes de datos); historial completo en historial/N.json")
 
     ARTICULOS_DIR.mkdir(exist_ok=True)
     paginas = []
     for num, art in sorted(data["articulos"].items(), key=lambda kv: int(kv[0])):
-        if art.get("estado") not in ("verificado", "vigente"):
+        if art.get("estado") not in ("verificado", "vigente", "historial_parcial"):
             continue  # los artículos de prototipo (texto simulado) no se publican como página estática
         destino = ARTICULOS_DIR / f"{num}.html"
         destino.write_text(pagina_articulo(data, num, art, site_url, args.fecha), encoding="utf-8")

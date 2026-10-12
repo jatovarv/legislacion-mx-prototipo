@@ -6,7 +6,10 @@ Prototipo navegable de legislación mexicana vigente e histórica (CPEUM, despu�
 
 | Archivo | Para qué sirve |
 |---|---|
-| `index.html` | Navegador interactivo (HTML + CSS + JS, sin dependencias). Lleva los datos embebidos, así que funciona abriéndolo en local (doble clic) o publicado en GitHub Pages. |
+| `index.html` | Navegador interactivo (HTML + CSS + JS, sin dependencias). Lleva embebidos la estructura y el texto vigente de los 136 artículos; el historial de cada artículo se carga de `historial/N.json` al abrirlo (requiere servir el sitio por HTTP, p. ej. GitHub Pages). |
+| `historial/N.json` | Historial completo de cada artículo (todas las versiones), generado. |
+| `integrar_historial_scjn.py` | Integra en `cpeum.json` la salida del separador (`versiones_separadas.json`, en Drive `/MyDrive/CPEUM_SCJN_Historial/`): cotejo de la última versión SCJN contra el consolidado, fechas de vigencia, marcado de casos dudosos. Escribe `docs/reporte_integracion_historial.json`. |
+| `separar_versiones_scjn.py` | Separador de versiones de los PDF «Historia del texto» de la SCJN (validado con Arts. 1 y 4). |
 | `articulos/N.html` | **Páginas estáticas para SEO**, una por cada uno de los 136 artículos (texto vigente; los verificados incluyen además su historial): texto vigente íntegro, fechas, enlace al DOF y versiones anteriores, legibles sin JavaScript. Generadas; no se editan a mano. |
 | `sitemap.xml`, `robots.txt` | Para buscadores. Generados. |
 | `cpeum.json` | **Fuente de datos editable**: estructura completa de la CPEUM (Títulos, Capítulos, Secciones y rangos de artículos) + los artículos cargados con sus versiones. |
@@ -24,9 +27,9 @@ Prototipo navegable de legislación mexicana vigente e histórica (CPEUM, despu�
 
 ## Estado de los textos
 
-- **Verificado**: Artículos 1o. y 4o. (golden cases). En el 4o., `vigencia_verificada: false` marca las versiones cuya entrada en vigor se asume al día siguiente de la publicación (regla general) porque el decreto sólo existe escaneado; la interfaz las señala con «vigencia por cotejar».
-- **Vigente, historial en construcción** (punto azul): los otros 134 artículos. Texto vigente real extraído con `build.py`/pdfplumber del texto consolidado de la Cámara de Diputados (`CPEUM.pdf`, última reforma DOF 07-10-2026), separando las notas de la Cámara («Párrafo reformado DOF…») y los transitorios; `publicacion` es la fecha de la última reforma que citan esas notas. Sin versiones anteriores todavía.
-- **Prototipo** (punto ámbar): ya no queda ninguno; el estado sigue soportado por si se necesita.
+- **Verificado** (118 artículos): texto vigente cotejado con el consolidado de la Cámara de Diputados (última reforma DOF 07-10-2026) e historial de la SCJN cuya última versión coincide con ese texto vigente. Incluye los 17 artículos sin reformas desde 1917 (una sola versión) y los golden cases 1o. y 4o. `vigencia_verificada: false` marca las versiones cuya entrada en vigor se asume al día siguiente de la publicación (regla general); la interfaz las señala con «vigencia por cotejar». 20 versiones tienen `publicacion: null` (`fecha_pendiente: true`): la fecha quedó partida por un corte de página en el PDF de la SCJN; `fecha_sugerida` guarda la única fecha que citan sus notas dentro de la ventana entre versiones vecinas, como pista para el cotejo manual, nunca como dato.
+- **Historial por cotejar** (`historial_parcial`, punto ámbar, 18 artículos): el texto vigente es el del consolidado, pero el historial SCJN no se da por bueno: o el PDF de la SCJN es anterior a la última reforma (2, 10, 20, 22, 35, 82, 116, 122), o su última versión difiere del consolidado por defectos de extracción (3, 72, 99, 100, 107, 109, 123), o el PDF está organizado por fragmentos y no por versiones íntegras (53, 56, 73). El detalle está en `docs/reporte_integracion_historial.json`.
+- **Vigente, historial en construcción** (punto azul): estado soportado; hoy no queda ninguno.
 - La etiqueta `tema` de cada artículo es editorial, no forma parte del texto oficial.
 
 ## Cómo añadir o corregir un artículo
@@ -50,4 +53,4 @@ El navegador interactivo usa rutas por `#`, que Google indexa mal; las páginas 
 
 ## Siguiente paso recomendado para monetizar
 
-Completar el historial de los 134 artículos en estado `vigente` (como se hizo con el 1o. y el 4o.: PDF «Historia del texto» de la SCJN + decretos del DOF) y pasarlos a `verificado`. Las páginas y el sitemap ya existen; sólo cambia el contenido.
+Resolver los 18 artículos «historial por cotejar» y las 20 versiones con fecha pendiente (PDF de la SCJN a mano), y cargar `dof_url` por versión desde la cronología oficial de la Cámara, como en el Art. 4o.
