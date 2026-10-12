@@ -1,0 +1,14 @@
+{
+  "norma": {
+    "id": "cpeum",
+    "siglas": "CPEUM",
+    "nombre_oficial": "Constitución Política de los Estados Unidos Mexicanos",
+    "jurisdiccion": "federal",
+    "fuentes": {
+      "texto_vigente_recomendado": "https://www.diputados.gob.mx/LeyesBiblio/pdf/CPEUM.pdf",
+      "historial_por_articulo": "https://www.scjn.gob.mx/constitucion-politica-de-los-estados-unidos-mexicanos",
+      "dof_busqueda": "https://www.dof.gob.mx/busqueda_detalle.php"
+    }
+  },
+  "articulos": {}
+}
