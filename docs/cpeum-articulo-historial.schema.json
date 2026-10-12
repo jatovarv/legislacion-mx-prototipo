@@ -1,0 +1,280 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jatovarv.github.io/legislacion-mx-prototipo/docs/cpeum-articulo-historial.schema.json",
+  "title": "Artículo de la CPEUM con historial de versiones",
+  "description": "Esquema final para cada objeto ubicado en cpeum.json > articulos > <numero>. Conserva los nombres de campo que ya consume build.py. Las notas editoriales de la SCJN se almacenan en notas_scjn y nunca se incorporan al texto normativo.",
+  "type": "object",
+  "required": [
+    "numero",
+    "estado",
+    "versiones"
+  ],
+  "properties": {
+    "numero": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Etiqueta visible del artículo, por ejemplo '1o.' o '73'. La clave numérica exterior de cpeum.json sigue siendo el identificador canónico."
+    },
+    "tema": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Resumen editorial; no forma parte del texto oficial."
+    },
+    "estado": {
+      "type": "string",
+      "enum": [
+        "verificado",
+        "vigente",
+        "prototipo"
+      ],
+      "description": "'verificado' indica que el historial y los textos fueron cotejados con fuentes oficiales. No implica por sí solo que todas las fechas de entrada en vigor estén verificadas."
+    },
+    "nota": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Advertencia editorial general del artículo."
+    },
+    "fuentes": {
+      "type": "object",
+      "description": "Trazabilidad general del artículo. build.py puede ignorar este bloque.",
+      "properties": {
+        "historia_texto": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cotejo_vigente": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cronologia": {
+          "type": "string",
+          "minLength": 1
+        },
+        "advertencias": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "versiones": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Versiones ordenadas cronológicamente de la más antigua a la vigente. La fecha de publicación no es una clave única: puede haber más de un decreto el mismo día.",
+      "items": {
+        "$ref": "#/$defs/version"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "fecha_iso": {
+      "type": "string",
+      "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "url_oficial_nullable": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uri",
+      "description": "URL oficial directa o repositorio oficial que reproduce el DOF. Debe ser null cuando no exista un enlace estable comprobado."
+    },
+    "version": {
+      "type": "object",
+      "required": [
+        "id",
+        "etiqueta",
+        "tipo",
+        "publicacion",
+        "fecha_inferida",
+        "origen_fecha",
+        "vigencia_desde",
+        "vigencia_hasta",
+        "vigencia_verificada",
+        "capitulo",
+        "texto",
+        "dof_url",
+        "notas_scjn"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^v[1-9]\\d*$",
+          "description": "Identificador estable y único dentro del artículo: v1, v2, v3..."
+        },
+        "etiqueta": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Rótulo editorial legible, por ejemplo 'Original' o 'Reforma DOF AAAA-MM-DD'."
+        },
+        "tipo": {
+          "type": "string",
+          "enum": [
+            "original",
+            "reforma",
+            "fe_de_erratas",
+            "aclaracion",
+            "vigente"
+          ],
+          "description": "'vigente' se admite sólo para registros transitorios sin historial completo. En un historial cerrado deben preferirse original, reforma, fe_de_erratas o aclaracion."
+        },
+        "publicacion": {
+          "$ref": "#/$defs/fecha_iso",
+          "description": "Fecha de publicación del evento en el DOF."
+        },
+        "fecha_inferida": {
+          "type": "boolean",
+          "description": "Califica únicamente publicacion. false si la fecha aparece expresamente en el decreto o encabezado oficial; true si se dedujo de una nota, cronología o secuencia documental."
+        },
+        "origen_fecha": {
+          "type": "string",
+          "enum": [
+            "texto_original_dof",
+            "decreto_dof",
+            "encabezado_scjn",
+            "nota_scjn",
+            "cronologia_scjn",
+            "nota_camara",
+            "cotejo_manual"
+          ],
+          "description": "Fuente concreta de la fecha almacenada en publicacion."
+        },
+        "vigencia_desde": {
+          "$ref": "#/$defs/fecha_iso",
+          "description": "Primer día de vigencia usado por el selector temporal y por build.py. Si no puede determinarse con base suficiente, la versión no debe promoverse al historial final."
+        },
+        "vigencia_hasta": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/fecha_iso"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Último día de vigencia. null sólo para la versión actualmente vigente."
+        },
+        "vigencia_verificada": {
+          "type": "boolean",
+          "description": "true sólo cuando la entrada en vigor fue cotejada con el transitorio o una disposición oficial expresa; false cuando se aplicó una regla o inferencia pendiente de cotejo."
+        },
+        "vigencia_nota": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Fundamento o advertencia sobre la fecha de vigencia. Es obligatorio cuando vigencia_verificada es false."
+        },
+        "capitulo": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Denominación del capítulo correspondiente a esa versión histórica."
+        },
+        "texto": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Texto normativo íntegro de la versión. No debe contener encabezados de versión, notas editoriales de la SCJN, decretos, transitorios ajenos ni texto reconstruido por intuición."
+        },
+        "dof_url": {
+          "$ref": "#/$defs/url_oficial_nullable",
+          "description": "Enlace directo al DOF/SIDOF o a una reproducción oficial del DOF. Nunca debe completarse mediante un patrón supuesto."
+        },
+        "dof_etiqueta": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Texto visible del enlace DOF."
+        },
+        "scjn_url": {
+          "$ref": "#/$defs/url_oficial_nullable",
+          "description": "Enlace oficial de la SCJN a la historia del texto o al decreto."
+        },
+        "fuente_url": {
+          "$ref": "#/$defs/url_oficial_nullable",
+          "description": "Fuente oficial complementaria cuando no corresponde al DOF ni a la SCJN."
+        },
+        "fuente_etiqueta": {
+          "type": "string",
+          "minLength": 1
+        },
+        "notas_scjn": {
+          "type": "array",
+          "description": "Notas editoriales encontradas dentro de la fotografía histórica de la SCJN, en el orden de la fuente. Se conservan como metadatos y no dentro de texto. No se eliminan repeticiones silenciosamente.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "observaciones": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "vigencia_verificada": {
+                "const": false
+              }
+            },
+            "required": [
+              "vigencia_verificada"
+            ]
+          },
+          "then": {
+            "required": [
+              "vigencia_nota"
+            ]
+          }
+        }
+      ],
+      "additionalProperties": false
+    }
+  },
+  "x_reglas_integridad": [
+    "Ordenar versiones de la más antigua a la vigente por vigencia_desde.",
+    "Los id de versión deben ser únicos dentro del artículo.",
+    "Debe existir exactamente una versión con vigencia_hasta igual a null.",
+    "No usar publicacion como identificador único: puede haber dos decretos el mismo día.",
+    "No deduplicar versiones sólo porque el texto coincida; registrar y revisar la anomalía.",
+    "notas_scjn es metadato editorial y no debe contaminar texto.",
+    "fecha_inferida describe la fecha de publicación; vigencia_verificada describe la entrada en vigor.",
+    "estado='verificado' puede coexistir con vigencia_verificada=false en versiones cuya fecha de vigencia siga pendiente de cotejo.",
+    "Si dof_url no fue localizado y comprobado, almacenar null; no construir URLs por intuición.",
+    "No generar, completar ni modernizar texto normativo."
+  ],
+  "x_compatibilidad_repositorio": {
+    "destino": "cpeum.json.articulos.<numero>",
+    "consumidor": "build.py",
+    "campos_compatibles": [
+      "versiones[].id",
+      "versiones[].etiqueta",
+      "versiones[].publicacion",
+      "versiones[].vigencia_desde",
+      "versiones[].vigencia_hasta",
+      "versiones[].vigencia_verificada",
+      "versiones[].vigencia_nota",
+      "versiones[].capitulo",
+      "versiones[].texto",
+      "versiones[].dof_url",
+      "versiones[].dof_etiqueta",
+      "versiones[].fuente_url",
+      "versiones[].fuente_etiqueta"
+    ],
+    "fuentes_de_diseno": [
+      "README.md",
+      "build.py",
+      "cpeum-art-1.json",
+      "cpeum-art-4.json",
+      "docs/brief-claude-art4-cpeum.md",
+      "docs/brief-gpt-limpiar-lote-a.md"
+    ]
+  }
+}
