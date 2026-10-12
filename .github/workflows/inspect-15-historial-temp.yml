@@ -16,7 +16,6 @@ jobs:
       - name: Inspeccionar metadatos y últimas versiones
         run: |
           python - <<'PY'
-          import difflib
           import hashlib
           import json
           import re
@@ -26,13 +25,13 @@ jobs:
           data = json.loads(Path("cpeum.json").read_text(encoding="utf-8"))
           articulos = data["articulos"]
 
-          def compactar_texto(texto):
+          def compactar(texto):
               return re.sub(r"\s+", " ", texto or "").strip()
 
-          def resumen_version(v, indice):
+          def resumen(v, indice):
               texto = v.get("texto") or ""
-              limpio = compactar_texto(texto)
-              campos = {
+              limpio = compactar(texto)
+              return {
                   "indice": indice,
                   "id": v.get("id"),
                   "etiqueta": v.get("etiqueta"),
@@ -58,16 +57,22 @@ jobs:
                   "observaciones": v.get("observaciones"),
                   "texto_caracteres": len(texto),
                   "texto_sha256": hashlib.sha256(limpio.encode("utf-8")).hexdigest(),
-                  "texto_inicio": limpio[:260],
-                  "texto_final": limpio[-260:] if limpio else "",
+                  "texto_inicio": limpio[:300],
+                  "texto_final": limpio[-300:] if limpio else ""
               }
-              return campos
 
           salida = []
           for numero in OBJETIVO:
               art = articulos[numero]
               versiones = art.get("versiones", [])
-              registro = {
+              relevantes = set(range(max(0, len(versiones) - 4), len(versiones)))
+              for i, v in enumerate(versiones):
+                  if any(v.get(k) not in (None, False, [], "") for k in (
+                      "fecha_pendiente", "fecha_sugerida", "vigencia_hasta_indeterminada",
+                      "vigencia_nunca_rigio", "encabezado_scjn", "observaciones"
+                  )):
+                      relevantes.add(i)
+              salida.append({
                   "numero": numero,
                   "estado": art.get("estado"),
                   "tema": art.get("tema"),
@@ -78,39 +83,8 @@ jobs:
                   "observaciones_articulo": art.get("observaciones"),
                   "claves_articulo": sorted(art.keys()),
                   "total_versiones": len(versiones),
-                  "versiones_relevantes": [],
-              }
-
-              # Últimas tres versiones y cualquier versión con banderas o pendientes.
-              relevantes = set(range(max(0, len(versiones) - 3), len(versiones)))
-              for i, v in enumerate(versiones):
-                  if any(v.get(k) not in (None, False, [], "") for k in (
-                      "fecha_pendiente", "fecha_sugerida", "vigencia_hasta_indeterminada",
-                      "vigencia_nunca_rigio", "encabezado_scjn", "observaciones"
-                  )):
-                      relevantes.add(i)
-              registro["versiones_relevantes"] = [resumen_version(versiones[i], i) for i in sorted(relevantes)]
-
-              if len(versiones) >= 2:
-                  a = compactar_texto(versiones[-2].get("texto"))
-                  b = compactar_texto(versiones[-1].get("texto"))
-                  sm = difflib.SequenceMatcher(None, a, b, autojunk=False)
-                  cambios = []
-                  for tag, i1, i2, j1, j2 in sm.get_opcodes():
-                      if tag != "equal":
-                          cambios.append({
-                              "tipo": tag,
-                              "anterior": a[max(0, i1-90):min(len(a), i2+90)],
-                              "ultima": b[max(0, j1-90):min(len(b), j2+90)],
-                          })
-                      if len(cambios) == 4:
-                          break
-                  registro["comparacion_ultimas_dos"] = {
-                      "ratio": round(sm.ratio(), 6),
-                      "texto_igual_normalizado": a == b,
-                      "cambios_iniciales": cambios,
-                  }
-              salida.append(registro)
+                  "versiones_relevantes": [resumen(versiones[i], i) for i in sorted(relevantes)]
+              })
 
           print("=== INSPECCION_15_JSON_INICIO ===")
           print(json.dumps(salida, ensure_ascii=False, indent=2))
