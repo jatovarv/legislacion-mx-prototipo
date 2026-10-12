@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Inspeccionar metadatos y últimas versiones
+      - name: Generar diagnóstico compacto
         run: |
           python - <<'PY'
           import hashlib
@@ -25,68 +25,95 @@ jobs:
           data = json.loads(Path("cpeum.json").read_text(encoding="utf-8"))
           articulos = data["articulos"]
 
-          def compactar(texto):
+          def norm(texto):
               return re.sub(r"\s+", " ", texto or "").strip()
 
-          def resumen(v, indice):
+          def huella(texto):
+              return hashlib.sha256(norm(texto).encode("utf-8")).hexdigest()
+
+          def es_camara(v):
+              fuente = str(v.get("fuente_url") or "").lower()
+              return v.get("id") == "vig" or "diputados.gob.mx/leyesbiblio/pdf/cpeum.pdf" in fuente or bool(v.get("notas_camara"))
+
+          def resumen(v):
+              if not v:
+                  return None
               texto = v.get("texto") or ""
-              limpio = compactar(texto)
+              notas_camara = v.get("notas_camara") or []
+              fechas_notas = []
+              for nota in notas_camara:
+                  for d, m, a in re.findall(r"(\d{2})-(\d{2})-(\d{4})", nota):
+                      fechas_notas.append(f"{a}-{m}-{d}")
               return {
-                  "indice": indice,
                   "id": v.get("id"),
                   "etiqueta": v.get("etiqueta"),
                   "tipo": v.get("tipo"),
                   "publicacion": v.get("publicacion"),
-                  "fecha_inferida": v.get("fecha_inferida"),
-                  "origen_fecha": v.get("origen_fecha"),
                   "fecha_pendiente": v.get("fecha_pendiente"),
                   "fecha_sugerida": v.get("fecha_sugerida"),
                   "vigencia_desde": v.get("vigencia_desde"),
                   "vigencia_hasta": v.get("vigencia_hasta"),
-                  "vigencia_verificada": v.get("vigencia_verificada"),
                   "vigencia_hasta_indeterminada": v.get("vigencia_hasta_indeterminada"),
                   "vigencia_nunca_rigio": v.get("vigencia_nunca_rigio"),
-                  "vigencia_nota": v.get("vigencia_nota"),
-                  "encabezado_scjn": v.get("encabezado_scjn"),
+                  "encabezado_scjn": re.sub(r"\s+", " ", v.get("encabezado_scjn") or "").strip() or None,
                   "fuente_historial": v.get("fuente_historial"),
-                  "dof_url": v.get("dof_url"),
-                  "scjn_url": v.get("scjn_url"),
                   "fuente_url": v.get("fuente_url"),
-                  "notas_camara": v.get("notas_camara"),
-                  "notas_scjn_ultimas": (v.get("notas_scjn") or [])[-5:],
-                  "observaciones": v.get("observaciones"),
+                  "dof_url": v.get("dof_url"),
                   "texto_caracteres": len(texto),
-                  "texto_sha256": hashlib.sha256(limpio.encode("utf-8")).hexdigest(),
-                  "texto_inicio": limpio[:300],
-                  "texto_final": limpio[-300:] if limpio else ""
+                  "texto_sha256": huella(texto),
+                  "fechas_notas_camara": sorted(set(fechas_notas)),
+                  "numero_notas_camara": len(notas_camara),
+                  "observaciones": v.get("observaciones")
               }
 
           salida = []
           for numero in OBJETIVO:
               art = articulos[numero]
               versiones = art.get("versiones", [])
-              relevantes = set(range(max(0, len(versiones) - 4), len(versiones)))
-              for i, v in enumerate(versiones):
-                  if any(v.get(k) not in (None, False, [], "") for k in (
-                      "fecha_pendiente", "fecha_sugerida", "vigencia_hasta_indeterminada",
-                      "vigencia_nunca_rigio", "encabezado_scjn", "observaciones"
-                  )):
-                      relevantes.add(i)
+              camara = [v for v in versiones if es_camara(v)]
+              scjn = [v for v in versiones if not es_camara(v)]
+              ultima_camara = camara[-1] if camara else None
+              ultima_scjn = scjn[-1] if scjn else None
+              fecha_camara = (ultima_camara or {}).get("publicacion")
+              fecha_scjn = (ultima_scjn or {}).get("publicacion")
+              texto_camara = norm((ultima_camara or {}).get("texto"))
+              texto_scjn = norm((ultima_scjn or {}).get("texto"))
+
+              if ultima_camara and ultima_scjn and fecha_camara and fecha_scjn and fecha_camara > fecha_scjn:
+                  causa = "pdf_scjn_anterior_ultima_reforma"
+                  recomendacion = "a_pendiente_pdf_actualizado"
+              elif ultima_camara and ultima_scjn and fecha_camara == fecha_scjn and texto_camara != texto_scjn:
+                  causa = "diferencia_extraccion_ultima_version"
+                  recomendacion = "b_corregir_con_consolidado_camara"
+              elif ultima_camara and ultima_scjn and texto_camara == texto_scjn:
+                  causa = "texto_vigente_coincide_pero_historial_sigue_parcial"
+                  recomendacion = "b_corregir_metadatos_y_cerrar_con_camara"
+              elif ultima_camara and not ultima_scjn:
+                  causa = "sin_version_scjn_identificable"
+                  recomendacion = "a_pendiente_pdf_actualizado"
+              else:
+                  causa = "requiere_revision_manual"
+                  recomendacion = "a_pendiente_pdf_actualizado"
+
               salida.append({
                   "numero": numero,
                   "estado": art.get("estado"),
-                  "tema": art.get("tema"),
-                  "nota": art.get("nota"),
-                  "fuente_historial": art.get("fuente_historial"),
-                  "fuentes": art.get("fuentes"),
-                  "notas_camara_articulo": art.get("notas_camara"),
-                  "observaciones_articulo": art.get("observaciones"),
-                  "claves_articulo": sorted(art.keys()),
                   "total_versiones": len(versiones),
-                  "versiones_relevantes": [resumen(versiones[i], i) for i in sorted(relevantes)]
+                  "nota_articulo": art.get("nota"),
+                  "fuente_historial_articulo": art.get("fuente_historial"),
+                  "ultima_scjn": resumen(ultima_scjn),
+                  "ultima_camara": resumen(ultima_camara),
+                  "comparacion": {
+                      "fecha_scjn": fecha_scjn,
+                      "fecha_camara": fecha_camara,
+                      "texto_igual_normalizado": bool(ultima_scjn and ultima_camara and texto_scjn == texto_camara),
+                      "diferencia_caracteres": (len((ultima_camara or {}).get("texto") or "") - len((ultima_scjn or {}).get("texto") or "")) if ultima_camara and ultima_scjn else None,
+                      "causa_clasificada": causa,
+                      "recomendacion": recomendacion
+                  }
               })
 
-          print("=== INSPECCION_15_JSON_INICIO ===")
+          print("=== DIAGNOSTICO_15_JSON_INICIO ===")
           print(json.dumps(salida, ensure_ascii=False, indent=2))
-          print("=== INSPECCION_15_JSON_FIN ===")
+          print("=== DIAGNOSTICO_15_JSON_FIN ===")
           PY
