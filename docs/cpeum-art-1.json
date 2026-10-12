@@ -1,0 +1,12 @@
+{
+  "numero": "1",
+  "estado": "verificado",
+  "versiones": [
+    {
+      "fecha_publicacion": "1917-02-05",
+      "fecha_vigencia": "1917-05-01",
+      "dof_url": "https://www.dof.gob.mx/Constitucion1917/constitucion_1917.pdf",
+      "texto": "Art. 1o.- En los Estados Unidos Mexicanos todo individuo gozará de las garantías que otorga esta Constitución..."
+    }
+  ]
+}
