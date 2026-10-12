@@ -29,9 +29,10 @@
       "enum": [
         "verificado",
         "vigente",
+        "historial_parcial",
         "prototipo"
       ],
-      "description": "verificado indica que el historial y el texto fueron cotejados. No implica que todas las fechas de vigencia estén verificadas."
+      "description": "verificado indica que el historial y el texto fueron cotejados. historial_parcial indica que existe más de una versión, pero aún quedan fechas, enlaces o cotejos pendientes. No implica que todas las fechas de vigencia estén verificadas."
     },
     "nota": {
       "type": [
