@@ -2,13 +2,14 @@
   "norma": {
     "id": "cpeum",
     "siglas": "CPEUM",
-    "nombre_oficial": "Constitución Política de los Estados Unidos Mexicanos",
-    "jurisdiccion": "federal",
-    "fuentes": {
-      "texto_vigente_recomendado": "https://www.diputados.gob.mx/LeyesBiblio/pdf/CPEUM.pdf",
-      "historial_por_articulo": "https://www.scjn.gob.mx/constitucion-politica-de-los-estados-unidos-mexicanos",
-      "dof_busqueda": "https://www.dof.gob.mx/busqueda_detalle.php"
-    }
+    "nombre": "Constitución Política de los Estados Unidos Mexicanos",
+    "nombre_corto": "Constitución Política",
+    "publicacion": "1917-02-05",
+    "vigencia_desde": "1917-05-01",
+    "fuentes": [
+      {"nombre": "Cámara de Diputados — Leyes Federales Vigentes", "url": "https://www.diputados.gob.mx/LeyesBiblio/"},
+      {"nombre": "SCJN — Constitución", "url": "https://www.scjn.gob.mx/constitucion-politica-de-los-estados-unidos-mexicanos"}
+    ]
   },
   "articulos": {}
 }
