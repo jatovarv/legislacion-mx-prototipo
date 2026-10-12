@@ -47,7 +47,7 @@ def comparable(s):
     s = re.sub(r"\(sic(?: DOF [\d\- ]+)?\)", " ", s, flags=re.I)                                                # marcas (sic), incl. «28-12- 1982»
     s = re.sub(r"\bREPUBLICADA DEROGACI[OÓ]N D\.? ?O\.? ?F\.? \d{1,2} DE [A-ZÁÉÍÓÚ]+ DE \d{4}", " ", s, flags=re.I)
     s = s.replace("º", "o")
-    s = re.sub(r"(\b(?:[IVXLC]{1,7}(?:-[A-Z])?(?: Bis)?|[A-Z]|[a-z]|\d+[oa]?)[.)]+)\s*-\s*", r"\1 ", s)    # «I.-», «a).-», «A.-», «XXIII Bis.-», «1.-» == sin guion
+    s = re.sub(r"(\b(?:[IVXLC]{1,7}(?:-[A-ZÑ])?(?: Bis)?|[A-Z]|[a-z]|\d+[oa]?)[.)]+)\s*-\s*", r"\1 ", s)    # «I.-», «a).-», «A.-», «XXIII Bis.-», «1.-» == sin guion
     s = re.sub(r"(\w)\s+-\s*(\w)", r"\1-\2", s)                                                               # «exclusivismos - atenderá» == «exclusivismos-atenderá»
     s = s.replace("aquéllos", "aquellos").replace("aquéllas", "aquellas").replace("éste", "este").replace("ésta", "esta")
     s = re.sub(r"[.,;:()\[\]]", " ", s)
@@ -258,7 +258,7 @@ for n in range(1, 137):
                        "Se muestra como vigente el texto del consolidado; el historial queda pendiente de cotejo.")
         vig = art["versiones"][-1]
         vig.update({"id": f"v{len(versiones)+1}", "etiqueta": "Vigente (consolidado Cámara de Diputados)", "tipo": "vigente",
-                    "vigencia_nota": "Texto del consolidado de la Cámara; no procede del PDF de la SCJN. " + vig.get("vigencia_nota", "")})
+                    "vigencia_nota": vig.get("vigencia_nota", "") if vig.get("vigencia_nota", "").startswith("Texto del consolidado de la Cámara") else "Texto del consolidado de la Cámara; no procede del PDF de la SCJN. " + vig.get("vigencia_nota", "")})
         ult = versiones[-1]
         if ult["vigencia_desde"] and vig["vigencia_desde"] and vig["vigencia_desde"] > ult["vigencia_desde"]:
             ult["vigencia_hasta"] = dia(vig["vigencia_desde"], -1)
