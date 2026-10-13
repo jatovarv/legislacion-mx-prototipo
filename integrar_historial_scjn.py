@@ -47,7 +47,7 @@ def comparable(s):
     s = re.sub(r"\(sic(?: DOF [\d\- ]+)?\)", " ", s, flags=re.I)                                                # marcas (sic), incl. «28-12- 1982»
     s = re.sub(r"\bREPUBLICADA DEROGACI[OÓ]N D\.? ?O\.? ?F\.? \d{1,2} DE [A-ZÁÉÍÓÚ]+ DE \d{4}", " ", s, flags=re.I)
     s = s.replace("º", "o")
-    s = re.sub(r"(\b(?:[IVXLC]{1,7}(?:-[A-Z])?(?: Bis)?|[A-Z]|[a-z]|\d+[oa]?)[.)]+)\s*-\s*", r"\1 ", s)    # «I.-», «a).-», «A.-», «XXIII Bis.-», «1.-» == sin guion
+    s = re.sub(r"(\b(?:[IVXLC]{1,7}(?:-[A-ZÑ])?(?: Bis)?|[A-Z]|[a-z]|\d+[oa]?)[.)]+)\s*-\s*", r"\1 ", s)    # «I.-», «a).-», «A.-», «XXIII Bis.-», «1.-» == sin guion
     s = re.sub(r"(\w)\s+-\s*(\w)", r"\1-\2", s)                                                               # «exclusivismos - atenderá» == «exclusivismos-atenderá»
     s = s.replace("aquéllos", "aquellos").replace("aquéllas", "aquellas").replace("éste", "este").replace("ésta", "esta")
     s = re.sub(r"[.,;:()\[\]]", " ", s)
@@ -203,6 +203,8 @@ for n in range(1, 137):
         nv["texto"] = cuerpo
         nv["notas_scjn"] = notas
         nv["encabezado_scjn"] = v["encabezado_scjn"]
+        if v.get("etiqueta_corrupta"):
+            nv["notas_scjn"].append("[integración: la primera línea de la etiqueta de esta versión está sobreimpresa en el PDF de la SCJN y se leyó como «Texto derivado»; la fecha procede de las líneas legibles de la misma etiqueta]")
         versiones.append(nv)
     # B2: fe de erratas / aclaración publicada antes de la entrada en vigor de la Constitución (1o. de mayo de 1917):
     # corrige la publicación original, no crea vigencia propia. El texto corregido es el que entra en vigor el 1917-05-01;
@@ -250,6 +252,8 @@ for n in range(1, 137):
         art["nota"] = ("Historial extraído del PDF «Historia del texto del artículo» de la SCJN; la versión vigente coincide con el texto consolidado "
                        "de la Cámara de Diputados (última reforma DOF 07-10-2026). Fechas de entrada en vigor por regla general, pendientes de cotejo con cada decreto.")
         versiones[-1]["texto"] = vigente_consol  # prefijo «Artículo N.» como el consolidado
+        versiones[-1]["vigencia_nota"] = ("Texto vigente tomado del consolidado de la Cámara de Diputados (última reforma DOF 07-10-2026), con el que coincide la última versión del PDF de la SCJN. "
+                                          + versiones[-1]["vigencia_nota"])
         reporte["verificado"].append(n)
     else:
         art["estado"] = "historial_parcial"
@@ -258,7 +262,7 @@ for n in range(1, 137):
                        "Se muestra como vigente el texto del consolidado; el historial queda pendiente de cotejo.")
         vig = art["versiones"][-1]
         vig.update({"id": f"v{len(versiones)+1}", "etiqueta": "Vigente (consolidado Cámara de Diputados)", "tipo": "vigente",
-                    "vigencia_nota": "Texto del consolidado de la Cámara; no procede del PDF de la SCJN. " + vig.get("vigencia_nota", "")})
+                    "vigencia_nota": vig.get("vigencia_nota", "") if vig.get("vigencia_nota", "").startswith("Texto del consolidado de la Cámara") else "Texto del consolidado de la Cámara; no procede del PDF de la SCJN. " + vig.get("vigencia_nota", "")})
         ult = versiones[-1]
         if ult["vigencia_desde"] and vig["vigencia_desde"] and vig["vigencia_desde"] > ult["vigencia_desde"]:
             ult["vigencia_hasta"] = dia(vig["vigencia_desde"], -1)
@@ -271,7 +275,8 @@ for n in range(1, 137):
         versiones.append(vig)
         reporte["historial_parcial"].append((n, versiones[-2].get("publicacion"), art["versiones"][-1]["publicacion"]))
     art["versiones"] = versiones
-    art["fuente_historial"] = "SCJN, Historia del texto del artículo (00_historia.pdf), separado con separar_versiones_scjn.py (PR #7) en Colab; Drive: /MyDrive/CPEUM_SCJN_Historial/versiones_separadas.json"
+    art["fuente_historial"] = (entrada.get("fuente_historial") or
+        "SCJN, Historia del texto del artículo (00_historia.pdf), separado con separar_versiones_scjn.py (PR #7) en Colab; Drive: /MyDrive/CPEUM_SCJN_Historial/versiones_separadas.json")
 
 data["norma"]["aviso"] = ("Prototipo de demostración. Textos vigentes cotejados con el consolidado de la Cámara de Diputados (última reforma DOF 07-10-2026); "
                           "historial de versiones extraído de la compilación de la SCJN. Las fechas de entrada en vigor marcadas «por cotejar» siguen la regla general "
