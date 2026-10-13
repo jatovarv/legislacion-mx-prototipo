@@ -77,6 +77,14 @@ def vigencia_marca(v):
             f"vigencia por cotejar</span>")
 
 
+def extraccion_marca(v):
+    """Cuerpo pendiente de cotejo con el PDF de la SCJN (bloque fusionado, limpieza de corte de página)."""
+    if not v.get("extraccion_pendiente"):
+        return ""
+    return (f' <span class="por-cotejar" title="{esc(v.get("nota_extraccion") or "Texto pendiente de cotejo con el PDF de la SCJN")}">'
+            f"extracción por cotejar</span>")
+
+
 def valor_romano(s):
     total = 0
     for i, ch in enumerate(s):
@@ -261,11 +269,13 @@ def pagina_articulo(data, num, art, site_url, fecha_build):
     migas.append(f"<b>Artículo {esc(n_label)}</b>")
 
     meta_vig = [
-        ("Vigencia", esc(rango_vigencia(vig)) + vigencia_marca(vig)),
+        ("Vigencia", esc(rango_vigencia(vig)) + vigencia_marca(vig) + extraccion_marca(vig)),
         ("Publicación en el DOF", esc(fmt_fecha(vig["publicacion"])) if vig.get("publicacion") else "pendiente de cotejo"),
     ]
     if vig.get("capitulo"):
         meta_vig.append(("Capítulo", esc(vig["capitulo"])))
+    if vig.get("nota_extraccion"):
+        meta_vig.append(("Nota de extracción", esc(vig["nota_extraccion"])))
     n_fe = sum(1 for v in vers if v.get("tipo") == "fe_de_erratas")
     n_ref = len(anteriores) - n_fe
     detalle = (f"texto original de {fmt_fecha(vers[0]['publicacion'])}, " if vers[0].get("publicacion") else "") + f"{n_ref} {'reforma' if n_ref == 1 else 'reformas'}" + (f" y {n_fe} fe de erratas" if n_fe else "")
@@ -280,9 +290,11 @@ def pagina_articulo(data, num, art, site_url, fecha_build):
     hist = []
     for v in anteriores:
         es_original = v is vers[0]
-        meta_v = [("Vigencia", esc(rango_vigencia(v)) + vigencia_marca(v)), ("Publicación en el DOF", esc(fmt_fecha(v["publicacion"])) if v.get("publicacion") else "pendiente de cotejo")]
+        meta_v = [("Vigencia", esc(rango_vigencia(v)) + vigencia_marca(v) + extraccion_marca(v)), ("Publicación en el DOF", esc(fmt_fecha(v["publicacion"])) if v.get("publicacion") else "pendiente de cotejo")]
         if v.get("capitulo"):
             meta_v.append(("Capítulo", esc(v["capitulo"])))
+        if v.get("nota_extraccion"):
+            meta_v.append(("Nota de extracción", esc(v["nota_extraccion"])))
         if dof_link_html(v):
             meta_v.append(("Fuente oficial", dof_link_html(v)))
         hist.append(

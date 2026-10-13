@@ -1,0 +1,391 @@
+{
+  "generado": "2026-10-13",
+  "cerrados": {
+    "3": {
+      "versiones": 15,
+      "publicacion_ultima": "2024-12-20",
+      "diferencia": "Único desfase: la raya del inciso b) de la fracción II («–sin hostilidades ni exclusivismos– atenderá») salió como guion con espacios en el PDF de la SCJN («exclusivismos - atenderá»). Diferencia tipográfica."
+    },
+    "72": {
+      "versiones": 3,
+      "publicacion_ultima": "2011-08-17",
+      "diferencia": "Único desfase: el numeral repetido «I (sic).-» del apartado final salió con guion en el PDF de la SCJN; la Cámara lo imprime «I (sic DOF 17-08-2011).». Diferencia tipográfica."
+    },
+    "99": {
+      "versiones": 8,
+      "publicacion_ultima": "2024-09-15",
+      "diferencia": "Único desfase: el párrafo «El personal del Tribunal regirá sus relaciones de trabajo…» aparece dos veces en el bloque SCJN (repetido en un corte de página: una vez suelto y otra como inicio del párrafo que sigue con «El ingreso, formación…»). La Cámara lo trae una sola vez. Duplicado de extracción."
+    },
+    "100": {
+      "versiones": 9,
+      "publicacion_ultima": "2026-06-02",
+      "diferencia": "Único desfase: la línea «El personal del Tribunal regirá … reglas especiales y excepciones» (párrafo del Art. 99, truncado) se coló 5 veces en el bloque SCJN como línea de corte de página, partiendo frases por la mitad. No forma parte del Art. 100. Retirada, el bloque coincide con la Cámara."
+    },
+    "107": {
+      "versiones": 19,
+      "publicacion_ultima": "2024-10-31",
+      "diferencia": "Único desfase: la fracción XVIII derogada trae en el PDF de la SCJN la anotación editorial «(REPUBLICADA DEROGACIÓN, D.O.F. 6 DE JUNIO DE 2011)»; la Cámara imprime «XVIII. Se deroga.». Anotación, no texto normativo."
+    },
+    "109": {
+      "versiones": 3,
+      "publicacion_ultima": "2015-05-27",
+      "diferencia": "Único desfase: tres párrafos sueltos con una «x» (marca del PDF de la SCJN en cortes de página, sin correlato en el texto). Retirados, el bloque coincide con la Cámara."
+    },
+    "123": {
+      "versiones": 33,
+      "publicacion_ultima": "2026-03-03",
+      "diferencia": "Únicos desfases: el numeral repetido «XI (SIC).-» del apartado B salió con guion en el PDF de la SCJN (la Cámara: «XI (sic 05-12-1960).») y «XIII bis.-» frente a «XIII bis.». Diferencias tipográficas."
+    }
+  },
+  "pendientes": {
+    "35": {
+      "motivo": "último bloque SCJN sin fecha legible y fusionado; requiere el PDF Art_035_00_historia.pdf",
+      "parte2_coincide_con_camara": true,
+      "versiones": 7
+    }
+  },
+  "bloques_fusionados": [
+    {
+      "articulo": 2,
+      "version": "v3",
+      "publicacion": "2015-05-22",
+      "estado_articulo": "historial_parcial",
+      "etiquetas": [
+        "Texto derivado de la reforma publicada en el DOF",
+        "Texto derivado de la reforma publicada en el DOF 06 de junio de 2019",
+        "Texto derivado de la reforma publicada en el DOF 09 de agosto de 2019",
+        "Texto vigente DOF 30 de septiembre de 2024"
+      ]
+    },
+    {
+      "articulo": 10,
+      "version": "v2",
+      "publicacion": "1971-10-22",
+      "estado_articulo": "historial_parcial",
+      "etiquetas": [
+        "Texto vigente derivado de la reforma publicada en el D.O.F."
+      ]
+    },
+    {
+      "articulo": 16,
+      "version": "v4",
+      "publicacion": "1996-07-03",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma"
+      ]
+    },
+    {
+      "articulo": 20,
+      "version": "v9",
+      "publicacion": "2011-07-14",
+      "estado_articulo": "historial_parcial",
+      "etiquetas": [
+        "Texto vigente 15 de septiembre de 2024"
+      ]
+    },
+    {
+      "articulo": 22,
+      "version": "v5",
+      "publicacion": "2005-12-09",
+      "estado_articulo": "historial_parcial",
+      "etiquetas": [
+        "Texto derivado de la reforma"
+      ]
+    },
+    {
+      "articulo": 22,
+      "version": "v6",
+      "publicacion": "2015-05-27",
+      "estado_articulo": "historial_parcial",
+      "etiquetas": [
+        "Texto vigente publicado en el D.O.F."
+      ]
+    },
+    {
+      "articulo": 26,
+      "version": "v2",
+      "publicacion": "1983-02-03",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma"
+      ]
+    },
+    {
+      "articulo": 27,
+      "version": "v10",
+      "publicacion": "1960-12-29",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la fe de erratas"
+      ]
+    },
+    {
+      "articulo": 27,
+      "version": "v17",
+      "publicacion": "1992-01-06",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma"
+      ]
+    },
+    {
+      "articulo": 27,
+      "version": "v18",
+      "publicacion": "2011-10-13",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma"
+      ]
+    },
+    {
+      "articulo": 28,
+      "version": "v3",
+      "publicacion": "1983-02-03",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma"
+      ]
+    },
+    {
+      "articulo": 28,
+      "version": "v8",
+      "publicacion": "2013-12-20",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma"
+      ]
+    },
+    {
+      "articulo": 35,
+      "version": "v2",
+      "publicacion": "1990-04-06",
+      "estado_articulo": "historial_parcial",
+      "etiquetas": [
+        "Texto derivado de la reforma Art. 35.- Son prerrogativas del ciudadano:"
+      ]
+    },
+    {
+      "articulo": 35,
+      "version": "v4",
+      "publicacion": "2014-02-10",
+      "estado_articulo": "historial_parcial",
+      "etiquetas": [
+        "Texto derivado de la reforma"
+      ]
+    },
+    {
+      "articulo": 35,
+      "version": "v6",
+      "publicacion": null,
+      "estado_articulo": "historial_parcial",
+      "etiquetas": [
+        "Texto vigente publicado en el D.O.F. el 02 de junio de 2026 el 02 de junio de 2026"
+      ]
+    },
+    {
+      "articulo": 74,
+      "version": "v11",
+      "publicacion": "1993-10-25",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma Art. 74.- Son facultades exclusivas de la Cámara de Diputados:"
+      ]
+    },
+    {
+      "articulo": 94,
+      "version": "v8",
+      "publicacion": "1982-12-28",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma publicada en el"
+      ]
+    },
+    {
+      "articulo": 94,
+      "version": "v15",
+      "publicacion": "2021-03-11",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma publicada en el"
+      ]
+    },
+    {
+      "articulo": 95,
+      "version": "v4",
+      "publicacion": "2007-08-02",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma publicada en el"
+      ]
+    },
+    {
+      "articulo": 96,
+      "version": "v2",
+      "publicacion": "1928-08-20",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma"
+      ]
+    },
+    {
+      "articulo": 97,
+      "version": "v7",
+      "publicacion": "1987-08-10",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma",
+        "Texto derivado de la reforma"
+      ]
+    },
+    {
+      "articulo": 97,
+      "version": "v8",
+      "publicacion": "2007-11-13",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma"
+      ]
+    },
+    {
+      "articulo": 98,
+      "version": "v2",
+      "publicacion": "1928-08-20",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma"
+      ]
+    },
+    {
+      "articulo": 99,
+      "version": "v7",
+      "publicacion": "2014-02-10",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma publicada en el 20 de diciembre de 2019",
+        "Texto derivado de la reforma publicada en el"
+      ]
+    },
+    {
+      "articulo": 107,
+      "version": "v1",
+      "publicacion": "1917-02-05",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma"
+      ]
+    },
+    {
+      "articulo": 107,
+      "version": "v4",
+      "publicacion": "1967-10-25",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma"
+      ]
+    },
+    {
+      "articulo": 107,
+      "version": "v14",
+      "publicacion": "2011-06-06",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma publicada en el"
+      ]
+    },
+    {
+      "articulo": 108,
+      "version": "v3",
+      "publicacion": "1994-12-31",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la fe de"
+      ]
+    },
+    {
+      "articulo": 116,
+      "version": "v14",
+      "publicacion": "2015-05-27",
+      "estado_articulo": "historial_parcial",
+      "etiquetas": [
+        "Texto derivado de la reforma publicada en el"
+      ]
+    },
+    {
+      "articulo": 122,
+      "version": "v10",
+      "publicacion": "2012-08-09",
+      "estado_articulo": "historial_parcial",
+      "etiquetas": [
+        "Texto derivado de la reforma D.O.F. 27 de diciembre de 2013"
+      ]
+    },
+    {
+      "articulo": 123,
+      "version": "v12",
+      "publicacion": "1974-12-31",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma"
+      ]
+    },
+    {
+      "articulo": 123,
+      "version": "v14",
+      "publicacion": "1978-01-09",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma"
+      ]
+    },
+    {
+      "articulo": 123,
+      "version": "v23",
+      "publicacion": "2008-06-18",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma"
+      ]
+    },
+    {
+      "articulo": 123,
+      "version": "v24",
+      "publicacion": "2014-06-17",
+      "estado_articulo": "verificado",
+      "etiquetas": [
+        "Texto derivado de la reforma"
+      ]
+    }
+  ],
+  "limpiezas": [
+    {
+      "articulo": 100,
+      "version": "v5",
+      "lineas_retiradas": 2
+    },
+    {
+      "articulo": 100,
+      "version": "v6",
+      "lineas_retiradas": 1
+    },
+    {
+      "articulo": 100,
+      "version": "v7",
+      "lineas_retiradas": 3
+    },
+    {
+      "articulo": 100,
+      "version": "v8",
+      "lineas_retiradas": 4
+    },
+    {
+      "articulo": 99,
+      "version": "v7",
+      "parrafo_reunido": true
+    }
+  ],
+  "estados": {
+    "verificado": 128,
+    "historial_parcial": 8
+  }
+}
