@@ -4,10 +4,6 @@ POR COORDENADAS con pdfplumber, no por el flujo lineal de texto.
 
 Uso: python3 extraer_historia_scjn_pdf.py Art_073_00_historia.pdf 73.raw.json
 
-Es el método usado para los golden cases (Art. 4o.) y para los Arts. 53, 56 y 73, cuyos PDF son largos y en el
-flujo lineal de PyMuPDF la etiqueta de versión queda intercalada a media frase (los cortes por encabezado del
-separador lineal no sirven ahí).
-
 Diseño del PDF: dos columnas. Izquierda (x < 145): etiqueta de versión
 ("Texto original D.O.F. 05 de febrero de 1917" / "Texto derivado de la reforma
 publicada en el D.O.F. 31 de diciembre de 1974"). Derecha (x >= 145): texto.
@@ -60,8 +56,12 @@ for l in etiquetas:
     t = l["text"]
     if t == ",":
         continue  # coma espuria del encabezado corrido (top negativo) en los PDF grandes
-    if t.startswith("Texto"):
-        bloques.append({"page": l["page"], "top": l["top"], "lineas": [t]})
+    # Inicio de etiqueta: "Texto ..." o una primera línea corrupta por sobreimpresión (p. ej. "RETFeOxRtMo AdDeOri vPaRdIMoE"
+    # en el Art. 73, pág. 426) seguida de "de la reforma": se detecta por la mezcla de mayúsculas/minúsculas sin vocal clara.
+    corrupta = bool(re.match(r"^[A-Za-z]{6,}\s+[A-Za-z]{5,}(\s+[A-Za-z]{5,})?$", t)) and sum(c.isupper() for c in t) >= 6 and sum(c.islower() for c in t) >= 4 and not t.startswith("Texto")
+    if t.startswith("Texto") or corrupta:
+        if corrupta: print("AVISO: etiqueta con primera línea corrupta por sobreimpresión, pág.", l["page"], repr(t), "-> se toma como 'Texto derivado'", file=sys.stderr)
+        bloques.append({"page": l["page"], "top": l["top"], "lineas": ["Texto derivado" if corrupta else t], "corrupta": corrupta})
     elif bloques:
         bloques[-1]["lineas"].append(t)   # continuación (puede venir en la página siguiente)
     else:
@@ -75,7 +75,8 @@ for b in bloques:
         print("AVISO etiqueta sin fecha:", full, file=sys.stderr); continue
     d, mes, y = int(m.group(1)), MESES[m.group(2).lower()], int(m.group(3))
     tipo = "original" if full.startswith("Texto original") else ("fe_de_erratas" if "fe de erratas" in full else ("vigente" if full.startswith("Texto vigente") else "reforma"))
-    versiones.append({"etiqueta_scjn": full, "tipo": tipo, "publicacion": f"{y:04d}-{mes:02d}-{d:02d}", "page": b["page"], "top": b["top"], "lineas": []})
+    versiones.append({"etiqueta_scjn": full, "tipo": tipo, "publicacion": f"{y:04d}-{mes:02d}-{d:02d}", "page": b["page"], "top": b["top"], "lineas": [],
+                      **({"etiqueta_corrupta": True} if b.get("corrupta") else {})})
 
 # 3) Asigna cada línea de texto a su versión. Frontera real: la primera línea de arranque del artículo
 #    («Art. N.-», o una anotación/nota de editor que la precede inmediatamente) situada a partir de ~12 pt por
