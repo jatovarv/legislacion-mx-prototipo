@@ -44,7 +44,7 @@ def comparable(s):
     s = s.replace("–", "-").replace("—", "-").replace("’", "'").replace("“", '"').replace("”", '"')
     s = re.sub(r"\(?Párrafo [a-zé ]+\.? ?(?:Se deroga|Derogado)\.?\)?", " ", s)                                 # marcadores Cámara
     s = re.sub(r"\(Se deroga\)|\bSe deroga\.?|\bDerogad[ao]\b\.?", " ", s, flags=re.I)
-    s = re.sub(r"\(sic(?: DOF [\d\- ]+)?\)", " ", s, flags=re.I)                                                # marcas (sic), incl. «28-12- 1982»
+    s = re.sub(r"\(sic(?: (?:DOF )?[\d\- ]+)?\)", " ", s, flags=re.I)                                          # marcas (sic), «(sic DOF 28-12- 1982)», «(sic 05-12-1960)»
     s = re.sub(r"\bREPUBLICADA DEROGACI[OÓ]N D\.? ?O\.? ?F\.? \d{1,2} DE [A-ZÁÉÍÓÚ]+ DE \d{4}", " ", s, flags=re.I)
     s = s.replace("º", "o")
     s = re.sub(r"(\b(?:[IVXLC]{1,7}(?:-[A-ZÑ])?(?: Bis)?|[A-Z]|[a-z]|\d+[oa]?)[.)]+)\s*-\s*", r"\1 ", s)    # «I.-», «a).-», «A.-», «XXIII Bis.-», «1.-» == sin guion
