@@ -10,7 +10,8 @@ Reglas:
 - Un artículo con `texto: null` (estado «pendiente») se publica con el marcador «pendiente de cotejo», sin texto
   normativo, con <meta name="robots" content="noindex,follow"> y NO entra en el sitemap: una página sin texto
   no debe indexarse. En cuanto se cargue el texto cotejado, la misma página pasa a indexarse sin tocar nada más.
-- Los rangos de artículos de la estructura llevan `rango_por_cotejar: true` hasta cotejarlos con el consolidado.
+- Los rangos y nombres de la estructura llevan `rango_por_cotejar` / `nombre_por_cotejar` hasta cotejarlos con el
+  consolidado; mientras `norma.estructura_cotejada` sea false, el índice lleva noindex y no entra al sitemap.
 """
 import json
 import pathlib
@@ -48,11 +49,14 @@ def slug(num):
 
 def rango_html(nodo, esc):
     r = nodo.get("articulos")
+    marca = ""
+    if nodo.get("rango_por_cotejar") or nodo.get("nombre_por_cotejar"):
+        que = " y ".join(x for x, f in (("nombre", nodo.get("nombre_por_cotejar")), ("rango", nodo.get("rango_por_cotejar"))) if f)
+        marca = f' <span class="por-cotejar" title="{esc(que.capitalize())} pendiente de cotejo con el texto consolidado oficial">por cotejar</span>'
     if not r:
-        return ""
+        return marca
     txt = f"Arts. {r['desde']}–{r['hasta']}" if r["desde"] != r["hasta"] else f"Art. {r['desde']}"
-    marca = ' <span class="por-cotejar" title="Rango de artículos pendiente de cotejo con el texto consolidado">por cotejar</span>' if nodo.get("rango_por_cotejar") else ""
-    return f' <span class="rango">({esc(txt)}){marca}</span>'
+    return f' <span class="rango">({esc(txt)})</span>{marca}'
 
 
 def arbol_html(nodos, esc, nivel=0):
@@ -169,7 +173,9 @@ def pagina_indice(data, site_url, fecha_build, b):
     ]
     meta_html = "".join(f"<dt>{k}</dt><dd>{v}</dd>" for k, v in meta)
     cm = norma.get("conflicto_metadatos")
-    return cabecera(titulo, descripcion, url, ld, b) + f"""<body>
+    cotejada = norma.get("estructura_cotejada", True)
+    robots = "" if cotejada else '\n<meta name="robots" content="noindex,follow">'
+    return cabecera(titulo, descripcion, url, ld, b, extra_head=robots) + f"""<body>
 <header class="topbar">
   <a class="brand" href="../index.html">Legislación MX <span class="pill">Prototipo</span></a>
   <nav aria-label="Navegación"><a href="../index.html">Constitución (CPEUM)</a></nav>
@@ -291,7 +297,7 @@ def generar(site_url, fecha_build):
     data = json.loads(DATA_CCDF.read_text(encoding="utf-8"))
     CCDF_ART_DIR.mkdir(parents=True, exist_ok=True)
     (CCDF_DIR / "index.html").write_text(pagina_indice(data, site_url, fecha_build, b), encoding="utf-8")
-    rutas = [("ccdf/index.html", "weekly", "0.7")]
+    rutas = [("ccdf/index.html", "weekly", "0.7")] if data["norma"].get("estructura_cotejada", True) else []  # índice sin cotejar: noindex y fuera del sitemap
     n_texto = 0
     for art in sorted(data["articulos"].values(), key=lambda a: int(str(a["numero"]).split()[0])):
         destino = CCDF_ART_DIR / f"{slug(art['numero'])}.html"
@@ -299,5 +305,5 @@ def generar(site_url, fecha_build):
         if art.get("texto"):
             rutas.append((f"ccdf/articulos/{slug(art['numero'])}.html", "monthly", "0.8"))
             n_texto += 1
-    print(f"ccdf/index.html + {len(data['articulos'])} artículos del CCDF ({n_texto} con texto, {len(data['articulos']) - n_texto} pendientes de cotejo, excluidos del sitemap)")
+    print(f"ccdf/index.html{'' if rutas else ' (índice sin cotejar: noindex, fuera del sitemap)'} + {len(data['articulos'])} artículos del CCDF ({n_texto} con texto, {len(data['articulos']) - n_texto} pendientes de cotejo, excluidos del sitemap)")
     return rutas

@@ -58,7 +58,18 @@
       }
     ],
     "aviso": "Estructura base del Código Civil para el Distrito Federal. Los rangos de artículos de cada Título y el texto de cada artículo están pendientes de cotejo con el texto consolidado de la Consejería Jurídica; no se reproduce texto normativo sin cotejar. No constituye texto oficial.",
-    "estructura_nota": "Estructura por Libros, Partes y Títulos. Los Capítulos y los rangos exactos de artículos se cargarán al cotejar el texto consolidado (rango_por_cotejar: true en cada Título)."
+    "estructura_nota": "Estructura por Libros, Partes y Títulos (51 Títulos y Disposiciones Preliminares) tomada de la estructura general del Código, NO cotejada todavía con el texto consolidado oficial: cada nombre y rango lleva nombre_por_cotejar / rango_por_cotejar. Mientras el índice no esté cotejado, la página se publica con noindex y fuera del sitemap. Capítulos pendientes.",
+    "estructura_cotejada": false,
+    "cotejo_pendiente": {
+      "fuente_requerida": "DOCX oficial de la Consejería Jurídica y de Servicios Legales de la CDMX (última reforma 20-08-2026, GOCDMX 1929 Bis) con su SHA-256",
+      "estado": "bloqueado: el DOCX no está en el repositorio ni en Drive y los sitios oficiales no son accesibles desde el entorno de trabajo",
+      "preguntas_abiertas": [
+        "Nombres y rangos de los 51 Títulos (todos marcados por cotejar).",
+        "Salto del art. 1180 (fin del Libro Segundo) al 1281 (inicio del Libro Tercero): confirmar si hay Título o artículos derogados faltantes o si la numeración oficial salta.",
+        "Epígrafe del Libro Tercero, Título Primero: «Disposiciones Preliminares» vs «Disposiciones Generales»."
+      ],
+      "reporte": "docs/reporte_ajuste_indice_ccdf.md"
+    }
   },
   "estructura": [
     {
@@ -69,7 +80,8 @@
         "desde": "1",
         "hasta": "21"
       },
-      "rango_por_cotejar": true
+      "rango_por_cotejar": true,
+      "nombre_por_cotejar": true
     },
     {
       "tipo": "libro",
@@ -86,7 +98,8 @@
             "desde": "22",
             "hasta": "24"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -97,7 +110,8 @@
             "desde": "25",
             "hasta": "28"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -108,7 +122,8 @@
             "desde": "29",
             "hasta": "34"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -119,7 +134,8 @@
             "desde": "35",
             "hasta": "138"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -130,7 +146,8 @@
             "desde": "138 Ter",
             "hasta": "138 Sextus"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -141,7 +158,8 @@
             "desde": "139",
             "hasta": "291"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -152,7 +170,8 @@
             "desde": "291 Bis",
             "hasta": "291 Quintus"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -163,7 +182,8 @@
             "desde": "292",
             "hasta": "323 Septimus"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -174,7 +194,8 @@
             "desde": "324",
             "hasta": "410 F"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -185,7 +206,8 @@
             "desde": "411",
             "hasta": "448"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -196,7 +218,8 @@
             "desde": "449",
             "hasta": "640"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -207,7 +230,8 @@
             "desde": "641",
             "hasta": "647"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -218,7 +242,8 @@
             "desde": "648",
             "hasta": "722"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -229,9 +254,11 @@
             "desde": "723",
             "hasta": "746"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         }
-      ]
+      ],
+      "nombre_por_cotejar": true
     },
     {
       "tipo": "libro",
@@ -248,7 +275,8 @@
             "desde": "747",
             "hasta": "749"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -259,7 +287,8 @@
             "desde": "750",
             "hasta": "789"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -270,7 +299,8 @@
             "desde": "790",
             "hasta": "829"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -281,7 +311,8 @@
             "desde": "830",
             "hasta": "979"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -292,7 +323,8 @@
             "desde": "980",
             "hasta": "1056"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -303,7 +335,8 @@
             "desde": "1057",
             "hasta": "1134"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -314,9 +347,11 @@
             "desde": "1135",
             "hasta": "1180"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         }
-      ]
+      ],
+      "nombre_por_cotejar": true
     },
     {
       "tipo": "libro",
@@ -333,7 +368,8 @@
             "desde": "1281",
             "hasta": "1294"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -344,7 +380,8 @@
             "desde": "1295",
             "hasta": "1498"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -355,7 +392,8 @@
             "desde": "1499",
             "hasta": "1598"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -366,7 +404,8 @@
             "desde": "1599",
             "hasta": "1637"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "titulo",
@@ -377,9 +416,11 @@
             "desde": "1638",
             "hasta": "1791"
           },
-          "rango_por_cotejar": true
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
         }
-      ]
+      ],
+      "nombre_por_cotejar": true
     },
     {
       "tipo": "libro",
@@ -402,7 +443,8 @@
                 "desde": "1792",
                 "hasta": "1934"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             },
             {
               "tipo": "titulo",
@@ -413,7 +455,8 @@
                 "desde": "1935",
                 "hasta": "1987"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             },
             {
               "tipo": "titulo",
@@ -424,7 +467,8 @@
                 "desde": "1988",
                 "hasta": "2061"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             },
             {
               "tipo": "titulo",
@@ -435,7 +479,8 @@
                 "desde": "2062",
                 "hasta": "2184"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             },
             {
               "tipo": "titulo",
@@ -446,7 +491,8 @@
                 "desde": "2185",
                 "hasta": "2223"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             },
             {
               "tipo": "titulo",
@@ -457,9 +503,11 @@
                 "desde": "2224",
                 "hasta": "2242"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             }
-          ]
+          ],
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "parte",
@@ -476,7 +524,8 @@
                 "desde": "2243",
                 "hasta": "2247"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             },
             {
               "tipo": "titulo",
@@ -487,7 +536,8 @@
                 "desde": "2248",
                 "hasta": "2326"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             },
             {
               "tipo": "titulo",
@@ -498,7 +548,8 @@
                 "desde": "2327",
                 "hasta": "2331"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             },
             {
               "tipo": "titulo",
@@ -509,7 +560,8 @@
                 "desde": "2332",
                 "hasta": "2383"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             },
             {
               "tipo": "titulo",
@@ -520,7 +572,8 @@
                 "desde": "2384",
                 "hasta": "2397"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             },
             {
               "tipo": "titulo",
@@ -531,7 +584,8 @@
                 "desde": "2398",
                 "hasta": "2496"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             },
             {
               "tipo": "titulo",
@@ -542,7 +596,8 @@
                 "desde": "2497",
                 "hasta": "2515"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             },
             {
               "tipo": "titulo",
@@ -553,7 +608,8 @@
                 "desde": "2516",
                 "hasta": "2545"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             },
             {
               "tipo": "titulo",
@@ -564,7 +620,8 @@
                 "desde": "2546",
                 "hasta": "2604"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             },
             {
               "tipo": "titulo",
@@ -575,7 +632,8 @@
                 "desde": "2605",
                 "hasta": "2669"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             },
             {
               "tipo": "titulo",
@@ -586,7 +644,8 @@
                 "desde": "2670",
                 "hasta": "2738"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             },
             {
               "tipo": "titulo",
@@ -597,7 +656,8 @@
                 "desde": "2739",
                 "hasta": "2763"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             },
             {
               "tipo": "titulo",
@@ -608,7 +668,8 @@
                 "desde": "2764",
                 "hasta": "2793"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             },
             {
               "tipo": "titulo",
@@ -619,7 +680,8 @@
                 "desde": "2794",
                 "hasta": "2855"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             },
             {
               "tipo": "titulo",
@@ -630,7 +692,8 @@
                 "desde": "2856",
                 "hasta": "2892"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             },
             {
               "tipo": "titulo",
@@ -641,7 +704,8 @@
                 "desde": "2893",
                 "hasta": "2943"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             },
             {
               "tipo": "titulo",
@@ -652,9 +716,11 @@
                 "desde": "2944",
                 "hasta": "2963"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             }
-          ]
+          ],
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "parte",
@@ -671,9 +737,11 @@
                 "desde": "2964",
                 "hasta": "2998"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             }
-          ]
+          ],
+          "nombre_por_cotejar": true
         },
         {
           "tipo": "parte",
@@ -690,11 +758,14 @@
                 "desde": "2999",
                 "hasta": "3074"
               },
-              "rango_por_cotejar": true
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
             }
-          ]
+          ],
+          "nombre_por_cotejar": true
         }
-      ]
+      ],
+      "nombre_por_cotejar": true
     }
   ],
   "articulos": {
