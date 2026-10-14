@@ -495,7 +495,7 @@
     "3": {
       "numero": "3o.",
       "estado": "verificado",
-      "nota": "Historial extraído del PDF «Historia del texto del artículo» de la SCJN; la versión vigente coincide con el texto consolidado de la Cámara de Diputados (última reforma DOF 07-10-2026). Fechas de entrada en vigor por regla general, pendientes de cotejo con cada decreto. El último bloque del PDF de la SCJN traía una diferencia de extracción no normativa (detallada en la nota de extracción de la versión vigente); la versión vigente es el texto del consolidado.",
+      "nota": "Historial extraído del PDF «Historia del texto del artículo» de la SCJN; la versión vigente coincide con el texto consolidado de la Cámara de Diputados (última reforma DOF 07-10-2026). Fechas de entrada en vigor por regla general, pendientes de cotejo con cada decreto. El último bloque del PDF de la SCJN traía una diferencia de extracción no normativa (detallada en la nota de extracción de la versión vigente); la versión vigente es el texto del consolidado (cerrar_historial_grupo_b.py).",
       "versiones": [
         {
           "id": "v1",
@@ -925,7 +925,7 @@
           ],
           "encabezado_scjn": "Texto vigente D.O.F. 20 de diciembre de 2024",
           "vigencia_hasta": null,
-          "nota_extraccion": "Bloque SCJN de la misma fecha sustituido por el texto del consolidado de la Cámara. Único desfase: la raya del inciso b) de la fracción II («–sin hostilidades ni exclusivismos– atenderá») salió como guion con espacios en el PDF de la SCJN («exclusivismos - atenderá»). Diferencia tipográfica."
+          "nota_extraccion": "Bloque SCJN de la misma fecha sustituido por el texto del consolidado de la Cámara. Desfases: la raya del inciso b) de la fracción II («–sin hostilidades ni exclusivismos– atenderá») salió como guion con espacios en el PDF de la SCJN («-sin hostilidades ni exclusivismos - atenderá»); además, el párrafo tercero, el inciso d) de la fracción II y las fracciones III y IX derogados figuran en la Cámara con la leyenda «Párrafo tercero. Se deroga.», «d) Se deroga.», «III. Se deroga.» y «IX. Se deroga», mientras que en el bloque SCJN sus anotaciones «(DEROGADO…)» pasaron a notas_scjn dejando sólo el numeral. Diferencias tipográficas y de representación de derogaciones."
         }
       ],
       "tema": "Derecho a la educación",
@@ -5965,7 +5965,7 @@
     "35": {
       "numero": "35",
       "estado": "historial_parcial",
-      "nota": "Historial extraído del PDF de la SCJN con el separador lineal, con bloques fusionados (v2, v4 y v6 contienen más de una versión) y dos versiones sin fecha legible. El texto vigente es el del consolidado de la Cámara de Diputados (última reforma DOF 07-10-2026); el último bloque de la SCJN no se fecha por inferencia y queda aislado para re-extracción por coordenadas desde el PDF. Historial por cotejar.",
+      "nota": "Historial extraído del PDF de la SCJN con el separador lineal, con bloques fusionados (v2, v4 y v6 contienen más de una versión) y dos versiones sin fecha legible. El texto vigente es el del consolidado de la Cámara de Diputados (última reforma DOF 07-10-2026); el último bloque de la SCJN no se fecha por inferencia y queda aislado para re-extracción por coordenadas desde el PDF (cerrar_historial_grupo_b.py). Historial por cotejar.",
       "versiones": [
         {
           "id": "v1",
@@ -6175,7 +6175,7 @@
           ]
         }
       ],
-      "fuente_historial": "SCJN, Historia del texto del artículo (00_historia.pdf), separado con separar_versiones_scjn.py (PR #7) en Colab; Drive: /MyDrive/CPEUM_SCJN_Historial/versiones_separadas.json"
+      "fuente_historial": "SCJN, Historia del texto del artículo (00_historia.pdf), separado con separar_versiones_scjn.py (PR #7) en Colab; Drive: /MyDrive/CPEUM_SCJN_Historial/versiones_separadas.json; último bloque sin fecha aislado para re-extracción (cerrar_historial_grupo_b.py)"
     },
     "36": {
       "numero": "36",
@@ -9679,7 +9679,7 @@
     "72": {
       "numero": "72",
       "estado": "verificado",
-      "nota": "Historial extraído del PDF «Historia del texto del artículo» de la SCJN; la versión vigente coincide con el texto consolidado de la Cámara de Diputados (última reforma DOF 07-10-2026). Fechas de entrada en vigor por regla general, pendientes de cotejo con cada decreto. El último bloque del PDF de la SCJN traía una diferencia de extracción no normativa (detallada en la nota de extracción de la versión vigente); la versión vigente es el texto del consolidado.",
+      "nota": "Historial extraído del PDF «Historia del texto del artículo» de la SCJN; la versión vigente coincide con el texto consolidado de la Cámara de Diputados (última reforma DOF 07-10-2026). Fechas de entrada en vigor por regla general, pendientes de cotejo con cada decreto. El último bloque del PDF de la SCJN traía una diferencia de extracción no normativa (detallada en la nota de extracción de la versión vigente); la versión vigente es el texto del consolidado (cerrar_historial_grupo_b.py).",
       "versiones": [
         {
           "id": "v1",
@@ -9737,7 +9737,7 @@
           ],
           "encabezado_scjn": "Texto vigente D.O.F. 17 de agosto de 2011",
           "vigencia_hasta": null,
-          "nota_extraccion": "Bloque SCJN de la misma fecha sustituido por el texto del consolidado de la Cámara. Único desfase: el numeral repetido «I (sic).-» del apartado final salió con guion en el PDF de la SCJN; la Cámara lo imprime «I (sic DOF 17-08-2011).». Diferencia tipográfica."
+          "nota_extraccion": "Bloque SCJN de la misma fecha sustituido por el texto del consolidado de la Cámara. Desfases: en el inciso C la marca editorial «ésta,, (sic)» del bloque SCJN aparece en la Cámara con fecha «ésta,, (sic DOF 05-02-1917)», y el numeral repetido «I (sic).-» del apartado final salió con guion y sin fecha en el PDF de la SCJN mientras la Cámara lo imprime «I (sic DOF 24-11-1923).». Diferencias tipográficas y de fechamiento de marcas (sic)."
         }
       ],
       "fuente_historial": "SCJN, Historia del texto del artículo (00_historia.pdf), separado con separar_versiones_scjn.py (PR #7) en Colab; Drive: /MyDrive/CPEUM_SCJN_Historial/versiones_separadas.json; última versión cerrada con el consolidado de la Cámara (cerrar_historial_grupo_b.py)"
@@ -18842,7 +18842,7 @@
     "99": {
       "numero": "99",
       "estado": "verificado",
-      "nota": "Historial extraído del PDF «Historia del texto del artículo» de la SCJN; la versión vigente coincide con el texto consolidado de la Cámara de Diputados (última reforma DOF 07-10-2026). Fechas de entrada en vigor por regla general, pendientes de cotejo con cada decreto. El último bloque del PDF de la SCJN traía una diferencia de extracción no normativa (detallada en la nota de extracción de la versión vigente); la versión vigente es el texto del consolidado.",
+      "nota": "Historial extraído del PDF «Historia del texto del artículo» de la SCJN; la versión vigente coincide con el texto consolidado de la Cámara de Diputados (última reforma DOF 07-10-2026). Fechas de entrada en vigor por regla general, pendientes de cotejo con cada decreto. El último bloque del PDF de la SCJN traía una diferencia de extracción no normativa (detallada en la nota de extracción de la versión vigente); la versión vigente es el texto del consolidado (cerrar_historial_grupo_b.py).",
       "versiones": [
         {
           "id": "v1",
@@ -19020,12 +19020,12 @@
           "nota_extraccion": "Bloque SCJN de la misma fecha sustituido por el texto del consolidado de la Cámara. Único desfase: el párrafo «El personal del Tribunal regirá sus relaciones de trabajo…» aparece dos veces en el bloque SCJN (repetido en un corte de página: una vez suelto y otra como inicio del párrafo que sigue con «El ingreso, formación…»). La Cámara lo trae una sola vez. Duplicado de extracción."
         }
       ],
-      "fuente_historial": "SCJN, Historia del texto del artículo (00_historia.pdf), separado con separar_versiones_scjn.py (PR #7) en Colab; Drive: /MyDrive/CPEUM_SCJN_Historial/versiones_separadas.json; última versión cerrada con el consolidado de la Cámara (cerrar_historial_grupo_b.py)"
+      "fuente_historial": "SCJN, Historia del texto del artículo (00_historia.pdf), separado con separar_versiones_scjn.py (PR #7) en Colab; Drive: /MyDrive/CPEUM_SCJN_Historial/versiones_separadas.json; última versión cerrada con el consolidado de la Cámara y limpieza de corte de página en v7 (cerrar_historial_grupo_b.py)"
     },
     "100": {
       "numero": "100",
       "estado": "verificado",
-      "nota": "Historial extraído del PDF «Historia del texto del artículo» de la SCJN; la versión vigente coincide con el texto consolidado de la Cámara de Diputados (última reforma DOF 07-10-2026). Fechas de entrada en vigor por regla general, pendientes de cotejo con cada decreto. El último bloque del PDF de la SCJN traía una diferencia de extracción no normativa (detallada en la nota de extracción de la versión vigente); la versión vigente es el texto del consolidado.",
+      "nota": "Historial extraído del PDF «Historia del texto del artículo» de la SCJN; la versión vigente coincide con el texto consolidado de la Cámara de Diputados (última reforma DOF 07-10-2026). Fechas de entrada en vigor por regla general, pendientes de cotejo con cada decreto. El último bloque del PDF de la SCJN traía una diferencia de extracción no normativa (detallada en la nota de extracción de la versión vigente); la versión vigente es el texto del consolidado (cerrar_historial_grupo_b.py).",
       "versiones": [
         {
           "id": "v1",
@@ -19270,7 +19270,7 @@
           "nota_extraccion": "Bloque SCJN de la misma fecha sustituido por el texto del consolidado de la Cámara. Único desfase: la línea «El personal del Tribunal regirá … reglas especiales y excepciones» (párrafo del Art. 99, truncado) se coló 5 veces en el bloque SCJN como línea de corte de página, partiendo frases por la mitad. No forma parte del Art. 100. Retirada, el bloque coincide con la Cámara."
         }
       ],
-      "fuente_historial": "SCJN, Historia del texto del artículo (00_historia.pdf), separado con separar_versiones_scjn.py (PR #7) en Colab; Drive: /MyDrive/CPEUM_SCJN_Historial/versiones_separadas.json; última versión cerrada con el consolidado de la Cámara (cerrar_historial_grupo_b.py)"
+      "fuente_historial": "SCJN, Historia del texto del artículo (00_historia.pdf), separado con separar_versiones_scjn.py (PR #7) en Colab; Drive: /MyDrive/CPEUM_SCJN_Historial/versiones_separadas.json; última versión cerrada con el consolidado de la Cámara y limpieza de líneas de corte de página en v5–v8 (cerrar_historial_grupo_b.py)"
     },
     "101": {
       "numero": "101",
@@ -20441,7 +20441,7 @@
     "107": {
       "numero": "107",
       "estado": "verificado",
-      "nota": "Historial extraído del PDF «Historia del texto del artículo» de la SCJN; la versión vigente coincide con el texto consolidado de la Cámara de Diputados (última reforma DOF 07-10-2026). Fechas de entrada en vigor por regla general, pendientes de cotejo con cada decreto. El último bloque del PDF de la SCJN traía una diferencia de extracción no normativa (detallada en la nota de extracción de la versión vigente); la versión vigente es el texto del consolidado.",
+      "nota": "Historial extraído del PDF «Historia del texto del artículo» de la SCJN; la versión vigente coincide con el texto consolidado de la Cámara de Diputados (última reforma DOF 07-10-2026). Fechas de entrada en vigor por regla general, pendientes de cotejo con cada decreto. El último bloque del PDF de la SCJN traía una diferencia de extracción no normativa (detallada en la nota de extracción de la versión vigente); la versión vigente es el texto del consolidado (cerrar_historial_grupo_b.py).",
       "versiones": [
         {
           "id": "v1",
@@ -21341,7 +21341,7 @@
           ],
           "encabezado_scjn": "Texto vigente D.O.F. 31 de octubre de 2024",
           "vigencia_hasta": null,
-          "nota_extraccion": "Bloque SCJN de la misma fecha sustituido por el texto del consolidado de la Cámara. Único desfase: la fracción XVIII derogada trae en el PDF de la SCJN la anotación editorial «(REPUBLICADA DEROGACIÓN, D.O.F. 6 DE JUNIO DE 2011)»; la Cámara imprime «XVIII. Se deroga.». Anotación, no texto normativo."
+          "nota_extraccion": "Bloque SCJN de la misma fecha sustituido por el texto del consolidado de la Cámara. Desfases: la fracción XVIII derogada trae en el PDF de la SCJN la anotación editorial «(REPUBLICADA DEROGACIÓN, D.O.F. 6 DE JUNIO DE 2011)» (la Cámara imprime «XVIII. Se deroga.») y en la fracción X derogada la Cámara imprime «X. Se deroga;» mientras en el bloque SCJN su anotación «(DEROGADA, D.O.F. 6 DE JUNIO DE 2011)» pasó a notas_scjn. Anotaciones editoriales, no texto normativo."
         }
       ],
       "fuente_historial": "SCJN, Historia del texto del artículo (00_historia.pdf), separado con separar_versiones_scjn.py (PR #7) en Colab; Drive: /MyDrive/CPEUM_SCJN_Historial/versiones_separadas.json; última versión cerrada con el consolidado de la Cámara (cerrar_historial_grupo_b.py)"
@@ -21567,7 +21567,7 @@
     "109": {
       "numero": "109",
       "estado": "verificado",
-      "nota": "Historial extraído del PDF «Historia del texto del artículo» de la SCJN; la versión vigente coincide con el texto consolidado de la Cámara de Diputados (última reforma DOF 07-10-2026). Fechas de entrada en vigor por regla general, pendientes de cotejo con cada decreto. El último bloque del PDF de la SCJN traía una diferencia de extracción no normativa (detallada en la nota de extracción de la versión vigente); la versión vigente es el texto del consolidado.",
+      "nota": "Historial extraído del PDF «Historia del texto del artículo» de la SCJN; la versión vigente coincide con el texto consolidado de la Cámara de Diputados (última reforma DOF 07-10-2026). Fechas de entrada en vigor por regla general, pendientes de cotejo con cada decreto. El último bloque del PDF de la SCJN traía una diferencia de extracción no normativa (detallada en la nota de extracción de la versión vigente); la versión vigente es el texto del consolidado (cerrar_historial_grupo_b.py).",
       "versiones": [
         {
           "id": "v1",
@@ -24760,7 +24760,7 @@
     "123": {
       "numero": "123",
       "estado": "verificado",
-      "nota": "Historial extraído del PDF «Historia del texto del artículo» de la SCJN; la versión vigente coincide con el texto consolidado de la Cámara de Diputados (última reforma DOF 07-10-2026). Fechas de entrada en vigor por regla general, pendientes de cotejo con cada decreto. El último bloque del PDF de la SCJN traía una diferencia de extracción no normativa (detallada en la nota de extracción de la versión vigente); la versión vigente es el texto del consolidado.",
+      "nota": "Historial extraído del PDF «Historia del texto del artículo» de la SCJN; la versión vigente coincide con el texto consolidado de la Cámara de Diputados (última reforma DOF 07-10-2026). Fechas de entrada en vigor por regla general, pendientes de cotejo con cada decreto. El último bloque del PDF de la SCJN traía una diferencia de extracción no normativa (detallada en la nota de extracción de la versión vigente); la versión vigente es el texto del consolidado (cerrar_historial_grupo_b.py).",
       "versiones": [
         {
           "id": "v1",
@@ -26833,7 +26833,7 @@
           ],
           "encabezado_scjn": "Texto vigente D.O.F. 03 de marzo de 2026",
           "vigencia_hasta": null,
-          "nota_extraccion": "Bloque SCJN de la misma fecha sustituido por el texto del consolidado de la Cámara. Únicos desfases: el numeral repetido «XI (SIC).-» del apartado B salió con guion en el PDF de la SCJN (la Cámara: «XI (sic 05-12-1960).») y «XIII bis.-» frente a «XIII bis.». Diferencias tipográficas."
+          "nota_extraccion": "Bloque SCJN de la misma fecha sustituido por el texto del consolidado de la Cámara. Desfases: en el Apartado A las marcas editoriales «dosicentos (sic)» (fracción XII, párrafo tercero) y «consentimieto (sic)» (fracción XXII) del bloque SCJN llevan fecha en la Cámara («dosicentos (sic DOF 09-01-1978)» y «consentimieto (sic DOF 21-11-1962)»); en el Apartado B el numeral repetido «XI (SIC).-» salió con guion y sin fecha en el PDF de la SCJN (la Cámara: «XI (sic 05-12-1960).») y «XIII bis.-» frente a «XIII bis.». Diferencias tipográficas y de fechamiento de marcas (sic)."
         }
       ],
       "tema": "Trabajo y previsión social",
