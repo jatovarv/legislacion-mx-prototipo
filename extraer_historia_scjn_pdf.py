@@ -37,9 +37,13 @@ def lineas(words, tol=3):
 etiquetas = []   # (page, top, texto_etiqueta)
 texto_lineas = []  # dict(page, top, bottom, x0, text)
 with pdfplumber.open(PDF) as pdf:
+    w0 = pdf.pages[0].extract_words(keep_blank_chars=False, use_text_flow=False, x_tolerance=1.5)
+    art_x = min((w["x0"] for w in w0 if 100 < w["top"] < 725 and w["text"].startswith("Art")), default=136)
+    if art_x > 170:
+        SPLIT_X = 170  # columna izquierda más ancha (p. ej. Art. 35, donde el cuerpo arranca en x=182.6)
     for pi, page in enumerate(pdf.pages):
         words = page.extract_words(keep_blank_chars=False, use_text_flow=False, x_tolerance=1.5)
-        izq = [w for w in words if w["x0"] < SPLIT_X]
+        izq = [w for w in words if w["x0"] < SPLIT_X and w["top"] < 725 and (w["top"] > 100 or w["x0"] < 130)]
         # cuerpo: fuera del encabezado corrido (top 49/65) y del pie (número de página y correo, top >= 734)
         der = [w for w in words if w["x0"] >= SPLIT_X and 100 < w["top"] < 725]
         for l in lineas(izq):
@@ -70,20 +74,22 @@ for l in etiquetas:
 versiones = []
 for b in bloques:
     full = " ".join(b["lineas"])
-    m = re.search(r"D\.O\.F\.\s+(\d{1,2})\s+de\s+([a-zñ]+)\s+de\s+(\d{4})", full, re.I)
+    m = re.search(r"(?:D\.?O\.?F\.?\s+)?(?:el\s+)?(\d{1,2})\s+de\s+([a-zñ]+)\s+(?:de\s+)?(\d{4})", full, re.I)
     if not m:
         print("AVISO etiqueta sin fecha:", full, file=sys.stderr); continue
     d, mes, y = int(m.group(1)), MESES[m.group(2).lower()], int(m.group(3))
-    tipo = "original" if full.startswith("Texto original") else ("fe_de_erratas" if "fe de erratas" in full else ("vigente" if full.startswith("Texto vigente") else "reforma"))
+    tipo = "original" if full.startswith("Texto original") else ("fe_de_erratas" if "fe de erratas" in full else ("aclaracion" if "aclaración" in full or "aclaracion" in full else "reforma"))
     versiones.append({"etiqueta_scjn": full, "tipo": tipo, "publicacion": f"{y:04d}-{mes:02d}-{d:02d}", "page": b["page"], "top": b["top"], "lineas": [],
                       **({"etiqueta_corrupta": True} if b.get("corrupta") else {})})
+if versiones and versiones[-1]["etiqueta_scjn"].startswith("Texto vigente"):
+    versiones[-1]["tipo"] = "vigente"
 
 # 3) Asigna cada línea de texto a su versión. Frontera real: la primera línea de arranque del artículo
 #    («Art. N.-», o una anotación/nota de editor que la precede inmediatamente) situada a partir de ~12 pt por
 #    encima de la etiqueta. Así el cuerpo de una versión puede continuar por debajo de la etiqueta siguiente
 #    (PDF largos) y las anotaciones previas al arranque quedan en la versión correcta.
 ARRANQUE = re.compile(r"^Art(?:ículo|\.)\s*\d+[oa]?\.?-?")
-PREVIO = re.compile(r"^(\((REFORMAD|ADICIONAD|DEROGAD|REUBICAD|N\. DE E\.|F\. DE E\.)|\[N\. DE E\.|[A-ZÁÉÍÓÚÑ ,.;:()\[\]'\"-]{30,}$)")
+PREVIO = re.compile(r"^(\(?(REFORMAD|ADICIONAD|DEROGAD|REUBICAD|N\. DE E\.|F\. DE E\.)|\[N\. DE E\.|[A-ZÁÉÍÓÚÑ0-9 ,.;:()\[\]'\"-]{30,}$)")
 texto_lineas.sort(key=lambda l: (l["page"], l["top"]))
 fronteras = []   # índice de la línea de cuerpo donde empieza cada versión
 for v in versiones:
@@ -112,7 +118,7 @@ for n_v, v in enumerate(versiones):
 MARGEN_DERECHO = max(l["x1"] for l in texto_lineas)
 # Anotaciones editoriales de la SCJN: una o varias expresiones entre paréntesis, en mayúsculas,
 # que ocupan la línea completa, p. ej. "(ADICIONADO, D.O.F. 7 DE ABRIL DE 2000) (F. DE E., D.O.F. 12 DE ABRIL DE 2000)".
-ANOTACION = re.compile(r"^(\((REFORMAD|ADICIONAD|DEROGAD|REUBICAD|N\. DE E\.|F\. DE E\.)[^)]*\)\s*)+$")
+ANOTACION = re.compile(r"^(\(?(REFORMAD|ADICIONAD|DEROGAD|REUBICAD|N\. DE E\.|F\. DE E\.)[^)]*\)\s*)+$")
 INICIO_ANOT = re.compile(r"^\((REFORMAD|ADICIONAD|DEROGAD|REUBICAD|N\. DE E\.|F\. DE E\.)")
 def parrafos_de(lineas_v):
     pars, notas, cur, prev, pend = [], [], [], None, None
@@ -135,8 +141,9 @@ def parrafos_de(lineas_v):
             if pend.count("(") == pend.count(")"):
                 notas.append(pend); pend = None
             prev = l; continue
-        if INICIO_ANOT.match(t):                  # anotación editorial de la SCJN: no es texto del artículo
+        if INICIO_ANOT.match(t) or (ANOTACION.match(t) and t == t.upper()):  # anotación editorial de la SCJN: no es texto del artículo
             if cur: pars.append(" ".join(cur)); cur = []
+            if not t.startswith("("): t = "(" + t
             if t.count("(") == t.count(")"): notas.append(t)
             else: pend = t
             prev = l; continue
@@ -204,7 +211,11 @@ for v in versiones:
         m = RX_DEROG.match(par)
         if m:
             notas.append(m.group(2)); pars[i] = m.group(1) + " (Derogada)"
-    if pre: notas.insert(0, re.sub(r"\s+", " ", " ".join(pre)))
+    if pre:
+        pre_s = re.sub(r"\s+", " ", " ".join(pre))
+        if not pre_s.startswith("(") and pre_s.endswith(")") and re.match(r"^(REFORMAD|ADICIONAD|DEROGAD|REUBICAD)", pre_s):
+            pre_s = "(" + pre_s
+        notas.insert(0, pre_s)
     if cola: notas.append("[cola de nota de editor] " + re.sub(r"\s+", " ", " ".join(cola)))
     v["parrafos"], v["notas"] = pars, notas
     v["texto"] = "\n\n".join(pars)
