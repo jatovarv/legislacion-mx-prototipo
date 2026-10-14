@@ -1,0 +1,870 @@
+{
+  "norma": {
+    "id": "ccdf",
+    "siglas": "CCDF",
+    "nombre": "Código Civil para el Distrito Federal",
+    "nombre_corto": "Código Civil CDMX",
+    "aliases": [
+      "CCCDMX",
+      "Código Civil de la Ciudad de México"
+    ],
+    "jurisdiccion": "Ciudad de México",
+    "tipo": "Código",
+    "publicacion_original": {
+      "medio": "Diario Oficial de la Federación",
+      "fechas": [
+        "1928-05-26",
+        "1928-07-14",
+        "1928-08-03",
+        "1928-08-31"
+      ],
+      "nota": "Cuatro publicaciones parciales de 1928 según la genealogía del registro de fuentes (sources_registry.json). La ficha de la Consejería muestra 26-05-1926, documentado como error de metadato. Entrada en vigor 01-10-1932 según la genealogía del registro de fuentes (ccdf-genealogia).",
+      "vigencia_desde": "1932-10-01"
+    },
+    "ultima_reforma_verificada": "2026-08-20",
+    "ultima_reforma": {
+      "fecha": "2026-08-20",
+      "medio": "Gaceta Oficial de la Ciudad de México",
+      "edicion": "1929 Bis",
+      "vigencia_desde": "2026-08-21",
+      "vigencia_verificada": true,
+      "articulos_afectados": [
+        "1834",
+        "1502-I"
+      ],
+      "url_oficial": null,
+      "url_status": "pendiente_url_oficial_estable"
+    },
+    "conflicto_metadatos": {
+      "fuente": "Congreso de la Ciudad de México — Marco Legal",
+      "ultima_reforma_reportada": "2026-09-02",
+      "tratamiento": "No se usa como evento de reforma mientras no se localice el decreto (sources_registry.json, conflicto ccdf-congreso-02-09-2026)."
+    },
+    "texto_consolidado": {
+      "fuente": "Consejería Jurídica y de Servicios Legales de la Ciudad de México (DOCX)",
+      "url": "https://data.consejeria.cdmx.gob.mx/images/leyes/2025/CODIGOS_2025/CODIGO_CIVIL_PARA_EL_DF_15.4.docx",
+      "sha256": null,
+      "estado": "pendiente_descarga_y_hash",
+      "nota": "No está en el repositorio: las páginas se generan con marcador «pendiente de cotejo» y sin texto normativo."
+    },
+    "fuentes": [
+      {
+        "nombre": "Consejería Jurídica y de Servicios Legales de la CDMX — Código Civil para el Distrito Federal (ficha oficial)",
+        "url": "https://data.consejeria.cdmx.gob.mx/index.php/articulo-leyes-y-reglamentos/29-codigos/32-codigo-civil-para-el-distrito-federal"
+      },
+      {
+        "nombre": "Gaceta Oficial de la Ciudad de México",
+        "url": "https://www.consejeria.cdmx.gob.mx/gaceta-oficial"
+      }
+    ],
+    "aviso": "Estructura base del Código Civil para el Distrito Federal. Los rangos de artículos de cada Título y el texto de cada artículo están pendientes de cotejo con el texto consolidado de la Consejería Jurídica; no se reproduce texto normativo sin cotejar. No constituye texto oficial.",
+    "estructura_nota": "Estructura por Libros, Partes y Títulos (51 Títulos y Disposiciones Preliminares) tomada de la estructura general del Código, NO cotejada todavía con el texto consolidado oficial: cada nombre y rango lleva nombre_por_cotejar / rango_por_cotejar. Mientras el índice no esté cotejado, la página se publica con noindex y fuera del sitemap. Capítulos pendientes.",
+    "estructura_cotejada": false,
+    "cotejo_pendiente": {
+      "fuente_requerida": "DOCX oficial de la Consejería Jurídica y de Servicios Legales de la CDMX (última reforma 20-08-2026, GOCDMX 1929 Bis) con su SHA-256",
+      "estado": "bloqueado: el DOCX no está en el repositorio ni en Drive y los sitios oficiales no son accesibles desde el entorno de trabajo",
+      "preguntas_abiertas": [
+        "Nombres y rangos de los 51 Títulos (todos marcados por cotejar).",
+        "Salto del art. 1180 (fin del Libro Segundo) al 1281 (inicio del Libro Tercero): confirmar si hay Título o artículos derogados faltantes o si la numeración oficial salta.",
+        "Epígrafe del Libro Tercero, Título Primero: «Disposiciones Preliminares» vs «Disposiciones Generales»."
+      ],
+      "reporte": "docs/reporte_ajuste_indice_ccdf.md"
+    }
+  },
+  "estructura": [
+    {
+      "tipo": "preliminar",
+      "id": "pre",
+      "nombre": "Disposiciones Preliminares",
+      "articulos": {
+        "desde": "1",
+        "hasta": "21"
+      },
+      "rango_por_cotejar": true,
+      "nombre_por_cotejar": true
+    },
+    {
+      "tipo": "libro",
+      "id": "l1",
+      "nombre": "Libro Primero",
+      "subtitulo": "De las Personas",
+      "hijos": [
+        {
+          "tipo": "titulo",
+          "id": "l1-t1",
+          "nombre": "Título Primero",
+          "subtitulo": "De las Personas Físicas",
+          "articulos": {
+            "desde": "22",
+            "hasta": "24"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l1-t2",
+          "nombre": "Título Segundo",
+          "subtitulo": "De las Personas Morales",
+          "articulos": {
+            "desde": "25",
+            "hasta": "28"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l1-t3",
+          "nombre": "Título Tercero",
+          "subtitulo": "Del Domicilio",
+          "articulos": {
+            "desde": "29",
+            "hasta": "34"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l1-t4",
+          "nombre": "Título Cuarto",
+          "subtitulo": "Del Registro Civil",
+          "articulos": {
+            "desde": "35",
+            "hasta": "138"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l1-t5",
+          "nombre": "Título Cuarto Bis",
+          "subtitulo": "De la Familia",
+          "articulos": {
+            "desde": "138 Ter",
+            "hasta": "138 Sextus"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l1-t6",
+          "nombre": "Título Quinto",
+          "subtitulo": "Del Matrimonio",
+          "articulos": {
+            "desde": "139",
+            "hasta": "291"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l1-t7",
+          "nombre": "Título Quinto Bis",
+          "subtitulo": "Del Concubinato",
+          "articulos": {
+            "desde": "291 Bis",
+            "hasta": "291 Quintus"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l1-t8",
+          "nombre": "Título Sexto",
+          "subtitulo": "Del Parentesco, de los Alimentos y de la Violencia Familiar",
+          "articulos": {
+            "desde": "292",
+            "hasta": "323 Septimus"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l1-t9",
+          "nombre": "Título Séptimo",
+          "subtitulo": "De la Paternidad y Filiación",
+          "articulos": {
+            "desde": "324",
+            "hasta": "410 F"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l1-t10",
+          "nombre": "Título Octavo",
+          "subtitulo": "De la Patria Potestad",
+          "articulos": {
+            "desde": "411",
+            "hasta": "448"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l1-t11",
+          "nombre": "Título Noveno",
+          "subtitulo": "De la Tutela",
+          "articulos": {
+            "desde": "449",
+            "hasta": "640"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l1-t12",
+          "nombre": "Título Décimo",
+          "subtitulo": "De la Emancipación y de la Mayor Edad",
+          "articulos": {
+            "desde": "641",
+            "hasta": "647"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l1-t13",
+          "nombre": "Título Undécimo",
+          "subtitulo": "De los Ausentes e Ignorados",
+          "articulos": {
+            "desde": "648",
+            "hasta": "722"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l1-t14",
+          "nombre": "Título Duodécimo",
+          "subtitulo": "Del Patrimonio de la Familia",
+          "articulos": {
+            "desde": "723",
+            "hasta": "746"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        }
+      ],
+      "nombre_por_cotejar": true
+    },
+    {
+      "tipo": "libro",
+      "id": "l2",
+      "nombre": "Libro Segundo",
+      "subtitulo": "De los Bienes",
+      "hijos": [
+        {
+          "tipo": "titulo",
+          "id": "l2-t1",
+          "nombre": "Título Primero",
+          "subtitulo": "Disposiciones Preliminares",
+          "articulos": {
+            "desde": "747",
+            "hasta": "749"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l2-t2",
+          "nombre": "Título Segundo",
+          "subtitulo": "Clasificación de los Bienes",
+          "articulos": {
+            "desde": "750",
+            "hasta": "789"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l2-t3",
+          "nombre": "Título Tercero",
+          "subtitulo": "De la Posesión",
+          "articulos": {
+            "desde": "790",
+            "hasta": "829"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l2-t4",
+          "nombre": "Título Cuarto",
+          "subtitulo": "De la Propiedad",
+          "articulos": {
+            "desde": "830",
+            "hasta": "979"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l2-t5",
+          "nombre": "Título Quinto",
+          "subtitulo": "Del Usufructo, del Uso y de la Habitación",
+          "articulos": {
+            "desde": "980",
+            "hasta": "1056"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l2-t6",
+          "nombre": "Título Sexto",
+          "subtitulo": "De las Servidumbres",
+          "articulos": {
+            "desde": "1057",
+            "hasta": "1134"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l2-t7",
+          "nombre": "Título Séptimo",
+          "subtitulo": "De la Prescripción",
+          "articulos": {
+            "desde": "1135",
+            "hasta": "1180"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        }
+      ],
+      "nombre_por_cotejar": true
+    },
+    {
+      "tipo": "libro",
+      "id": "l3",
+      "nombre": "Libro Tercero",
+      "subtitulo": "De las Sucesiones",
+      "hijos": [
+        {
+          "tipo": "titulo",
+          "id": "l3-t1",
+          "nombre": "Título Primero",
+          "subtitulo": "Disposiciones Generales",
+          "articulos": {
+            "desde": "1281",
+            "hasta": "1294"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l3-t2",
+          "nombre": "Título Segundo",
+          "subtitulo": "De la Sucesión por Testamento",
+          "articulos": {
+            "desde": "1295",
+            "hasta": "1498"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l3-t3",
+          "nombre": "Título Tercero",
+          "subtitulo": "De la Forma de los Testamentos",
+          "articulos": {
+            "desde": "1499",
+            "hasta": "1598"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l3-t4",
+          "nombre": "Título Cuarto",
+          "subtitulo": "De la Sucesión Legítima",
+          "articulos": {
+            "desde": "1599",
+            "hasta": "1637"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "titulo",
+          "id": "l3-t5",
+          "nombre": "Título Quinto",
+          "subtitulo": "Disposiciones Comunes a las Sucesiones Testamentaria y Legítima",
+          "articulos": {
+            "desde": "1638",
+            "hasta": "1791"
+          },
+          "rango_por_cotejar": true,
+          "nombre_por_cotejar": true
+        }
+      ],
+      "nombre_por_cotejar": true
+    },
+    {
+      "tipo": "libro",
+      "id": "l4",
+      "nombre": "Libro Cuarto",
+      "subtitulo": "De las Obligaciones",
+      "hijos": [
+        {
+          "tipo": "parte",
+          "id": "l4-p1",
+          "nombre": "Primera Parte",
+          "subtitulo": "De las Obligaciones en General",
+          "hijos": [
+            {
+              "tipo": "titulo",
+              "id": "l4-p1-t1",
+              "nombre": "Título Primero",
+              "subtitulo": "Fuentes de las Obligaciones",
+              "articulos": {
+                "desde": "1792",
+                "hasta": "1934"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            },
+            {
+              "tipo": "titulo",
+              "id": "l4-p1-t2",
+              "nombre": "Título Segundo",
+              "subtitulo": "Modalidades de las Obligaciones",
+              "articulos": {
+                "desde": "1935",
+                "hasta": "1987"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            },
+            {
+              "tipo": "titulo",
+              "id": "l4-p1-t3",
+              "nombre": "Título Tercero",
+              "subtitulo": "De la Transmisión de las Obligaciones",
+              "articulos": {
+                "desde": "1988",
+                "hasta": "2061"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            },
+            {
+              "tipo": "titulo",
+              "id": "l4-p1-t4",
+              "nombre": "Título Cuarto",
+              "subtitulo": "Efectos de las Obligaciones",
+              "articulos": {
+                "desde": "2062",
+                "hasta": "2184"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            },
+            {
+              "tipo": "titulo",
+              "id": "l4-p1-t5",
+              "nombre": "Título Quinto",
+              "subtitulo": "Extinción de las Obligaciones",
+              "articulos": {
+                "desde": "2185",
+                "hasta": "2223"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            },
+            {
+              "tipo": "titulo",
+              "id": "l4-p1-t6",
+              "nombre": "Título Sexto",
+              "subtitulo": "De la Inexistencia y de la Nulidad",
+              "articulos": {
+                "desde": "2224",
+                "hasta": "2242"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            }
+          ],
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "parte",
+          "id": "l4-p2",
+          "nombre": "Segunda Parte",
+          "subtitulo": "De las Diversas Especies de Contratos",
+          "hijos": [
+            {
+              "tipo": "titulo",
+              "id": "l4-p2-t1",
+              "nombre": "Título Primero",
+              "subtitulo": "De los Contratos Preparatorios. La Promesa",
+              "articulos": {
+                "desde": "2243",
+                "hasta": "2247"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            },
+            {
+              "tipo": "titulo",
+              "id": "l4-p2-t2",
+              "nombre": "Título Segundo",
+              "subtitulo": "De la Compraventa",
+              "articulos": {
+                "desde": "2248",
+                "hasta": "2326"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            },
+            {
+              "tipo": "titulo",
+              "id": "l4-p2-t3",
+              "nombre": "Título Tercero",
+              "subtitulo": "De la Permuta",
+              "articulos": {
+                "desde": "2327",
+                "hasta": "2331"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            },
+            {
+              "tipo": "titulo",
+              "id": "l4-p2-t4",
+              "nombre": "Título Cuarto",
+              "subtitulo": "De las Donaciones",
+              "articulos": {
+                "desde": "2332",
+                "hasta": "2383"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            },
+            {
+              "tipo": "titulo",
+              "id": "l4-p2-t5",
+              "nombre": "Título Quinto",
+              "subtitulo": "Del Mutuo",
+              "articulos": {
+                "desde": "2384",
+                "hasta": "2397"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            },
+            {
+              "tipo": "titulo",
+              "id": "l4-p2-t6",
+              "nombre": "Título Sexto",
+              "subtitulo": "Del Arrendamiento",
+              "articulos": {
+                "desde": "2398",
+                "hasta": "2496"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            },
+            {
+              "tipo": "titulo",
+              "id": "l4-p2-t7",
+              "nombre": "Título Séptimo",
+              "subtitulo": "Del Comodato",
+              "articulos": {
+                "desde": "2497",
+                "hasta": "2515"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            },
+            {
+              "tipo": "titulo",
+              "id": "l4-p2-t8",
+              "nombre": "Título Octavo",
+              "subtitulo": "Del Depósito y del Secuestro",
+              "articulos": {
+                "desde": "2516",
+                "hasta": "2545"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            },
+            {
+              "tipo": "titulo",
+              "id": "l4-p2-t9",
+              "nombre": "Título Noveno",
+              "subtitulo": "Del Mandato",
+              "articulos": {
+                "desde": "2546",
+                "hasta": "2604"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            },
+            {
+              "tipo": "titulo",
+              "id": "l4-p2-t10",
+              "nombre": "Título Décimo",
+              "subtitulo": "Del Contrato de Prestación de Servicios",
+              "articulos": {
+                "desde": "2605",
+                "hasta": "2669"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            },
+            {
+              "tipo": "titulo",
+              "id": "l4-p2-t11",
+              "nombre": "Título Undécimo",
+              "subtitulo": "De las Asociaciones y de las Sociedades",
+              "articulos": {
+                "desde": "2670",
+                "hasta": "2738"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            },
+            {
+              "tipo": "titulo",
+              "id": "l4-p2-t12",
+              "nombre": "Título Duodécimo",
+              "subtitulo": "De la Aparcería Rural",
+              "articulos": {
+                "desde": "2739",
+                "hasta": "2763"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            },
+            {
+              "tipo": "titulo",
+              "id": "l4-p2-t13",
+              "nombre": "Título Décimo Tercero",
+              "subtitulo": "De los Contratos Aleatorios",
+              "articulos": {
+                "desde": "2764",
+                "hasta": "2793"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            },
+            {
+              "tipo": "titulo",
+              "id": "l4-p2-t14",
+              "nombre": "Título Décimo Cuarto",
+              "subtitulo": "De la Fianza",
+              "articulos": {
+                "desde": "2794",
+                "hasta": "2855"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            },
+            {
+              "tipo": "titulo",
+              "id": "l4-p2-t15",
+              "nombre": "Título Décimo Quinto",
+              "subtitulo": "De la Prenda",
+              "articulos": {
+                "desde": "2856",
+                "hasta": "2892"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            },
+            {
+              "tipo": "titulo",
+              "id": "l4-p2-t16",
+              "nombre": "Título Décimo Sexto",
+              "subtitulo": "De la Hipoteca",
+              "articulos": {
+                "desde": "2893",
+                "hasta": "2943"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            },
+            {
+              "tipo": "titulo",
+              "id": "l4-p2-t17",
+              "nombre": "Título Décimo Séptimo",
+              "subtitulo": "De las Transacciones",
+              "articulos": {
+                "desde": "2944",
+                "hasta": "2963"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            }
+          ],
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "parte",
+          "id": "l4-p3",
+          "nombre": "Tercera Parte",
+          "subtitulo": "De la Concurrencia y Prelación de los Créditos",
+          "hijos": [
+            {
+              "tipo": "titulo",
+              "id": "l4-p3-t1",
+              "nombre": "Título Primero",
+              "subtitulo": "De la Concurrencia y Prelación de los Créditos",
+              "articulos": {
+                "desde": "2964",
+                "hasta": "2998"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            }
+          ],
+          "nombre_por_cotejar": true
+        },
+        {
+          "tipo": "parte",
+          "id": "l4-p4",
+          "nombre": "Cuarta Parte",
+          "subtitulo": "Del Registro Público",
+          "hijos": [
+            {
+              "tipo": "titulo",
+              "id": "l4-p4-t1",
+              "nombre": "Título Primero",
+              "subtitulo": "Del Registro Público",
+              "articulos": {
+                "desde": "2999",
+                "hasta": "3074"
+              },
+              "rango_por_cotejar": true,
+              "nombre_por_cotejar": true
+            }
+          ],
+          "nombre_por_cotejar": true
+        }
+      ],
+      "nombre_por_cotejar": true
+    }
+  ],
+  "articulos": {
+    "1": {
+      "numero": "1",
+      "estado": "pendiente",
+      "tema": "Ámbito de aplicación del Código",
+      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
+      "texto": null,
+      "versiones": []
+    },
+    "22": {
+      "numero": "22",
+      "estado": "pendiente",
+      "tema": "Capacidad jurídica de las personas físicas",
+      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
+      "texto": null,
+      "versiones": []
+    },
+    "146": {
+      "numero": "146",
+      "estado": "pendiente",
+      "tema": "Matrimonio",
+      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
+      "texto": null,
+      "versiones": []
+    },
+    "308": {
+      "numero": "308",
+      "estado": "pendiente",
+      "tema": "Alimentos",
+      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
+      "texto": null,
+      "versiones": []
+    },
+    "1281": {
+      "numero": "1281",
+      "estado": "pendiente",
+      "tema": "Herencia: sucesión testamentaria y legítima",
+      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
+      "texto": null,
+      "versiones": []
+    },
+    "1502": {
+      "numero": "1502",
+      "estado": "pendiente",
+      "tema": "Testamento: formalidades (fracción I reformada GOCDMX 20-08-2026)",
+      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
+      "texto": null,
+      "versiones": [],
+      "ultima_reforma": {
+        "fecha": "2026-08-20",
+        "medio": "Gaceta Oficial de la Ciudad de México",
+        "edicion": "1929 Bis",
+        "vigencia_desde": "2026-08-21",
+        "vigencia_verificada": true,
+        "fraccion": "I",
+        "fuente": "docs/ccdf-sources-registry-entry.json (dictamen ccdf-cierre-ultima-reforma-2026-08-20)"
+      }
+    },
+    "1792": {
+      "numero": "1792",
+      "estado": "pendiente",
+      "tema": "Convenio y contrato",
+      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
+      "texto": null,
+      "versiones": []
+    },
+    "1834": {
+      "numero": "1834",
+      "estado": "pendiente",
+      "tema": "Forma de los contratos (reformado GOCDMX 20-08-2026)",
+      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
+      "texto": null,
+      "versiones": [],
+      "ultima_reforma": {
+        "fecha": "2026-08-20",
+        "medio": "Gaceta Oficial de la Ciudad de México",
+        "edicion": "1929 Bis",
+        "vigencia_desde": "2026-08-21",
+        "vigencia_verificada": true,
+        "fuente": "docs/ccdf-sources-registry-entry.json (dictamen ccdf-cierre-ultima-reforma-2026-08-20)"
+      }
+    },
+    "2248": {
+      "numero": "2248",
+      "estado": "pendiente",
+      "tema": "Compraventa",
+      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
+      "texto": null,
+      "versiones": []
+    },
+    "2999": {
+      "numero": "2999",
+      "estado": "pendiente",
+      "tema": "Registro Público de la Propiedad",
+      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
+      "texto": null,
+      "versiones": []
+    }
+  }
+}

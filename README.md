@@ -1,6 +1,6 @@
 # legislacion-mx-prototipo
 
-Prototipo navegable de legislación mexicana vigente e histórica (CPEUM, después CCCDMX), con el historial de versiones **desplegado bajo cada artículo**. Navegación inspirada en [Légifrance](https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000006070721/). Objetivo: sitio público monetizable con tráfico útil, a costo cero.
+Prototipo navegable de legislación mexicana vigente e histórica (CPEUM; CCDF/CCCDMX en estructura base), con el historial de versiones **desplegado bajo cada artículo**. Navegación inspirada en [Légifrance](https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000006070721/). Objetivo: sitio público monetizable con tráfico útil, a costo cero.
 
 ## Qué hay
 
@@ -17,6 +17,8 @@ Prototipo navegable de legislación mexicana vigente e histórica (CPEUM, despu�
 | `cpeum.json` | **Fuente de datos editable**: estructura completa de la CPEUM (Títulos, Capítulos, Secciones y rangos de artículos) + los artículos cargados con sus versiones. |
 | `cpeum-art-1.json` | Golden case del Artículo 1o. (4 versiones cotejadas con DOF/SCJN). `cpeum.json` lo incluye verbatim. |
 | `cpeum-art-4.json` | Golden case del Artículo 4o.: 25 versiones (texto original, 23 reformas y 1 fe de erratas) extraídas del PDF «Historia del texto del artículo» de la SCJN y cotejadas con el texto consolidado de la Cámara de Diputados; el bloque `fuentes` documenta el método y las advertencias. |
+| `ccdf.json` | **Código Civil para el Distrito Federal (CCDF/CCCDMX) — estructura base**: metadatos de la norma (última reforma verificada GOCDMX 20-08-2026, ed. 1929 Bis; conflicto de metadatos del Congreso 02-09-2026 documentado), índice por Libros, Partes y Títulos con rangos `rango_por_cotejar`, y 10 artículos de muestra sin texto (`texto: null`, estado `pendiente`). Sin historial todavía. |
+| `build_ccdf.py` | Genera `ccdf/index.html` (índice navegable, metadatos, schema.org/Legislation) y `ccdf/articulos/N.html` a partir de `ccdf.json`; lo invoca `build.py`. Un artículo sin texto se publica con el marcador «pendiente de cotejo», `noindex` y fuera del sitemap; al cargar el texto cotejado pasa a indexarse solo. |
 | `build.py` | Genera todo lo anterior a partir de `cpeum.json`: inyecta los datos en `index.html` (entre `<!-- DATA:START -->` y `<!-- DATA:END -->`), escribe `articulos/N.html`, `sitemap.xml` y `robots.txt`. Sin dependencias: `python3 build.py`. |
 
 ## Funciones del prototipo
@@ -34,6 +36,13 @@ Prototipo navegable de legislación mexicana vigente e histórica (CPEUM, despu�
 - **Notas de extracción**: `nota_extraccion` documenta en una versión lo que se descontó o retiró del bloque SCJN (línea de corte de página repetida, párrafo duplicado, anotación editorial). Las **34 versiones fusionadas** por el separador lineal en 21 artículos quedaron íntegramente separadas mediante extracción por coordenadas desde sus PDFs (`docs/reporte_versiones_fusionadas.md`); `extraccion_pendiente: true` sólo permanece en 4 versiones del Art. 100 (`v5`–`v8`) donde se retiró la línea repetida de pie de página proveniente del Art. 99 («extracción por cotejar»).
 - **Vigente, historial en construcción** (punto azul): estado soportado; hoy no queda ninguno.
 - La etiqueta `tema` de cada artículo es editorial, no forma parte del texto oficial.
+
+## Estado del CCDF (Código Civil para el Distrito Federal)
+
+- **Estructura base publicada** en `ccdf/index.html`: Libros Primero a Cuarto (el Cuarto con sus cuatro Partes), 51 Títulos y las Disposiciones Preliminares. Nombres y rangos provienen de la estructura general del Código y **no están cotejados** con el consolidado oficial (`nombre_por_cotejar` / `rango_por_cotejar` en cada nodo; `estructura_cotejada: false`), por lo que el índice se publica con `noindex` y fuera del sitemap hasta cotejarlo con el DOCX de la Consejería (`docs/reporte_ajuste_indice_ccdf.md`). Los Capítulos se añadirán en ese cotejo.
+- **Texto normativo: ninguno todavía.** El texto consolidado recomendado (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado (`sources_registry.json`, pendiente `ccdf-docx-hash`), así que los 10 artículos de muestra (1, 22, 146, 308, 1281, 1502, 1792, 1834, 2248, 2999) se publican como fichas «pendiente de cotejo», con `noindex` y fuera del sitemap. No se reproduce ni parafrasea texto normativo sin cotejar.
+- **Última reforma verificada:** 20-08-2026, Gaceta Oficial de la Ciudad de México 1929 Bis (arts. 1834 y 1502-I), en vigor desde el 21-08-2026 (`docs/brief-gpt-cierre-ccdf-vigente.md`, `docs/ccdf-sources-registry-entry.json`). La fecha 02-09-2026 del Congreso se conserva como conflicto de metadatos y no genera evento.
+- **Siguiente paso:** con el DOCX (y su SHA-256) en mano, cotejar rangos, añadir Capítulos y cargar `texto` en `ccdf.json`; `build.py` hace el resto. El historial del CCDF queda fuera de alcance por ahora.
 
 ## Cómo añadir o corregir un artículo
 
