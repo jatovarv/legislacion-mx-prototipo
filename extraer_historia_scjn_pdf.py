@@ -151,8 +151,10 @@ def parrafos_de(lineas_v):
         if prev is not None and cur:
             if l["page"] != prev["page"]:
                 # cambio de página: nuevo párrafo si la última línea de la página anterior quedó corta
-                # (no llegó al margen derecho) y terminó en signo de cierre.
-                salto = prev["x1"] < MARGEN_DERECHO - 25 and bool(re.search(r"[.;:]$", prev["text"].strip()))
+                # (no llegó al margen derecho) y terminó en signo de cierre, o si cerró con [.;:] y la nueva empieza con numeral/inciso.
+                salto = bool(re.search(r"[.;:]$", prev["text"].strip())) and (
+                    prev["x1"] < MARGEN_DERECHO - 25 or bool(re.match(r"^(?:[IVXLC]{1,7}(?:-[A-ZÑ])?|\d+[oaª]?|[A-Z]|[a-z]\))[.)]\s", t))
+                )
             else:
                 salto = (l["top"] - prev["top"]) > 1.45 * 12.2
         if salto and cur:
