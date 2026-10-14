@@ -98,12 +98,19 @@ def corregir_bloque(num, texto):
     """Devuelve (texto_corregido, descripción de la diferencia). Sólo retira o normaliza; no añade palabras."""
     if num == 3:
         t = re.sub(r"exclusivismos\s*[-–]\s*atenderá", "exclusivismos– atenderá", texto)
-        return t, ("Único desfase: la raya del inciso b) de la fracción II («–sin hostilidades ni exclusivismos– atenderá») "
-                   "salió como guion con espacios en el PDF de la SCJN («exclusivismos - atenderá»). Diferencia tipográfica.")
+        return t, ("Desfases: la raya del inciso b) de la fracción II («–sin hostilidades ni exclusivismos– atenderá») "
+                   "salió como guion con espacios en el PDF de la SCJN («-sin hostilidades ni exclusivismos - atenderá»); "
+                   "además, el párrafo tercero, el inciso d) de la fracción II y las fracciones III y IX derogados figuran en la Cámara "
+                   "con la leyenda «Párrafo tercero. Se deroga.», «d) Se deroga.», «III. Se deroga.» y «IX. Se deroga», mientras que en el "
+                   "bloque SCJN sus anotaciones «(DEROGADO…)» pasaron a notas_scjn dejando sólo el numeral. Diferencias tipográficas y de "
+                   "representación de derogaciones.")
     if num == 72:
-        t = texto.replace("I (sic).- El Ejecutivo", "I (sic DOF 17-08-2011). El Ejecutivo")
-        return t, ("Único desfase: el numeral repetido «I (sic).-» del apartado final salió con guion en el PDF de la SCJN; "
-                   "la Cámara lo imprime «I (sic DOF 17-08-2011).». Diferencia tipográfica.")
+        t = (texto
+             .replace("ésta,, (sic)", "ésta,, (sic DOF 05-02-1917)")
+             .replace("I (sic).- El Ejecutivo", "I (sic DOF 24-11-1923). El Ejecutivo"))
+        return t, ("Desfases: en el inciso C la marca editorial «ésta,, (sic)» del bloque SCJN aparece en la Cámara con fecha "
+                   "«ésta,, (sic DOF 05-02-1917)», y el numeral repetido «I (sic).-» del apartado final salió con guion y sin fecha en el "
+                   "PDF de la SCJN mientras la Cámara lo imprime «I (sic DOF 24-11-1923).». Diferencias tipográficas y de fechamiento de marcas (sic).")
     if num == 99:
         dup = PARRAFO_99 + "\n\n" + PARRAFO_99 + " El ingreso,"
         assert texto.count(dup) == 1, "Art. 99: no se encontró el párrafo duplicado esperado"
@@ -121,17 +128,25 @@ def corregir_bloque(num, texto):
         marca = "XVIII.- (REPUBLICADA DEROGACIÓN, D.O.F. 6 DE JUNIO DE 2011)"
         assert texto.count(marca) == 1
         t = texto.replace(marca, "XVIII.- (Derogada)")
-        return t, ("Único desfase: la fracción XVIII derogada trae en el PDF de la SCJN la anotación editorial «(REPUBLICADA DEROGACIÓN, "
-                   "D.O.F. 6 DE JUNIO DE 2011)»; la Cámara imprime «XVIII. Se deroga.». Anotación, no texto normativo.")
+        return t, ("Desfases: la fracción XVIII derogada trae en el PDF de la SCJN la anotación editorial «(REPUBLICADA DEROGACIÓN, "
+                   "D.O.F. 6 DE JUNIO DE 2011)» (la Cámara imprime «XVIII. Se deroga.») y en la fracción X derogada la Cámara imprime "
+                   "«X. Se deroga;» mientras en el bloque SCJN su anotación «(DEROGADA, D.O.F. 6 DE JUNIO DE 2011)» pasó a notas_scjn. "
+                   "Anotaciones editoriales, no texto normativo.")
     if num == 109:
         t, n = quitar_parrafo_suelto(texto, "x")
         assert n == 3, f"Art. 109: se esperaban 3 marcas «x», hay {n}"
         return t, ("Único desfase: tres párrafos sueltos con una «x» (marca del PDF de la SCJN en cortes de página, sin correlato en el texto). "
                    "Retirados, el bloque coincide con la Cámara.")
     if num == 123:
-        t = texto.replace("XI (SIC).- Los trabajadores", "XI (sic DOF 05-12-1960). Los trabajadores").replace("XIII bis.- El banco", "XIII bis. El banco")
-        return t, ("Únicos desfases: el numeral repetido «XI (SIC).-» del apartado B salió con guion en el PDF de la SCJN (la Cámara: «XI (sic 05-12-1960).») "
-                   "y «XIII bis.-» frente a «XIII bis.». Diferencias tipográficas.")
+        t = (texto
+             .replace("dosicentos (sic)", "dosicentos (sic DOF 09-01-1978)")
+             .replace("consentimieto (sic)", "consentimieto (sic DOF 21-11-1962)")
+             .replace("XI (SIC).- Los trabajadores", "XI (sic 05-12-1960). Los trabajadores")
+             .replace("XIII bis.- El banco", "XIII bis. El banco"))
+        return t, ("Desfases: en el Apartado A las marcas editoriales «dosicentos (sic)» (fracción XII, párrafo tercero) y «consentimieto (sic)» "
+                   "(fracción XXII) del bloque SCJN llevan fecha en la Cámara («dosicentos (sic DOF 09-01-1978)» y «consentimieto (sic DOF 21-11-1962)»); "
+                   "en el Apartado B el numeral repetido «XI (SIC).-» salió con guion y sin fecha en el PDF de la SCJN (la Cámara: «XI (sic 05-12-1960).») "
+                   "y «XIII bis.-» frente a «XIII bis.». Diferencias tipográficas y de fechamiento de marcas (sic).")
     raise KeyError(num)
 
 
@@ -172,8 +187,10 @@ for num in CIERRE:
     art["nota"] = ("Historial extraído del PDF «Historia del texto del artículo» de la SCJN; la versión vigente coincide con el texto consolidado "
                    f"de la Cámara de Diputados (última reforma DOF {fmt(ULTIMA_REFORMA)}). Fechas de entrada en vigor por regla general, pendientes de cotejo con cada decreto. "
                    "El último bloque del PDF de la SCJN traía una diferencia de extracción no normativa (detallada en la nota de extracción de la versión vigente); "
-                   "la versión vigente es el texto del consolidado.")
-    art["fuente_historial"] = art.get("fuente_historial", "") + "; última versión cerrada con el consolidado de la Cámara (cerrar_historial_grupo_b.py)"
+                   "la versión vigente es el texto del consolidado (cerrar_historial_grupo_b.py).")
+    extra_fh = (" y limpieza de corte de página en v7" if num == 99 else
+                " y limpieza de líneas de corte de página en v5–v8" if num == 100 else "")
+    art["fuente_historial"] = art.get("fuente_historial", "") + f"; última versión cerrada con el consolidado de la Cámara{extra_fh} (cerrar_historial_grupo_b.py)"
     reporte["cerrados"][num] = {"versiones": len(vers), "publicacion_ultima": vig["publicacion"], "diferencia": descripcion}
 
 # --- 2. limpiezas mecánicas en versiones anteriores (Arts. 99 y 100) -----------------------------------------------
@@ -224,7 +241,8 @@ v6["nota_extraccion"] = (
     "Pendiente: re-extraer el Art. 35 por coordenadas (extraer_historia_scjn_pdf.py) desde Art_035_00_historia.pdf. El texto vigente mostrado es el del consolidado.")
 a35["nota"] = ("Historial extraído del PDF de la SCJN con el separador lineal, con bloques fusionados (v2, v4 y v6 contienen más de una versión) y dos versiones sin fecha legible. "
                "El texto vigente es el del consolidado de la Cámara de Diputados (última reforma DOF " + fmt(ULTIMA_REFORMA) + "); "
-               "el último bloque de la SCJN no se fecha por inferencia y queda aislado para re-extracción por coordenadas desde el PDF. Historial por cotejar.")
+               "el último bloque de la SCJN no se fecha por inferencia y queda aislado para re-extracción por coordenadas desde el PDF (cerrar_historial_grupo_b.py). Historial por cotejar.")
+a35["fuente_historial"] = a35.get("fuente_historial", "") + "; último bloque sin fecha aislado para re-extracción (cerrar_historial_grupo_b.py)"
 reporte["pendientes"][35] = {"motivo": "último bloque SCJN sin fecha legible y fusionado; requiere el PDF Art_035_00_historia.pdf",
                              "parte2_coincide_con_camara": coincide, "versiones": len(a35["versiones"])}
 

@@ -4,12 +4,12 @@
     "3": {
       "versiones": 15,
       "publicacion_ultima": "2024-12-20",
-      "diferencia": "Único desfase: la raya del inciso b) de la fracción II («–sin hostilidades ni exclusivismos– atenderá») salió como guion con espacios en el PDF de la SCJN («exclusivismos - atenderá»). Diferencia tipográfica."
+      "diferencia": "Desfases: la raya del inciso b) de la fracción II («–sin hostilidades ni exclusivismos– atenderá») salió como guion con espacios en el PDF de la SCJN («-sin hostilidades ni exclusivismos - atenderá»); además, el párrafo tercero, el inciso d) de la fracción II y las fracciones III y IX derogados figuran en la Cámara con la leyenda «Párrafo tercero. Se deroga.», «d) Se deroga.», «III. Se deroga.» y «IX. Se deroga», mientras que en el bloque SCJN sus anotaciones «(DEROGADO…)» pasaron a notas_scjn dejando sólo el numeral. Diferencias tipográficas y de representación de derogaciones."
     },
     "72": {
       "versiones": 3,
       "publicacion_ultima": "2011-08-17",
-      "diferencia": "Único desfase: el numeral repetido «I (sic).-» del apartado final salió con guion en el PDF de la SCJN; la Cámara lo imprime «I (sic DOF 17-08-2011).». Diferencia tipográfica."
+      "diferencia": "Desfases: en el inciso C la marca editorial «ésta,, (sic)» del bloque SCJN aparece en la Cámara con fecha «ésta,, (sic DOF 05-02-1917)», y el numeral repetido «I (sic).-» del apartado final salió con guion y sin fecha en el PDF de la SCJN mientras la Cámara lo imprime «I (sic DOF 24-11-1923).». Diferencias tipográficas y de fechamiento de marcas (sic)."
     },
     "99": {
       "versiones": 8,
@@ -24,7 +24,7 @@
     "107": {
       "versiones": 19,
       "publicacion_ultima": "2024-10-31",
-      "diferencia": "Único desfase: la fracción XVIII derogada trae en el PDF de la SCJN la anotación editorial «(REPUBLICADA DEROGACIÓN, D.O.F. 6 DE JUNIO DE 2011)»; la Cámara imprime «XVIII. Se deroga.». Anotación, no texto normativo."
+      "diferencia": "Desfases: la fracción XVIII derogada trae en el PDF de la SCJN la anotación editorial «(REPUBLICADA DEROGACIÓN, D.O.F. 6 DE JUNIO DE 2011)» (la Cámara imprime «XVIII. Se deroga.») y en la fracción X derogada la Cámara imprime «X. Se deroga;» mientras en el bloque SCJN su anotación «(DEROGADA, D.O.F. 6 DE JUNIO DE 2011)» pasó a notas_scjn. Anotaciones editoriales, no texto normativo."
     },
     "109": {
       "versiones": 3,
@@ -34,7 +34,7 @@
     "123": {
       "versiones": 33,
       "publicacion_ultima": "2026-03-03",
-      "diferencia": "Únicos desfases: el numeral repetido «XI (SIC).-» del apartado B salió con guion en el PDF de la SCJN (la Cámara: «XI (sic 05-12-1960).») y «XIII bis.-» frente a «XIII bis.». Diferencias tipográficas."
+      "diferencia": "Desfases: en el Apartado A las marcas editoriales «dosicentos (sic)» (fracción XII, párrafo tercero) y «consentimieto (sic)» (fracción XXII) del bloque SCJN llevan fecha en la Cámara («dosicentos (sic DOF 09-01-1978)» y «consentimieto (sic DOF 21-11-1962)»); en el Apartado B el numeral repetido «XI (SIC).-» salió con guion y sin fecha en el PDF de la SCJN (la Cámara: «XI (sic 05-12-1960).») y «XIII bis.-» frente a «XIII bis.». Diferencias tipográficas y de fechamiento de marcas (sic)."
     }
   },
   "pendientes": {
