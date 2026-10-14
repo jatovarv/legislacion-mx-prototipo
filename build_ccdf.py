@@ -30,6 +30,7 @@ CSS_EXTRA = """
   .arbol ul { list-style:none; padding-left:1.1rem; margin:.2rem 0 .6rem; border-left:2px solid var(--border); }
   .arbol li { margin:.25rem 0; }
   .arbol .nodo { font-weight:600; color:var(--brand); }
+  .arbol .nodo.seccion { font-weight:500; font-style:italic; }
   .arbol .sub { color:var(--text); font-weight:400; }
   .arbol .rango { color:var(--muted); font-size:.8rem; white-space:nowrap; }
   .arbol details > summary { cursor:pointer; list-style:none; }
@@ -56,13 +57,16 @@ def rango_html(nodo, esc):
     if not r:
         return marca
     txt = f"Arts. {r['desde']}–{r['hasta']}" if r["desde"] != r["hasta"] else f"Art. {r['desde']}"
-    return f' <span class="rango">({esc(txt)})</span>{marca}'
+    der = f"; {nodo['n_derogados']} derogado{'s' if nodo['n_derogados'] != 1 else ''}" if nodo.get("n_derogados") else ""
+    fuente = f' title="Fuente: PDF del Congreso CDMX, p. {nodo["pagina"]}{der}"' if nodo.get("pagina") else ""
+    return f' <span class="rango"{fuente}>({esc(txt)})</span>{marca}'
 
 
 def arbol_html(nodos, esc, nivel=0):
     out = []
     for n in nodos:
-        etiqueta = f'<span class="nodo">{esc(n["nombre"])}</span>' + (f' <span class="sub">— {esc(n["subtitulo"])}</span>' if n.get("subtitulo") else "")
+        etiqueta = (f'<span class="nodo{" seccion" if n["tipo"] == "seccion" else ""}">{esc(n["nombre"])}</span>'
+                    + (f' <span class="sub">— {esc(n["subtitulo"])}</span>' if n.get("subtitulo") else ""))
         hijos = n.get("hijos")
         if hijos:
             out.append(f'<li><details{" open" if nivel == 0 else ""}><summary>{etiqueta}{rango_html(n, esc)}</summary>'
@@ -184,7 +188,7 @@ def pagina_indice(data, site_url, fecha_build, b):
   <nav class="breadcrumb" aria-label="Ubicación"><a href="../index.html">Legislación MX</a> <span aria-hidden="true">›</span> <b>{b.esc(norma['siglas'])}</b></nav>
   <article>
     <h1>{b.esc(norma['nombre'])}</h1>
-    <div class="badges"><span class="badge vigente">Texto vigente</span><span class="badge pendiente" title="{b.esc(norma['aviso'])}">Estructura base · texto por cotejar</span></div>
+    <div class="badges"><span class="badge vigente">Texto vigente</span>{'<span class="badge verificado" title="Índice cotejado con el PDF oficial del Congreso de la Ciudad de México">Índice cotejado</span>' if norma.get('estructura_cotejada') else ''}<span class="badge pendiente" title="{b.esc(norma['aviso'])}">Texto de los artículos por cotejar</span></div>
     <p class="tema">También citado como {b.esc(' / '.join(norma.get('aliases', [])))}. Jurisdicción: {b.esc(norma.get('jurisdiccion', ''))}.</p>
     <dl class="meta">{meta_html}</dl>
     <p class="aviso-historial">{b.esc(norma['aviso'])}</p>
