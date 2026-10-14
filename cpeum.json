@@ -266,7 +266,7 @@
           "etiqueta": "Original",
           "publicacion": "1917-02-05",
           "vigencia_desde": "1917-05-01",
-          "vigencia_hasta": "2001-08-13",
+          "vigencia_hasta": "2001-08-14",
           "capitulo": "De las Garantías Individuales",
           "texto": "Art. 1o.- En los Estados Unidos Mexicanos todo individuo gozará de las garantías que otorga esta Constitución, las cuales no podrán restringirse ni suspenderse, sino en los casos y con las condiciones que ella misma establece.",
           "dof_url": "https://www.dof.gob.mx/Constitucion1917/constitucion_1917.pdf",
@@ -16272,6 +16272,20 @@
       "versiones": [
         {
           "id": "v1",
+          "tipo": "original",
+          "etiqueta": "Original",
+          "publicacion": "1917-02-05",
+          "vigencia_desde": "1917-05-01",
+          "vigencia_verificada": true,
+          "vigencia_nota": "Artículo 1o. transitorio de la Constitución de 1917: entró en vigor el 1o. de mayo de 1917.",
+          "capitulo": "Del Poder Ejecutivo",
+          "texto": "Art. 81.- La elección del Presidente será directa y en los términos que disponga la ley electoral.",
+          "notas_scjn": [],
+          "encabezado_scjn": "Texto original 05 de febrero de 1917",
+          "vigencia_hasta": "2019-12-20"
+        },
+        {
+          "id": "v2",
           "tipo": "vigente",
           "etiqueta": "Vigente (post 20-12-2019)",
           "publicacion": "2019-12-20",
@@ -16287,7 +16301,7 @@
           "vigencia_hasta": null
         }
       ],
-      "fuente_historial": "SCJN, Historia del texto del artículo (00_historia.pdf), separado con separar_versiones_scjn.py (PR #7) en Colab; Drive: /MyDrive/CPEUM_SCJN_Historial/versiones_separadas.json"
+      "fuente_historial": "SCJN, Historia del texto del artículo (Titulo_Tercero/Art_081/00_historia.pdf / CPEUM-081_0.pdf, Drive CPEUM_SCJN_Historial/cpeum_scjn.zip), extraído por coordenadas con extraer_historia_scjn_pdf.py (pdfplumber); cotejado con el consolidado de la Cámara de Diputados"
     },
     "82": {
       "numero": "82",
