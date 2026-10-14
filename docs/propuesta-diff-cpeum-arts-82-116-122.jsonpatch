@@ -1,0 +1,182 @@
+[
+  {
+    "op": "test",
+    "path": "/articulos/82/estado",
+    "value": "historial_parcial"
+  },
+  {
+    "op": "test",
+    "path": "/articulos/82/versiones/11/id",
+    "value": "v12"
+  },
+  {
+    "op": "test",
+    "path": "/articulos/82/versiones/11/publicacion",
+    "value": "2026-10-07"
+  },
+  {
+    "op": "test",
+    "path": "/articulos/82/versiones/11/vigencia_desde",
+    "value": "2026-10-08"
+  },
+  {
+    "op": "test",
+    "path": "/articulos/82/versiones/11/vigencia_verificada",
+    "value": false
+  },
+  {
+    "op": "replace",
+    "path": "/articulos/82/nota",
+    "value": "Historial SCJN disponible hasta DOF 01-04-2025. La reforma DOF 07-10-2026, su texto y su vigencia formal desde 2026-10-08 están verificados directamente en el decreto 5800617 y en el consolidado de la Cámara de Diputados. Se muestra como vigente el texto de Cámara; pendiente únicamente de PDF histórico actualizado de la SCJN que incorpore ese decreto (véase docs/dictamen-grupo-a-dof-2026-10-07.md)."
+  },
+  {
+    "op": "add",
+    "path": "/articulos/82/versiones/11/fecha_inferida",
+    "value": false
+  },
+  {
+    "op": "add",
+    "path": "/articulos/82/versiones/11/origen_fecha",
+    "value": "decreto_dof"
+  },
+  {
+    "op": "replace",
+    "path": "/articulos/82/versiones/11/vigencia_verificada",
+    "value": true
+  },
+  {
+    "op": "replace",
+    "path": "/articulos/82/versiones/11/vigencia_nota",
+    "value": "Vigencia formal verificada directamente en el transitorio Primero del Decreto DOF 07-10-2026: el Decreto entró en vigor el 2026-10-08. Conforme al transitorio Segundo, sus disposiciones serán aplicables a partir del proceso electoral correspondiente al año 2028; conforme al transitorio Tercero, no serán aplicables a quienes se encontraban en ejercicio del cargo al 2026-10-08. El texto vigente procede del consolidado de la Cámara de Diputados y permanece pendiente de cotejo con un PDF histórico actualizado de la SCJN."
+  },
+  {
+    "op": "add",
+    "path": "/articulos/82/versiones/11/dof_url",
+    "value": "https://www.dof.gob.mx/nota_detalle.php?codigo=5800617&fecha=07/10/2026"
+  },
+  {
+    "op": "add",
+    "path": "/articulos/82/versiones/11/dof_etiqueta",
+    "value": "Ver decreto DOF 07-10-2026"
+  },
+  {
+    "op": "test",
+    "path": "/articulos/116/estado",
+    "value": "historial_parcial"
+  },
+  {
+    "op": "test",
+    "path": "/articulos/116/versiones/22/id",
+    "value": "v23"
+  },
+  {
+    "op": "test",
+    "path": "/articulos/116/versiones/22/publicacion",
+    "value": "2026-10-07"
+  },
+  {
+    "op": "test",
+    "path": "/articulos/116/versiones/22/vigencia_desde",
+    "value": "2026-10-08"
+  },
+  {
+    "op": "test",
+    "path": "/articulos/116/versiones/22/vigencia_verificada",
+    "value": false
+  },
+  {
+    "op": "replace",
+    "path": "/articulos/116/nota",
+    "value": "Historial SCJN disponible hasta DOF 02-06-2026. La reforma DOF 07-10-2026, su texto y su vigencia formal desde 2026-10-08 están verificados directamente en el decreto 5800617 y en el consolidado de la Cámara de Diputados. Se muestra como vigente el texto de Cámara; pendiente únicamente de PDF histórico actualizado de la SCJN que incorpore ese decreto (véase docs/dictamen-grupo-a-dof-2026-10-07.md)."
+  },
+  {
+    "op": "add",
+    "path": "/articulos/116/versiones/22/fecha_inferida",
+    "value": false
+  },
+  {
+    "op": "add",
+    "path": "/articulos/116/versiones/22/origen_fecha",
+    "value": "decreto_dof"
+  },
+  {
+    "op": "replace",
+    "path": "/articulos/116/versiones/22/vigencia_verificada",
+    "value": true
+  },
+  {
+    "op": "replace",
+    "path": "/articulos/116/versiones/22/vigencia_nota",
+    "value": "Vigencia formal verificada directamente en el transitorio Primero del Decreto DOF 07-10-2026: el Decreto entró en vigor el 2026-10-08. Conforme al transitorio Segundo, sus disposiciones serán aplicables a partir del proceso electoral correspondiente al año 2028; conforme al transitorio Tercero, no serán aplicables a quienes se encontraban en ejercicio del cargo al 2026-10-08. El texto vigente procede del consolidado de la Cámara de Diputados y permanece pendiente de cotejo con un PDF histórico actualizado de la SCJN."
+  },
+  {
+    "op": "add",
+    "path": "/articulos/116/versiones/22/dof_url",
+    "value": "https://www.dof.gob.mx/nota_detalle.php?codigo=5800617&fecha=07/10/2026"
+  },
+  {
+    "op": "add",
+    "path": "/articulos/116/versiones/22/dof_etiqueta",
+    "value": "Ver decreto DOF 07-10-2026"
+  },
+  {
+    "op": "test",
+    "path": "/articulos/122/estado",
+    "value": "historial_parcial"
+  },
+  {
+    "op": "test",
+    "path": "/articulos/122/versiones/21/id",
+    "value": "v22"
+  },
+  {
+    "op": "test",
+    "path": "/articulos/122/versiones/21/publicacion",
+    "value": "2026-10-07"
+  },
+  {
+    "op": "test",
+    "path": "/articulos/122/versiones/21/vigencia_desde",
+    "value": "2026-10-08"
+  },
+  {
+    "op": "test",
+    "path": "/articulos/122/versiones/21/vigencia_verificada",
+    "value": false
+  },
+  {
+    "op": "replace",
+    "path": "/articulos/122/nota",
+    "value": "Historial SCJN disponible hasta DOF 02-06-2026. La reforma DOF 07-10-2026, su texto y su vigencia formal desde 2026-10-08 están verificados directamente en el decreto 5800617 y en el consolidado de la Cámara de Diputados. Se muestra como vigente el texto de Cámara; pendiente únicamente de PDF histórico actualizado de la SCJN que incorpore ese decreto (véase docs/dictamen-grupo-a-dof-2026-10-07.md)."
+  },
+  {
+    "op": "add",
+    "path": "/articulos/122/versiones/21/fecha_inferida",
+    "value": false
+  },
+  {
+    "op": "add",
+    "path": "/articulos/122/versiones/21/origen_fecha",
+    "value": "decreto_dof"
+  },
+  {
+    "op": "replace",
+    "path": "/articulos/122/versiones/21/vigencia_verificada",
+    "value": true
+  },
+  {
+    "op": "replace",
+    "path": "/articulos/122/versiones/21/vigencia_nota",
+    "value": "Vigencia formal verificada directamente en el transitorio Primero del Decreto DOF 07-10-2026: el Decreto entró en vigor el 2026-10-08. Conforme al transitorio Segundo, sus disposiciones serán aplicables a partir del proceso electoral correspondiente al año 2028; conforme al transitorio Tercero, no serán aplicables a quienes se encontraban en ejercicio del cargo al 2026-10-08. El texto vigente procede del consolidado de la Cámara de Diputados y permanece pendiente de cotejo con un PDF histórico actualizado de la SCJN."
+  },
+  {
+    "op": "add",
+    "path": "/articulos/122/versiones/21/dof_url",
+    "value": "https://www.dof.gob.mx/nota_detalle.php?codigo=5800617&fecha=07/10/2026"
+  },
+  {
+    "op": "add",
+    "path": "/articulos/122/versiones/21/dof_etiqueta",
+    "value": "Ver decreto DOF 07-10-2026"
+  }
+]
