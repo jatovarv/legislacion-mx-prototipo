@@ -1,7 +1,7 @@
 {
-  "registry_version": "1.1",
-  "consultation_date": "2026-10-10",
-  "notes": "Registro de fuentes oficiales. CPEUM lista para producción. CCDF: última reforma verificada 20-08-2026 (GOCDMX 1929 Bis). Fecha Congreso 02-09-2026 registrada como conflicto de metadatos. Texto consolidado DOCX pendiente de descarga y hash.",
+  "registry_version": "1.2",
+  "consultation_date": "2026-10-14",
+  "notes": "Registro de fuentes oficiales. CPEUM lista para producción. CCDF: última reforma verificada 20-08-2026 (GOCDMX 1929 Bis); fecha Congreso 02-09-2026 registrada como conflicto de metadatos; texto consolidado DOCX pendiente de descarga y hash. Estructura base del CCDF publicada en el sitio (ccdf.json, ccdf/index.html) sin texto normativo: rangos de artículos y texto pendientes de cotejo.",
   "sources": [
     {
       "source_id": "cpeum-camara-vigente",
@@ -52,7 +52,10 @@
       "source_id": "ccdf-consejeria-consolidado",
       "norma": "CCDF",
       "canonical_title": "Código Civil para el Distrito Federal",
-      "aliases": ["CCCDMX", "Código Civil de la Ciudad de México"],
+      "aliases": [
+        "CCCDMX",
+        "Código Civil de la Ciudad de México"
+      ],
       "tipo": "texto_consolidado_candidato",
       "autoridad": "Consejería Jurídica y de Servicios Legales de la Ciudad de México",
       "url": "https://data.consejeria.cdmx.gob.mx/images/leyes/2025/CODIGOS_2025/CODIGO_CIVIL_PARA_EL_DF_15.4.docx",
@@ -71,7 +74,10 @@
       "edicion": "1929 Bis",
       "fecha_publicacion": "2026-08-20",
       "vigencia_desde": "2026-08-21",
-      "articulos_afectados": ["1834", "1502-I"],
+      "articulos_afectados": [
+        "1834",
+        "1502-I"
+      ],
       "estado": "verificada",
       "observaciones": "Autoridad primaria de la última reforma verificada. Síntesis SCJN confirma artículos y vigencia al día siguiente. PDF oficial directo pendiente de localización estable."
     },
@@ -81,18 +87,63 @@
       "tipo": "genealogia_documentada",
       "estado": "confirmado",
       "eventos": [
-        {"fecha": "1928-05-26", "tipo": "publicacion_parcial"},
-        {"fecha": "1928-07-14", "tipo": "publicacion_parcial"},
-        {"fecha": "1928-08-03", "tipo": "publicacion_parcial"},
-        {"fecha": "1928-08-31", "tipo": "publicacion_parcial"},
-        {"fecha": "1932-10-01", "tipo": "entrada_en_vigor"},
-        {"fecha": "1974-12-23", "tipo": "cambio_denominacion"},
-        {"fecha": "1974-12-31", "tipo": "cambio_denominacion"},
-        {"fecha": "2000-05-25", "tipo": "bifurcacion_local"},
-        {"fecha": "2000-05-29", "tipo": "bifurcacion_federal"},
-        {"fecha": "2016-01-29", "tipo": "continuidad_referencia_df_cdmx"}
+        {
+          "fecha": "1928-05-26",
+          "tipo": "publicacion_parcial"
+        },
+        {
+          "fecha": "1928-07-14",
+          "tipo": "publicacion_parcial"
+        },
+        {
+          "fecha": "1928-08-03",
+          "tipo": "publicacion_parcial"
+        },
+        {
+          "fecha": "1928-08-31",
+          "tipo": "publicacion_parcial"
+        },
+        {
+          "fecha": "1932-10-01",
+          "tipo": "entrada_en_vigor"
+        },
+        {
+          "fecha": "1974-12-23",
+          "tipo": "cambio_denominacion"
+        },
+        {
+          "fecha": "1974-12-31",
+          "tipo": "cambio_denominacion"
+        },
+        {
+          "fecha": "2000-05-25",
+          "tipo": "bifurcacion_local"
+        },
+        {
+          "fecha": "2000-05-29",
+          "tipo": "bifurcacion_federal"
+        },
+        {
+          "fecha": "2016-01-29",
+          "tipo": "continuidad_referencia_df_cdmx"
+        }
       ],
       "observaciones": "Genealogía sustentada. No reescribir retroactivamente 'Distrito Federal' por 'Ciudad de México' en textos históricos."
+    },
+    {
+      "source_id": "ccdf-sitio-estructura-base",
+      "norma": "CCDF",
+      "tipo": "estructura_interna_sitio",
+      "archivo": "ccdf.json",
+      "paginas": [
+        "ccdf/index.html",
+        "ccdf/articulos/N.html"
+      ],
+      "ultima_reforma_verificada": "2026-08-20",
+      "vigencia_desde": "2026-08-21",
+      "fecha_actualizacion": "2026-10-14",
+      "estado": "estructura_base_sin_texto",
+      "observaciones": "Índice por Libros, Partes y Títulos con rangos de artículos marcados rango_por_cotejar; 10 artículos de muestra (1, 22, 146, 308, 1281, 1502, 1792, 1834, 2248, 2999) con texto: null y marcador «pendiente de cotejo». No se reproduce texto normativo hasta cotejar el DOCX de la Consejería (ccdf-consejeria-consolidado). Las páginas sin texto llevan noindex y no entran al sitemap."
     }
   ],
   "conflictos_documentados": [
@@ -116,6 +167,12 @@
       "id": "ccdf-gaceta-pdf-estable",
       "descripcion": "Localizar URL estable del PDF de la GOCDMX edición 1929 Bis (20-08-2026)",
       "estado": "pendiente"
+    },
+    {
+      "id": "ccdf-estructura-cotejo",
+      "descripcion": "Con el DOCX de la Consejería (hash verificado): cotejar los rangos de artículos de cada Título, añadir los Capítulos y cargar el texto vigente de los artículos de ccdf.json (empezando por 1834 y 1502-I).",
+      "estado": "pendiente",
+      "depende_de": "ccdf-docx-hash"
     }
   ]
 }

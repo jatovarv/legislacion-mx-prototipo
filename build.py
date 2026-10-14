@@ -4,6 +4,9 @@
     python3 build.py                                   # todo, con la URL base por defecto
     python3 build.py --site-url https://midominio.mx   # URL base para canonical, sitemap y robots
 
+Además de la CPEUM, genera las páginas del Código Civil para el Distrito Federal (ccdf.json) mediante build_ccdf.py:
+ccdf/index.html (índice) y ccdf/articulos/N.html; sólo los artículos con texto cotejado entran al sitemap.
+
 Salida:
   index.html        navegador interactivo (SPA): se le inyecta cpeum.json entre los marcadores
                     <!-- DATA:START --> y <!-- DATA:END -->, para que funcione en local (file://)
@@ -402,8 +405,10 @@ def pagina_articulo(data, num, art, site_url, fecha_build):
 
 
 # ----------------------------------------------------------------------------- sitemap y robots
-def sitemap_xml(site_url, paginas, fecha_build):
-    urls = [(f"{site_url}/", "weekly", "0.6")] + [(f"{site_url}/articulos/{n}.html", "monthly", "0.9") for n in paginas]
+def sitemap_xml(site_url, paginas, fecha_build, extra=()):
+    """`paginas`: números de artículo de la CPEUM; `extra`: rutas relativas de otras normas, como (ruta, changefreq, priority)."""
+    urls = ([(f"{site_url}/", "weekly", "0.6")] + [(f"{site_url}/articulos/{n}.html", "monthly", "0.9") for n in paginas]
+            + [(f"{site_url}/{ruta}", f, pr) for ruta, f, pr in extra])
     items = "\n".join(
         f"  <url>\n    <loc>{esc(u)}</loc>\n    <lastmod>{fecha_build}</lastmod>\n    <changefreq>{f}</changefreq>\n    <priority>{p}</priority>\n  </url>"
         for u, f, p in urls
@@ -467,9 +472,13 @@ def main(argv=None):
     if not paginas:
         print("Aviso: ningún artículo con estado 'verificado'; no se generaron páginas estáticas.")
 
-    (ROOT / "sitemap.xml").write_text(sitemap_xml(site_url, paginas, args.fecha), encoding="utf-8")
+    # Otras normas (sin historial todavía): cada módulo escribe sus páginas y devuelve las rutas que entran al sitemap.
+    import build_ccdf
+    extra = build_ccdf.generar(site_url, args.fecha)
+
+    (ROOT / "sitemap.xml").write_text(sitemap_xml(site_url, paginas, args.fecha, extra), encoding="utf-8")
     (ROOT / "robots.txt").write_text(robots_txt(site_url), encoding="utf-8")
-    print(f"sitemap.xml ({1 + len(paginas)} URL) y robots.txt generados para {site_url}")
+    print(f"sitemap.xml ({1 + len(paginas) + len(extra)} URL) y robots.txt generados para {site_url}")
     return 0
 
 
