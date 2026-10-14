@@ -142,8 +142,24 @@
       "ultima_reforma_verificada": "2026-08-20",
       "vigencia_desde": "2026-08-21",
       "fecha_actualizacion": "2026-10-14",
-      "estado": "estructura_base_sin_texto",
-      "observaciones": "Índice por Libros, Partes y Títulos con rangos de artículos marcados rango_por_cotejar; 10 artículos de muestra (1, 22, 146, 308, 1281, 1502, 1792, 1834, 2248, 2999) con texto: null y marcador «pendiente de cotejo». No se reproduce texto normativo hasta cotejar el DOCX de la Consejería (ccdf-consejeria-consolidado). Las páginas sin texto llevan noindex y no entran al sitemap."
+      "estado": "estructura_cotejada_sin_texto",
+      "observaciones": "Índice cotejado con ccdf-congreso-pdf-iil (51 Títulos, 224 Capítulos, página del PDF en cada nodo; docs/reporte_ajuste_indice_ccdf.md). 10 artículos de muestra sin texto (noindex, fuera del sitemap). Texto normativo pendiente del DOCX de la Consejería."
+    },
+    {
+      "source_id": "ccdf-congreso-pdf-iil",
+      "norma": "CCDF",
+      "tipo": "texto_consolidado_pdf_congreso",
+      "autoridad": "Congreso de la Ciudad de México — Instituto de Investigaciones Legislativas",
+      "url": "https://www.congresocdmx.gob.mx/media/documentos/e793ac29adb26ebcde17cd1aeab3faf4150fd489.pdf",
+      "titulo_archivo": "CÓDIGO CIVIL PARA EL DF ACTUALIZADO 02-09-26",
+      "sha256": "985e3bfa4654a1e0ba68162a94033114c10499d98cdb8a640e79299d6ca4983d",
+      "bytes": 3120455,
+      "paginas": 381,
+      "fecha_descarga": "2026-10-14",
+      "uso": "Fuente del ÍNDICE (Libros, Partes, Títulos, Capítulos y rangos de artículos) de ccdf.json; no se usa para el texto normativo.",
+      "prioridad": 2,
+      "estado": "verificada_por_hash",
+      "observaciones": "Etiqueta «02-09-26» = conflicto de metadatos documentado (ccdf-congreso-02-09-2026); la estructura no depende de ese dato. Obtenido vía navegador del escritorio (el sitio bloquea descargas automatizadas)."
     }
   ],
   "conflictos_documentados": [
@@ -170,8 +186,8 @@
     },
     {
       "id": "ccdf-estructura-cotejo",
-      "descripcion": "Con el DOCX de la Consejería (hash verificado): cotejar los rangos de artículos de cada Título, añadir los Capítulos y cargar el texto vigente de los artículos de ccdf.json (empezando por 1834 y 1502-I).",
-      "estado": "pendiente",
+      "descripcion": "Con el DOCX de la Consejería (hash verificado): cotejar los rangos de artículos de cada Título, añadir los Capítulos y cargar el texto vigente de los artículos de ccdf.json (empezando por 1834 y 1502-I). [2026-10-14: rangos, Títulos y Capítulos cotejados con el PDF del Congreso (ccdf-congreso-pdf-iil); el texto sigue pendiente del DOCX.]",
+      "estado": "resuelto_con_pdf_congreso",
       "depende_de": "ccdf-docx-hash"
     }
   ]
