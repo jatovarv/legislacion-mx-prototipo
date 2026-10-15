@@ -41,11 +41,21 @@
       "tratamiento": "No se usa como evento de reforma mientras no se localice el decreto (sources_registry.json, conflicto ccdf-congreso-02-09-2026)."
     },
     "texto_consolidado": {
-      "fuente": "Consejería Jurídica y de Servicios Legales de la Ciudad de México (DOCX)",
+      "fuente": "Consejería Jurídica y de Servicios Legales de la Ciudad de México (DOCX extraído en data/ccdf/datos_cccdmx.json)",
+      "archivo_local": "data/ccdf/datos_cccdmx.json",
       "url": "https://data.consejeria.cdmx.gob.mx/images/leyes/2025/CODIGOS_2025/CODIGO_CIVIL_PARA_EL_DF_15.4.docx",
       "sha256": null,
-      "estado": "pendiente_descarga_y_hash",
-      "nota": "No está en el repositorio: las páginas se generan con marcador «pendiente de cotejo» y sin texto normativo."
+      "estado": "importado_pipeline_colab",
+      "total_articulos_pipeline": 3218,
+      "total_decretos_pipeline": 120,
+      "total_vinculos_pipeline": 1321,
+      "campos_faltantes_json": {
+        "edicion": null,
+        "vigencia_desde": null,
+        "url_oficial_gaceta": null,
+        "nota": "En data/ccdf/datos_cccdmx.json las reformas de la Gaceta Oficial no incluyen número de edición (edicion: null), fecha de inicio de vigencia (vigencia_desde: null) ni enlace directo al PDF de la Gaceta (url_oficial: null; el pipeline genera sólo una URL de búsqueda). Los decretos federales en el DOF (1932–1998) sí incluyen enlace oficial a dof.gob.mx."
+      },
+      "nota": "Texto vigente importado literalmente de data/ccdf/datos_cccdmx.json (pipeline Colab CCDF). El hash SHA-256 del DOCX fuente queda como null hasta su verificación directa."
     },
     "fuentes": [
       {
@@ -55,767 +65,4595 @@
       {
         "nombre": "Gaceta Oficial de la Ciudad de México",
         "url": "https://www.consejeria.cdmx.gob.mx/gaceta-oficial"
+      },
+      {
+        "nombre": "Congreso de la Ciudad de México — Código Civil para el Distrito Federal (PDF, Instituto de Investigaciones Legislativas; fuente del índice)",
+        "url": "https://www.congresocdmx.gob.mx/media/documentos/e793ac29adb26ebcde17cd1aeab3faf4150fd489.pdf"
       }
     ],
-    "aviso": "Estructura base del Código Civil para el Distrito Federal. Los rangos de artículos de cada Título y el texto de cada artículo están pendientes de cotejo con el texto consolidado de la Consejería Jurídica; no se reproduce texto normativo sin cotejar. No constituye texto oficial.",
-    "estructura_nota": "Estructura por Libros, Partes y Títulos (51 Títulos y Disposiciones Preliminares) tomada de la estructura general del Código, NO cotejada todavía con el texto consolidado oficial: cada nombre y rango lleva nombre_por_cotejar / rango_por_cotejar. Mientras el índice no esté cotejado, la página se publica con noindex y fuera del sitemap. Capítulos pendientes.",
-    "estructura_cotejada": false,
+    "aviso": "Índice del Código Civil para el Distrito Federal cotejado con el PDF oficial del Congreso de la Ciudad de México (51 Títulos, 224 Capítulos). El texto vigente y la relación de decretos de los 10 artículos de muestra se importaron literalmente de data/ccdf/datos_cccdmx.json (pipeline Colab CCDF). Los campos no disponibles en el JSON (edición de Gaceta, inicio de vigencia por decreto y enlace directo a la Gaceta Oficial) se conservan como null y se marcan como pendientes. No constituye texto oficial.",
+    "estructura_nota": "Estructura cotejada con el PDF del Código publicado por el Congreso de la Ciudad de México (SHA-256 985e3bfa…): Disposiciones preliminares, 4 Libros (el Cuarto con Primera Parte, Parte Segunda y Tercera Parte), 51 Títulos y 224 Capítulos, con el rango de artículos de cada nodo tomado del propio PDF (página citada en cada nodo). Muestra inicial de 10 artículos publicada con texto vigente importado de data/ccdf/datos_cccdmx.json.",
+    "estructura_cotejada": true,
     "cotejo_pendiente": {
-      "fuente_requerida": "DOCX oficial de la Consejería Jurídica y de Servicios Legales de la CDMX (última reforma 20-08-2026, GOCDMX 1929 Bis) con su SHA-256",
-      "estado": "bloqueado: el DOCX no está en el repositorio ni en Drive y los sitios oficiales no son accesibles desde el entorno de trabajo",
-      "preguntas_abiertas": [
-        "Nombres y rangos de los 51 Títulos (todos marcados por cotejar).",
-        "Salto del art. 1180 (fin del Libro Segundo) al 1281 (inicio del Libro Tercero): confirmar si hay Título o artículos derogados faltantes o si la numeración oficial salta.",
-        "Epígrafe del Libro Tercero, Título Primero: «Disposiciones Preliminares» vs «Disposiciones Generales»."
+      "fuente_usada": "PDF del Congreso CDMX (ver fuente_estructura)",
+      "resueltas": [
+        "Nombres y rangos de los 51 Títulos: cotejados (ver docs/reporte_ajuste_indice_ccdf.md).",
+        "Salto 1180→1281: el Libro Segundo tiene un Título Octavo «De los derechos de autor» (arts. 1181–1280, los 100 derogados; PDF pp. 148–152).",
+        "Libro Tercero, Título Primero: el PDF lo titula «Disposiciones preliminares» (p. 152).",
+        "Texto vigente y relación de decretos de los 10 artículos de muestra (1, 22, 146, 308, 1281, 1502, 1792, 1834, 2248, 2999): importados literalmente de data/ccdf/datos_cccdmx.json."
+      ],
+      "abiertas": [
+        "Resto del articulado en ccdf.json (3,208 artículos adicionales ya disponibles en data/ccdf/datos_cccdmx.json) y campos faltantes en el JSON del Colab (edicion: null, vigencia_desde: null, url_oficial: null para decretos en Gaceta Oficial; sha256: null del DOCX fuente).",
+        "Capítulo IV del Título Quinto (Libro Primero) trae en el PDF el subencabezado «Disposiciones generales» bajo «Del Matrimonio con relación a los bienes»; el Capítulo V del Título Séptimo se divide en Secciones. Ninguno de los dos niveles se modela por ahora.",
+        "El PDF repite el encabezado «CAPITULO III DE LA VIOLENCIA FAMILIAR» antes del art. 323 Séptimus (p. 54); se tomó como continuación del mismo Capítulo."
       ],
       "reporte": "docs/reporte_ajuste_indice_ccdf.md"
+    },
+    "fuente_estructura": {
+      "documento": "CÓDIGO CIVIL PARA EL DISTRITO FEDERAL (PDF, Instituto de Investigaciones Legislativas, Congreso de la Ciudad de México; título del archivo: «CÓDIGO CIVIL PARA EL DF ACTUALIZADO 02-09-26»)",
+      "url": "https://www.congresocdmx.gob.mx/media/documentos/e793ac29adb26ebcde17cd1aeab3faf4150fd489.pdf",
+      "sha256": "985e3bfa4654a1e0ba68162a94033114c10499d98cdb8a640e79299d6ca4983d",
+      "bytes": 3120455,
+      "paginas": 381,
+      "fecha_cotejo": "2026-10-14",
+      "metodo": "Extracción de texto del PDF (PyMuPDF) con cotejar_estructura_ccdf_pdf.py: encabezados LIBRO/PARTE/TÍTULO/CAPÍTULO en mayúsculas, epígrafe en las líneas siguientes y rango = primer y último artículo bajo cada encabezado (3,074 numerales, todos presentes; 3,187 artículos contando Bis/Ter/letras).",
+      "advertencia": "El archivo del Congreso lleva la etiqueta «ACTUALIZADO 02-09-26», fecha registrada como conflicto de metadatos (sources_registry.json). La estructura (nombres y rangos) no depende de ese dato; la última reforma verificada sigue siendo la GOCDMX 1929 Bis de 20-08-2026. La fuente autorizada para el TEXTO sigue siendo el DOCX de la Consejería (pendiente)."
     }
   },
   "estructura": [
     {
       "tipo": "preliminar",
       "id": "pre",
-      "nombre": "Disposiciones Preliminares",
+      "nombre": "Disposiciones preliminares",
+      "nombre_fuente": "Disposiciones preliminares",
+      "pagina": 1,
       "articulos": {
         "desde": "1",
         "hasta": "21"
       },
-      "rango_por_cotejar": true,
-      "nombre_por_cotejar": true
+      "n_articulos": 21,
+      "n_derogados": 1
     },
     {
       "tipo": "libro",
       "id": "l1",
       "nombre": "Libro Primero",
       "subtitulo": "De las Personas",
+      "nombre_fuente": "LIBRO PRIMERO",
+      "epigrafe_fuente": "De las personas",
+      "pagina": 3,
       "hijos": [
         {
           "tipo": "titulo",
           "id": "l1-t1",
           "nombre": "Título Primero",
-          "subtitulo": "De las Personas Físicas",
+          "subtitulo": "De las personas físicas",
+          "nombre_fuente": "TITULO PRIMERO",
+          "epigrafe_fuente": "De las personas físicas",
+          "pagina": 3,
           "articulos": {
             "desde": "22",
             "hasta": "24"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 3,
+          "n_derogados": 0
         },
         {
           "tipo": "titulo",
           "id": "l1-t2",
-          "nombre": "Título Segundo",
-          "subtitulo": "De las Personas Morales",
+          "nombre": "Título Primero Bis",
+          "subtitulo": null,
+          "nombre_fuente": "TÍTULO PRIMERO BIS",
+          "epigrafe_fuente": null,
+          "pagina": 4,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l1-t2-c1",
+              "nombre": "Capítulo Primero",
+              "subtitulo": "DE LA DESIGNACIÓN ANTICIPADA DE APOYOS",
+              "nombre_fuente": "CAPÍTULO PRIMERO",
+              "epigrafe_fuente": "DE LA DESIGNACIÓN ANTICIPADA DE APOYOS",
+              "pagina": 4,
+              "articulos": {
+                "desde": "24 A",
+                "hasta": "24 C"
+              },
+              "n_articulos": 3,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t2-c2",
+              "nombre": "Capítulo Segundo",
+              "subtitulo": "DE LA DESIGNACIÓN ORDINARIA DE APOYOS",
+              "nombre_fuente": "CAPÍTULO SEGUNDO",
+              "epigrafe_fuente": "DE LA DESIGNACIÓN ORDINARIA DE APOYOS",
+              "pagina": 5,
+              "articulos": {
+                "desde": "24 D",
+                "hasta": "24 O"
+              },
+              "n_articulos": 12,
+              "n_derogados": 0
+            }
+          ],
           "articulos": {
-            "desde": "25",
-            "hasta": "28"
+            "desde": "24 A",
+            "hasta": "24 O"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 15,
+          "n_derogados": 0
         },
         {
           "tipo": "titulo",
           "id": "l1-t3",
-          "nombre": "Título Tercero",
-          "subtitulo": "Del Domicilio",
+          "nombre": "Título Segundo",
+          "subtitulo": "De las personas morales",
+          "nombre_fuente": "TITULO SEGUNDO",
+          "epigrafe_fuente": "De las personas morales",
+          "pagina": 7,
           "articulos": {
-            "desde": "29",
-            "hasta": "34"
+            "desde": "25",
+            "hasta": "28 Bis"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 5,
+          "n_derogados": 0
         },
         {
           "tipo": "titulo",
           "id": "l1-t4",
-          "nombre": "Título Cuarto",
-          "subtitulo": "Del Registro Civil",
+          "nombre": "Título Tercero",
+          "subtitulo": "Del domicilio",
+          "nombre_fuente": "TITULO TERCERO",
+          "epigrafe_fuente": "Del domicilio",
+          "pagina": 8,
           "articulos": {
-            "desde": "35",
-            "hasta": "138"
+            "desde": "29",
+            "hasta": "34"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 6,
+          "n_derogados": 0
         },
         {
           "tipo": "titulo",
           "id": "l1-t5",
-          "nombre": "Título Cuarto Bis",
-          "subtitulo": "De la Familia",
+          "nombre": "Título Cuarto",
+          "subtitulo": "Del Registro Civil",
+          "nombre_fuente": "TITULO CUARTO",
+          "epigrafe_fuente": "Del Registro Civil",
+          "pagina": 9,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l1-t5-c1",
+              "nombre": "Capítulo I",
+              "subtitulo": "Disposiciones generales",
+              "nombre_fuente": "CAPITULO I",
+              "epigrafe_fuente": "Disposiciones generales",
+              "pagina": 9,
+              "articulos": {
+                "desde": "35",
+                "hasta": "53"
+              },
+              "n_articulos": 19,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t5-c2",
+              "nombre": "Capítulo II",
+              "subtitulo": "De las actas de nacimiento",
+              "nombre_fuente": "CAPITULO II",
+              "epigrafe_fuente": "De las actas de nacimiento",
+              "pagina": 12,
+              "articulos": {
+                "desde": "54",
+                "hasta": "76"
+              },
+              "n_articulos": 23,
+              "n_derogados": 9
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t5-c3",
+              "nombre": "Capítulo III",
+              "subtitulo": "De las Actas de Reconocimiento",
+              "nombre_fuente": "CAPITULO III",
+              "epigrafe_fuente": "De las Actas de Reconocimiento",
+              "pagina": 15,
+              "articulos": {
+                "desde": "77",
+                "hasta": "83"
+              },
+              "n_articulos": 7,
+              "n_derogados": 1
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t5-c4",
+              "nombre": "Capítulo IV",
+              "subtitulo": "De las actas de adopción",
+              "nombre_fuente": "CAPITULO IV",
+              "epigrafe_fuente": "De las actas de adopción",
+              "pagina": 16,
+              "articulos": {
+                "desde": "84",
+                "hasta": "88"
+              },
+              "n_articulos": 5,
+              "n_derogados": 1
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t5-c5",
+              "nombre": "Capítulo V",
+              "subtitulo": "De las actas de tutela",
+              "nombre_fuente": "CAPITULO V",
+              "epigrafe_fuente": "De las actas de tutela",
+              "pagina": 16,
+              "articulos": {
+                "desde": "89",
+                "hasta": "92"
+              },
+              "n_articulos": 4,
+              "n_derogados": 2
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t5-c6",
+              "nombre": "Capítulo VI",
+              "subtitulo": "De las actas de emancipación",
+              "nombre_fuente": "CAPITULO VI",
+              "epigrafe_fuente": "De las actas de emancipación",
+              "pagina": 16,
+              "articulos": {
+                "desde": "93",
+                "hasta": "96"
+              },
+              "n_articulos": 4,
+              "n_derogados": 4
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t5-c7",
+              "nombre": "Capítulo VII",
+              "subtitulo": "De las actas de matrimonio",
+              "nombre_fuente": "CAPITULO VII",
+              "epigrafe_fuente": "De las actas de matrimonio",
+              "pagina": 17,
+              "articulos": {
+                "desde": "97",
+                "hasta": "113"
+              },
+              "n_articulos": 18,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t5-c8",
+              "nombre": "Capítulo VIII",
+              "subtitulo": "De las actas, anotaciones e inscripciones de divorcio",
+              "nombre_fuente": "CAPITULO VIII",
+              "epigrafe_fuente": "De las actas, anotaciones e inscripciones de divorcio",
+              "pagina": 20,
+              "articulos": {
+                "desde": "114",
+                "hasta": "116"
+              },
+              "n_articulos": 3,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t5-c9",
+              "nombre": "Capítulo IX",
+              "subtitulo": "De las actas de defunción",
+              "nombre_fuente": "CAPITULO IX",
+              "epigrafe_fuente": "De las actas de defunción",
+              "pagina": 21,
+              "articulos": {
+                "desde": "117",
+                "hasta": "130"
+              },
+              "n_articulos": 14,
+              "n_derogados": 5
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t5-c10",
+              "nombre": "Capítulo X",
+              "subtitulo": "De las Inscripciones de las Anotaciones que Declaran o Modifican el Estado Civil y la Capacidad Legal de las Personas",
+              "nombre_fuente": "CAPITULO X",
+              "epigrafe_fuente": "De las Inscripciones de las Anotaciones que Declaran o Modifican el Estado Civil y la Capacidad Legal de las Personas",
+              "pagina": 23,
+              "articulos": {
+                "desde": "131",
+                "hasta": "133"
+              },
+              "n_articulos": 3,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t5-c11",
+              "nombre": "Capítulo XI",
+              "subtitulo": "De la Rectificación, Modificación y Aclaración de las Actas del Registro Civil",
+              "nombre_fuente": "CAPITULO XI",
+              "epigrafe_fuente": "De la Rectificación, Modificación y Aclaración de las Actas del Registro Civil",
+              "pagina": 23,
+              "articulos": {
+                "desde": "134",
+                "hasta": "138 Bis"
+              },
+              "n_articulos": 9,
+              "n_derogados": 0
+            }
+          ],
           "articulos": {
-            "desde": "138 Ter",
-            "hasta": "138 Sextus"
+            "desde": "35",
+            "hasta": "138 Bis"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 109,
+          "n_derogados": 22
         },
         {
           "tipo": "titulo",
           "id": "l1-t6",
-          "nombre": "Título Quinto",
-          "subtitulo": "Del Matrimonio",
+          "nombre": "Título Cuarto Bis",
+          "subtitulo": "De la Familia",
+          "nombre_fuente": "TITULO CUARTO BIS",
+          "epigrafe_fuente": "De la Familia",
+          "pagina": 25,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l1-t6-c1",
+              "nombre": "Capítulo Único",
+              "subtitulo": null,
+              "nombre_fuente": "CAPITULO UNICO",
+              "epigrafe_fuente": null,
+              "pagina": 25,
+              "articulos": {
+                "desde": "138 Ter",
+                "hasta": "138 Sextus"
+              },
+              "n_articulos": 4,
+              "n_derogados": 0
+            }
+          ],
           "articulos": {
-            "desde": "139",
-            "hasta": "291"
+            "desde": "138 Ter",
+            "hasta": "138 Sextus"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 4,
+          "n_derogados": 0
         },
         {
           "tipo": "titulo",
           "id": "l1-t7",
-          "nombre": "Título Quinto Bis",
-          "subtitulo": "Del Concubinato",
+          "nombre": "Título Quinto",
+          "subtitulo": "Del matrimonio",
+          "nombre_fuente": "TITULO QUINTO",
+          "epigrafe_fuente": "Del matrimonio",
+          "pagina": 25,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l1-t7-c1",
+              "nombre": "Capítulo I",
+              "subtitulo": "De los Esponsales",
+              "nombre_fuente": "CAPITULO I",
+              "epigrafe_fuente": "De los Esponsales",
+              "pagina": 26,
+              "articulos": {
+                "desde": "139",
+                "hasta": "145"
+              },
+              "n_articulos": 7,
+              "n_derogados": 7
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t7-c2",
+              "nombre": "Capítulo II",
+              "subtitulo": "De los requisitos para contraer matrimonio",
+              "nombre_fuente": "CAPITULO II",
+              "epigrafe_fuente": "De los requisitos para contraer matrimonio",
+              "pagina": 26,
+              "articulos": {
+                "desde": "146",
+                "hasta": "161"
+              },
+              "n_articulos": 16,
+              "n_derogados": 8
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t7-c3",
+              "nombre": "Capítulo III",
+              "subtitulo": "De los derechos y obligaciones que nacen del matrimonio",
+              "nombre_fuente": "CAPITULO III",
+              "epigrafe_fuente": "De los derechos y obligaciones que nacen del matrimonio",
+              "pagina": 28,
+              "articulos": {
+                "desde": "162",
+                "hasta": "177"
+              },
+              "n_articulos": 17,
+              "n_derogados": 8
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t7-c4",
+              "nombre": "Capítulo IV",
+              "subtitulo": "Del Matrimonio con relación a los bienes",
+              "nombre_fuente": "CAPITULO IV",
+              "epigrafe_fuente": "Del Matrimonio con relación a los bienes Disposiciones generales",
+              "pagina": 29,
+              "articulos": {
+                "desde": "178",
+                "hasta": "182 Sextus"
+              },
+              "n_articulos": 10,
+              "n_derogados": 2
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t7-c5",
+              "nombre": "Capítulo V",
+              "subtitulo": "De la sociedad conyugal",
+              "nombre_fuente": "CAPITULO V",
+              "epigrafe_fuente": "De la sociedad conyugal",
+              "pagina": 30,
+              "articulos": {
+                "desde": "183",
+                "hasta": "206 Bis"
+              },
+              "n_articulos": 26,
+              "n_derogados": 4
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t7-c6",
+              "nombre": "Capítulo VI",
+              "subtitulo": "De la separación de bienes",
+              "nombre_fuente": "CAPITULO VI",
+              "epigrafe_fuente": "De la separación de bienes",
+              "pagina": 34,
+              "articulos": {
+                "desde": "207",
+                "hasta": "218"
+              },
+              "n_articulos": 12,
+              "n_derogados": 2
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t7-c7",
+              "nombre": "Capítulo VII",
+              "subtitulo": "De las donaciones antenupciales",
+              "nombre_fuente": "CAPITULO VII",
+              "epigrafe_fuente": "De las donaciones antenupciales",
+              "pagina": 35,
+              "articulos": {
+                "desde": "219",
+                "hasta": "231"
+              },
+              "n_articulos": 13,
+              "n_derogados": 2
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t7-c8",
+              "nombre": "Capítulo VIII",
+              "subtitulo": "De las donaciones entre consortes",
+              "nombre_fuente": "CAPITULO VIII",
+              "epigrafe_fuente": "De las donaciones entre consortes",
+              "pagina": 36,
+              "articulos": {
+                "desde": "232",
+                "hasta": "234"
+              },
+              "n_articulos": 3,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t7-c9",
+              "nombre": "Capítulo IX",
+              "subtitulo": "De los matrimonios nulos e ilícitos",
+              "nombre_fuente": "CAPITULO IX",
+              "epigrafe_fuente": "De los matrimonios nulos e ilícitos",
+              "pagina": 36,
+              "articulos": {
+                "desde": "235",
+                "hasta": "265"
+              },
+              "n_articulos": 31,
+              "n_derogados": 7
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t7-c10",
+              "nombre": "Capítulo X",
+              "subtitulo": "Del divorcio",
+              "nombre_fuente": "CAPITULO X",
+              "epigrafe_fuente": "Del divorcio",
+              "pagina": 39,
+              "articulos": {
+                "desde": "266",
+                "hasta": "291"
+              },
+              "n_articulos": 29,
+              "n_derogados": 10
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t7-c11",
+              "nombre": "Capítulo XI",
+              "subtitulo": "Del concubinato",
+              "nombre_fuente": "CAPITULO XI",
+              "epigrafe_fuente": "Del concubinato",
+              "pagina": 47,
+              "articulos": {
+                "desde": "291 Bis",
+                "hasta": "291 Bis"
+              },
+              "n_articulos": 1,
+              "n_derogados": 0
+            }
+          ],
           "articulos": {
-            "desde": "291 Bis",
-            "hasta": "291 Quintus"
+            "desde": "139",
+            "hasta": "291 Bis"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 165,
+          "n_derogados": 50
         },
         {
           "tipo": "titulo",
           "id": "l1-t8",
           "nombre": "Título Sexto",
-          "subtitulo": "Del Parentesco, de los Alimentos y de la Violencia Familiar",
+          "subtitulo": "Del parentesco, de los alimentos y de la violencia familiar",
+          "nombre_fuente": "TITULO SEXTO",
+          "epigrafe_fuente": "Del parentesco, de los alimentos y de la violencia familiar",
+          "pagina": 47,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l1-t8-c1",
+              "nombre": "Capítulo I",
+              "subtitulo": "Del parentesco",
+              "nombre_fuente": "CAPITULO I",
+              "epigrafe_fuente": "Del parentesco",
+              "pagina": 47,
+              "articulos": {
+                "desde": "292",
+                "hasta": "300"
+              },
+              "n_articulos": 9,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t8-c2",
+              "nombre": "Capítulo II",
+              "subtitulo": "De los alimentos",
+              "nombre_fuente": "CAPITULO II",
+              "epigrafe_fuente": "De los alimentos",
+              "pagina": 48,
+              "articulos": {
+                "desde": "301",
+                "hasta": "323 Bis"
+              },
+              "n_articulos": 29,
+              "n_derogados": 1
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t8-c3",
+              "nombre": "Capítulo III",
+              "subtitulo": "De la Violencia Familiar",
+              "nombre_fuente": "CAPITULO III",
+              "epigrafe_fuente": "De la Violencia Familiar",
+              "pagina": 53,
+              "articulos": {
+                "desde": "323 Ter",
+                "hasta": "323 Séptimus"
+              },
+              "n_articulos": 5,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t8-c4",
+              "nombre": "Capítulo IV",
+              "subtitulo": "Del Registro de Deudores Alimentarios Morosos",
+              "nombre_fuente": "CAPITULO IV",
+              "epigrafe_fuente": "Del Registro de Deudores Alimentarios Morosos",
+              "pagina": 54,
+              "articulos": {
+                "desde": "323 Octavus",
+                "hasta": "323 Nonies"
+              },
+              "n_articulos": 2,
+              "n_derogados": 0
+            }
+          ],
           "articulos": {
             "desde": "292",
-            "hasta": "323 Septimus"
+            "hasta": "323 Nonies"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 45,
+          "n_derogados": 1
         },
         {
           "tipo": "titulo",
           "id": "l1-t9",
           "nombre": "Título Séptimo",
-          "subtitulo": "De la Paternidad y Filiación",
+          "subtitulo": "De la filiación",
+          "nombre_fuente": "TITULO SEPTIMO",
+          "epigrafe_fuente": "De la filiación",
+          "pagina": 55,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l1-t9-c1",
+              "nombre": "Capítulo I",
+              "subtitulo": "Disposiciones Generales",
+              "nombre_fuente": "CAPITULO I",
+              "epigrafe_fuente": "Disposiciones Generales",
+              "pagina": 55,
+              "articulos": {
+                "desde": "324",
+                "hasta": "339"
+              },
+              "n_articulos": 17,
+              "n_derogados": 3
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t9-c2",
+              "nombre": "Capítulo II",
+              "subtitulo": "De las pruebas de filiación de los hijos",
+              "nombre_fuente": "CAPITULO II",
+              "epigrafe_fuente": "De las pruebas de filiación de los hijos",
+              "pagina": 57,
+              "articulos": {
+                "desde": "340",
+                "hasta": "353 Quáter"
+              },
+              "n_articulos": 17,
+              "n_derogados": 1
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t9-c3",
+              "nombre": "Capítulo III",
+              "subtitulo": "De la Legitimación",
+              "nombre_fuente": "CAPITULO III",
+              "epigrafe_fuente": "De la Legitimación",
+              "pagina": 58,
+              "articulos": {
+                "desde": "354",
+                "hasta": "359"
+              },
+              "n_articulos": 6,
+              "n_derogados": 6
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t9-c4",
+              "nombre": "Capítulo IV",
+              "subtitulo": "Del Reconocimiento de los Hijos",
+              "nombre_fuente": "CAPITULO IV",
+              "epigrafe_fuente": "Del Reconocimiento de los Hijos",
+              "pagina": 58,
+              "articulos": {
+                "desde": "360",
+                "hasta": "389"
+              },
+              "n_articulos": 30,
+              "n_derogados": 4
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t9-c5",
+              "nombre": "Capítulo V",
+              "subtitulo": "De la adopción",
+              "nombre_fuente": "CAPITULO V",
+              "epigrafe_fuente": "De la adopción SECCIÓN PRIMERA Disposiciones generales",
+              "pagina": 61,
+              "articulos": {
+                "desde": "390",
+                "hasta": "410 F"
+              },
+              "n_articulos": 29,
+              "n_derogados": 9
+            }
+          ],
           "articulos": {
             "desde": "324",
             "hasta": "410 F"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 99,
+          "n_derogados": 23
         },
         {
           "tipo": "titulo",
           "id": "l1-t10",
           "nombre": "Título Octavo",
-          "subtitulo": "De la Patria Potestad",
+          "subtitulo": "De la patria potestad",
+          "nombre_fuente": "TITULO OCTAVO",
+          "epigrafe_fuente": "De la patria potestad",
+          "pagina": 66,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l1-t10-c1",
+              "nombre": "Capítulo I",
+              "subtitulo": "De los efectos de la patria potestad respecto de la persona de los hijos",
+              "nombre_fuente": "CAPITULO I",
+              "epigrafe_fuente": "De los efectos de la patria potestad respecto de la persona de los hijos",
+              "pagina": 66,
+              "articulos": {
+                "desde": "411",
+                "hasta": "424"
+              },
+              "n_articulos": 18,
+              "n_derogados": 1
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t10-c2",
+              "nombre": "Capítulo II",
+              "subtitulo": "De los efectos de la patria potestad respecto de los bienes del hijo",
+              "nombre_fuente": "CAPITULO II",
+              "epigrafe_fuente": "De los efectos de la patria potestad respecto de los bienes del hijo",
+              "pagina": 69,
+              "articulos": {
+                "desde": "425",
+                "hasta": "442"
+              },
+              "n_articulos": 18,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t10-c3",
+              "nombre": "Capítulo III",
+              "subtitulo": "De la pérdida; suspensión, limitación y terminación de la patria potestad",
+              "nombre_fuente": "CAPITULO III",
+              "epigrafe_fuente": "De la pérdida; suspensión, limitación y terminación de la patria potestad",
+              "pagina": 71,
+              "articulos": {
+                "desde": "443",
+                "hasta": "448"
+              },
+              "n_articulos": 7,
+              "n_derogados": 1
+            }
+          ],
           "articulos": {
             "desde": "411",
             "hasta": "448"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 43,
+          "n_derogados": 2
         },
         {
           "tipo": "titulo",
           "id": "l1-t11",
           "nombre": "Título Noveno",
-          "subtitulo": "De la Tutela",
+          "subtitulo": "De la tutela",
+          "nombre_fuente": "TITULO NOVENO",
+          "epigrafe_fuente": "De la tutela",
+          "pagina": 73,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l1-t11-c1",
+              "nombre": "Capítulo I",
+              "subtitulo": "Disposiciones generales",
+              "nombre_fuente": "CAPITULO I",
+              "epigrafe_fuente": "Disposiciones generales",
+              "pagina": 73,
+              "articulos": {
+                "desde": "449",
+                "hasta": "469"
+              },
+              "n_articulos": 22,
+              "n_derogados": 3
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t11-c2",
+              "nombre": "Capítulo I Bis",
+              "subtitulo": "De la tutela cautelar",
+              "nombre_fuente": "CAPITULO I BIS",
+              "epigrafe_fuente": "De la tutela cautelar",
+              "pagina": 76,
+              "articulos": {
+                "desde": "469 Bis",
+                "hasta": "469 Quintos"
+              },
+              "n_articulos": 4,
+              "n_derogados": 4
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t11-c3",
+              "nombre": "Capítulo II",
+              "subtitulo": "De la tutela testamentaria",
+              "nombre_fuente": "CAPITULO II",
+              "epigrafe_fuente": "De la tutela testamentaria",
+              "pagina": 76,
+              "articulos": {
+                "desde": "470",
+                "hasta": "481"
+              },
+              "n_articulos": 13,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t11-c4",
+              "nombre": "Capítulo III",
+              "subtitulo": "De la tutela legítima de los menores",
+              "nombre_fuente": "CAPITULO III",
+              "epigrafe_fuente": "De la tutela legítima de los menores",
+              "pagina": 77,
+              "articulos": {
+                "desde": "482",
+                "hasta": "485 Bis"
+              },
+              "n_articulos": 5,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t11-c5",
+              "nombre": "Capítulo IV",
+              "subtitulo": "DE LA TUTELA LEGITIMA DE LOS MAYORES DE EDAD INCAPACITADOS",
+              "nombre_fuente": "CAPITULO IV",
+              "epigrafe_fuente": "DE LA TUTELA LEGITIMA DE LOS MAYORES DE EDAD INCAPACITADOS",
+              "pagina": 78,
+              "articulos": {
+                "desde": "486",
+                "hasta": "491"
+              },
+              "n_articulos": 6,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t11-c6",
+              "nombre": "Capítulo V",
+              "subtitulo": "De la tutela de los menores en situación de desamparo",
+              "nombre_fuente": "CAPITULO V",
+              "epigrafe_fuente": "De la tutela de los menores en situación de desamparo",
+              "pagina": 78,
+              "articulos": {
+                "desde": "492",
+                "hasta": "494"
+              },
+              "n_articulos": 9,
+              "n_derogados": 1
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t11-c7",
+              "nombre": "Capítulo VI",
+              "subtitulo": "De la tutela dativa",
+              "nombre_fuente": "CAPITULO VI",
+              "epigrafe_fuente": "De la tutela dativa",
+              "pagina": 80,
+              "articulos": {
+                "desde": "495",
+                "hasta": "502"
+              },
+              "n_articulos": 8,
+              "n_derogados": 3
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t11-c8",
+              "nombre": "Capítulo VII",
+              "subtitulo": "De las personas inhábiles para el desempeño de la tutela y de las que deben ser separadas de ella",
+              "nombre_fuente": "CAPITULO VII",
+              "epigrafe_fuente": "De las personas inhábiles para el desempeño de la tutela y de las que deben ser separadas de ella",
+              "pagina": 81,
+              "articulos": {
+                "desde": "503",
+                "hasta": "510"
+              },
+              "n_articulos": 8,
+              "n_derogados": 1
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t11-c9",
+              "nombre": "Capítulo VIII",
+              "subtitulo": "De las excusas para el desempeño de la tutela",
+              "nombre_fuente": "CAPITULO VIII",
+              "epigrafe_fuente": "De las excusas para el desempeño de la tutela",
+              "pagina": 82,
+              "articulos": {
+                "desde": "511",
+                "hasta": "518"
+              },
+              "n_articulos": 8,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t11-c10",
+              "nombre": "Capítulo IX",
+              "subtitulo": "De la garantía que deben prestar los tutores para asegurar su manejo",
+              "nombre_fuente": "CAPITULO IX",
+              "epigrafe_fuente": "De la garantía que deben prestar los tutores para asegurar su manejo",
+              "pagina": 83,
+              "articulos": {
+                "desde": "519",
+                "hasta": "534"
+              },
+              "n_articulos": 16,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t11-c11",
+              "nombre": "Capítulo X",
+              "subtitulo": "Del desempeño de la tutela",
+              "nombre_fuente": "CAPITULO X",
+              "epigrafe_fuente": "Del desempeño de la tutela",
+              "pagina": 85,
+              "articulos": {
+                "desde": "535",
+                "hasta": "589"
+              },
+              "n_articulos": 56,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t11-c12",
+              "nombre": "Capítulo XI",
+              "subtitulo": "De las cuentas de la tutela",
+              "nombre_fuente": "CAPITULO XI",
+              "epigrafe_fuente": "De las cuentas de la tutela",
+              "pagina": 91,
+              "articulos": {
+                "desde": "590",
+                "hasta": "605"
+              },
+              "n_articulos": 16,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t11-c13",
+              "nombre": "Capítulo XII",
+              "subtitulo": "De la extinción de la tutela",
+              "nombre_fuente": "CAPITULO XII",
+              "epigrafe_fuente": "De la extinción de la tutela",
+              "pagina": 93,
+              "articulos": {
+                "desde": "606",
+                "hasta": "606"
+              },
+              "n_articulos": 1,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t11-c14",
+              "nombre": "Capítulo XIII",
+              "subtitulo": "De la entrega de los bienes",
+              "nombre_fuente": "CAPITULO XIII",
+              "epigrafe_fuente": "De la entrega de los bienes",
+              "pagina": 93,
+              "articulos": {
+                "desde": "607",
+                "hasta": "617"
+              },
+              "n_articulos": 12,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t11-c15",
+              "nombre": "Capítulo XIV",
+              "subtitulo": "Del curador",
+              "nombre_fuente": "CAPITULO XIV",
+              "epigrafe_fuente": "Del curador",
+              "pagina": 94,
+              "articulos": {
+                "desde": "618",
+                "hasta": "630"
+              },
+              "n_articulos": 13,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t11-c16",
+              "nombre": "Capítulo XV",
+              "subtitulo": "Del Consejo Local de Tutelas y de los Jueces de lo Familiar",
+              "nombre_fuente": "CAPITULO XV",
+              "epigrafe_fuente": "Del Consejo Local de Tutelas y de los Jueces de lo Familiar",
+              "pagina": 95,
+              "articulos": {
+                "desde": "631",
+                "hasta": "634"
+              },
+              "n_articulos": 4,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t11-c17",
+              "nombre": "Capítulo XVI",
+              "subtitulo": "Del estado de interdicción",
+              "nombre_fuente": "CAPITULO XVI",
+              "epigrafe_fuente": "Del estado de interdicción",
+              "pagina": 96,
+              "articulos": {
+                "desde": "635",
+                "hasta": "640"
+              },
+              "n_articulos": 6,
+              "n_derogados": 6
+            }
+          ],
           "articulos": {
             "desde": "449",
             "hasta": "640"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 207,
+          "n_derogados": 18
         },
         {
           "tipo": "titulo",
           "id": "l1-t12",
           "nombre": "Título Décimo",
-          "subtitulo": "De la Emancipación y de la Mayor Edad",
+          "subtitulo": "De la emancipación y de la mayor edad",
+          "nombre_fuente": "TITULO DECIMO",
+          "epigrafe_fuente": "De la emancipación y de la mayor edad",
+          "pagina": 96,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l1-t12-c1",
+              "nombre": "Capítulo I",
+              "subtitulo": "De la emancipación",
+              "nombre_fuente": "CAPITULO I",
+              "epigrafe_fuente": "De la emancipación",
+              "pagina": 96,
+              "articulos": {
+                "desde": "641",
+                "hasta": "645"
+              },
+              "n_articulos": 5,
+              "n_derogados": 4
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t12-c2",
+              "nombre": "Capítulo II",
+              "subtitulo": "De la mayor edad",
+              "nombre_fuente": "CAPITULO II",
+              "epigrafe_fuente": "De la mayor edad",
+              "pagina": 97,
+              "articulos": {
+                "desde": "646",
+                "hasta": "647"
+              },
+              "n_articulos": 2,
+              "n_derogados": 0
+            }
+          ],
           "articulos": {
             "desde": "641",
             "hasta": "647"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 7,
+          "n_derogados": 4
         },
         {
           "tipo": "titulo",
           "id": "l1-t13",
           "nombre": "Título Undécimo",
-          "subtitulo": "De los Ausentes e Ignorados",
+          "subtitulo": "De los ausentes e ignorados",
+          "nombre_fuente": "TITULO UNDECIMO",
+          "epigrafe_fuente": "De los ausentes e ignorados",
+          "pagina": 97,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l1-t13-c1",
+              "nombre": "Capítulo I",
+              "subtitulo": "De las medidas provisionales en caso de ausencia",
+              "nombre_fuente": "CAPITULO I",
+              "epigrafe_fuente": "De las medidas provisionales en caso de ausencia",
+              "pagina": 97,
+              "articulos": {
+                "desde": "648",
+                "hasta": "668"
+              },
+              "n_articulos": 21,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t13-c2",
+              "nombre": "Capítulo II",
+              "subtitulo": "De la declaración de ausencia",
+              "nombre_fuente": "CAPITULO II",
+              "epigrafe_fuente": "De la declaración de ausencia",
+              "pagina": 99,
+              "articulos": {
+                "desde": "669",
+                "hasta": "678"
+              },
+              "n_articulos": 10,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t13-c3",
+              "nombre": "Capítulo III",
+              "subtitulo": "De los efectos de la declaración de ausencia",
+              "nombre_fuente": "CAPITULO III",
+              "epigrafe_fuente": "De los efectos de la declaración de ausencia",
+              "pagina": 100,
+              "articulos": {
+                "desde": "679",
+                "hasta": "697"
+              },
+              "n_articulos": 19,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t13-c4",
+              "nombre": "Capítulo IV",
+              "subtitulo": "De la administración de los bienes del ausente casado",
+              "nombre_fuente": "CAPITULO IV",
+              "epigrafe_fuente": "De la administración de los bienes del ausente casado",
+              "pagina": 102,
+              "articulos": {
+                "desde": "698",
+                "hasta": "704"
+              },
+              "n_articulos": 7,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t13-c5",
+              "nombre": "Capítulo V",
+              "subtitulo": "De la presunción de muerte del ausente",
+              "nombre_fuente": "CAPITULO V",
+              "epigrafe_fuente": "De la presunción de muerte del ausente",
+              "pagina": 102,
+              "articulos": {
+                "desde": "705",
+                "hasta": "714"
+              },
+              "n_articulos": 10,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t13-c6",
+              "nombre": "Capítulo VI",
+              "subtitulo": "De los efectos de la ausencia respecto de los derechos eventuales del ausente",
+              "nombre_fuente": "CAPITULO VI",
+              "epigrafe_fuente": "De los efectos de la ausencia respecto de los derechos eventuales del ausente",
+              "pagina": 103,
+              "articulos": {
+                "desde": "715",
+                "hasta": "719"
+              },
+              "n_articulos": 5,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l1-t13-c7",
+              "nombre": "Capítulo VII",
+              "subtitulo": "Disposiciones generales",
+              "nombre_fuente": "CAPITULO VII",
+              "epigrafe_fuente": "Disposiciones generales",
+              "pagina": 104,
+              "articulos": {
+                "desde": "720",
+                "hasta": "722"
+              },
+              "n_articulos": 3,
+              "n_derogados": 0
+            }
+          ],
           "articulos": {
             "desde": "648",
             "hasta": "722"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 75,
+          "n_derogados": 0
         },
         {
           "tipo": "titulo",
           "id": "l1-t14",
           "nombre": "Título Duodécimo",
-          "subtitulo": "Del Patrimonio de la Familia",
+          "subtitulo": "Del patrimonio de la familia",
+          "nombre_fuente": "TITULO DUODECIMO",
+          "epigrafe_fuente": "Del patrimonio de la familia",
+          "pagina": 104,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l1-t14-c1",
+              "nombre": "Capítulo Único",
+              "subtitulo": null,
+              "nombre_fuente": "CAPITULO UNICO",
+              "epigrafe_fuente": null,
+              "pagina": 104,
+              "articulos": {
+                "desde": "723",
+                "hasta": "746 Bis"
+              },
+              "n_articulos": 25,
+              "n_derogados": 0
+            }
+          ],
           "articulos": {
             "desde": "723",
-            "hasta": "746"
+            "hasta": "746 Bis"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 25,
+          "n_derogados": 0
         }
-      ],
-      "nombre_por_cotejar": true
+      ]
     },
     {
       "tipo": "libro",
       "id": "l2",
       "nombre": "Libro Segundo",
       "subtitulo": "De los Bienes",
+      "nombre_fuente": "LIBRO SEGUNDO",
+      "epigrafe_fuente": "DE LOS BIENES",
+      "pagina": 107,
       "hijos": [
         {
           "tipo": "titulo",
           "id": "l2-t1",
           "nombre": "Título Primero",
           "subtitulo": "Disposiciones Preliminares",
+          "nombre_fuente": "TITULO PRIMERO",
+          "epigrafe_fuente": "Disposiciones Preliminares",
+          "pagina": 107,
           "articulos": {
             "desde": "747",
             "hasta": "749"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 3,
+          "n_derogados": 0
         },
         {
           "tipo": "titulo",
           "id": "l2-t2",
           "nombre": "Título Segundo",
-          "subtitulo": "Clasificación de los Bienes",
+          "subtitulo": "Clasificación de los bienes",
+          "nombre_fuente": "TITULO SEGUNDO",
+          "epigrafe_fuente": "Clasificación de los bienes",
+          "pagina": 108,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l2-t2-c1",
+              "nombre": "Capítulo I",
+              "subtitulo": "De los bienes inmuebles",
+              "nombre_fuente": "CAPITULO I",
+              "epigrafe_fuente": "De los bienes inmuebles",
+              "pagina": 108,
+              "articulos": {
+                "desde": "750",
+                "hasta": "751"
+              },
+              "n_articulos": 2,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t2-c2",
+              "nombre": "Capítulo II",
+              "subtitulo": "De los bienes muebles",
+              "nombre_fuente": "CAPITULO II",
+              "epigrafe_fuente": "De los bienes muebles",
+              "pagina": 109,
+              "articulos": {
+                "desde": "752",
+                "hasta": "763"
+              },
+              "n_articulos": 12,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t2-c3",
+              "nombre": "Capítulo III",
+              "subtitulo": "De los bienes considerados según las personas a quienes pertenecen",
+              "nombre_fuente": "CAPITULO III",
+              "epigrafe_fuente": "De los bienes considerados según las personas a quienes pertenecen",
+              "pagina": 110,
+              "articulos": {
+                "desde": "764",
+                "hasta": "773"
+              },
+              "n_articulos": 10,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t2-c4",
+              "nombre": "Capítulo IV",
+              "subtitulo": "De los bienes mostrencos",
+              "nombre_fuente": "CAPITULO IV",
+              "epigrafe_fuente": "De los bienes mostrencos",
+              "pagina": 110,
+              "articulos": {
+                "desde": "774",
+                "hasta": "784"
+              },
+              "n_articulos": 11,
+              "n_derogados": 1
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t2-c5",
+              "nombre": "Capítulo V",
+              "subtitulo": "De los bienes vacantes",
+              "nombre_fuente": "CAPITULO V",
+              "epigrafe_fuente": "De los bienes vacantes",
+              "pagina": 111,
+              "articulos": {
+                "desde": "785",
+                "hasta": "789"
+              },
+              "n_articulos": 5,
+              "n_derogados": 0
+            }
+          ],
           "articulos": {
             "desde": "750",
             "hasta": "789"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 40,
+          "n_derogados": 1
         },
         {
           "tipo": "titulo",
           "id": "l2-t3",
           "nombre": "Título Tercero",
-          "subtitulo": "De la Posesión",
+          "subtitulo": "De la posesión",
+          "nombre_fuente": "TITULO TERCERO",
+          "epigrafe_fuente": "De la posesión",
+          "pagina": 112,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l2-t3-c1",
+              "nombre": "Capítulo Único",
+              "subtitulo": null,
+              "nombre_fuente": "CAPITULO UNICO",
+              "epigrafe_fuente": null,
+              "pagina": 112,
+              "articulos": {
+                "desde": "790",
+                "hasta": "829"
+              },
+              "n_articulos": 40,
+              "n_derogados": 0
+            }
+          ],
           "articulos": {
             "desde": "790",
             "hasta": "829"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 40,
+          "n_derogados": 0
         },
         {
           "tipo": "titulo",
           "id": "l2-t4",
           "nombre": "Título Cuarto",
-          "subtitulo": "De la Propiedad",
+          "subtitulo": "De la propiedad",
+          "nombre_fuente": "TITULO CUARTO",
+          "epigrafe_fuente": "De la propiedad",
+          "pagina": 116,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l2-t4-c1",
+              "nombre": "Capítulo I",
+              "subtitulo": "Disposiciones generales",
+              "nombre_fuente": "CAPITULO I",
+              "epigrafe_fuente": "Disposiciones generales",
+              "pagina": 116,
+              "articulos": {
+                "desde": "830",
+                "hasta": "853"
+              },
+              "n_articulos": 24,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t4-c2",
+              "nombre": "Capítulo II",
+              "subtitulo": "De los animales",
+              "nombre_fuente": "CAPITULO II",
+              "epigrafe_fuente": "De los animales",
+              "pagina": 118,
+              "articulos": {
+                "desde": "854",
+                "hasta": "874"
+              },
+              "n_articulos": 22,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t4-c3",
+              "nombre": "Capítulo III",
+              "subtitulo": "De los tesoros",
+              "nombre_fuente": "CAPITULO III",
+              "epigrafe_fuente": "De los tesoros",
+              "pagina": 120,
+              "articulos": {
+                "desde": "875",
+                "hasta": "885"
+              },
+              "n_articulos": 11,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t4-c4",
+              "nombre": "Capítulo IV",
+              "subtitulo": "Del derecho de accesión",
+              "nombre_fuente": "CAPITULO IV",
+              "epigrafe_fuente": "Del derecho de accesión",
+              "pagina": 121,
+              "articulos": {
+                "desde": "886",
+                "hasta": "932"
+              },
+              "n_articulos": 47,
+              "n_derogados": 1
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t4-c5",
+              "nombre": "Capítulo V",
+              "subtitulo": "Del dominio de las aguas",
+              "nombre_fuente": "CAPITULO V",
+              "epigrafe_fuente": "Del dominio de las aguas",
+              "pagina": 124,
+              "articulos": {
+                "desde": "933",
+                "hasta": "937"
+              },
+              "n_articulos": 5,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t4-c6",
+              "nombre": "Capítulo VI",
+              "subtitulo": "De la copropiedad",
+              "nombre_fuente": "CAPITULO VI",
+              "epigrafe_fuente": "De la copropiedad",
+              "pagina": 125,
+              "articulos": {
+                "desde": "938",
+                "hasta": "979"
+              },
+              "n_articulos": 42,
+              "n_derogados": 0
+            }
+          ],
           "articulos": {
             "desde": "830",
             "hasta": "979"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 151,
+          "n_derogados": 1
         },
         {
           "tipo": "titulo",
           "id": "l2-t5",
           "nombre": "Título Quinto",
-          "subtitulo": "Del Usufructo, del Uso y de la Habitación",
+          "subtitulo": "Del usufructo, del uso y de la habitación",
+          "nombre_fuente": "TITULO QUINTO",
+          "epigrafe_fuente": "Del usufructo, del uso y de la habitación",
+          "pagina": 129,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l2-t5-c1",
+              "nombre": "Capítulo I",
+              "subtitulo": "Del usufructo en general",
+              "nombre_fuente": "CAPITULO I",
+              "epigrafe_fuente": "Del usufructo en general",
+              "pagina": 129,
+              "articulos": {
+                "desde": "980",
+                "hasta": "988"
+              },
+              "n_articulos": 9,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t5-c2",
+              "nombre": "Capítulo II",
+              "subtitulo": "De los derechos del usufructuario",
+              "nombre_fuente": "CAPITULO II",
+              "epigrafe_fuente": "De los derechos del usufructuario",
+              "pagina": 130,
+              "articulos": {
+                "desde": "989",
+                "hasta": "1005"
+              },
+              "n_articulos": 17,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t5-c3",
+              "nombre": "Capítulo III",
+              "subtitulo": "De las obligaciones del usufructuario",
+              "nombre_fuente": "CAPITULO III",
+              "epigrafe_fuente": "De las obligaciones del usufructuario",
+              "pagina": 131,
+              "articulos": {
+                "desde": "1006",
+                "hasta": "1037"
+              },
+              "n_articulos": 32,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t5-c4",
+              "nombre": "Capítulo IV",
+              "subtitulo": "De los modos de extinguirse el usufructo",
+              "nombre_fuente": "CAPITULO IV",
+              "epigrafe_fuente": "De los modos de extinguirse el usufructo",
+              "pagina": 134,
+              "articulos": {
+                "desde": "1038",
+                "hasta": "1048"
+              },
+              "n_articulos": 11,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t5-c5",
+              "nombre": "Capítulo V",
+              "subtitulo": "Del uso y de la habitación",
+              "nombre_fuente": "CAPITULO V",
+              "epigrafe_fuente": "Del uso y de la habitación",
+              "pagina": 135,
+              "articulos": {
+                "desde": "1049",
+                "hasta": "1056"
+              },
+              "n_articulos": 8,
+              "n_derogados": 0
+            }
+          ],
           "articulos": {
             "desde": "980",
             "hasta": "1056"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 77,
+          "n_derogados": 0
         },
         {
           "tipo": "titulo",
           "id": "l2-t6",
           "nombre": "Título Sexto",
-          "subtitulo": "De las Servidumbres",
+          "subtitulo": "De las servidumbres",
+          "nombre_fuente": "TITULO SEXTO",
+          "epigrafe_fuente": "De las servidumbres",
+          "pagina": 136,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l2-t6-c1",
+              "nombre": "Capítulo I",
+              "subtitulo": "Disposiciones generales",
+              "nombre_fuente": "CAPITULO I",
+              "epigrafe_fuente": "Disposiciones generales",
+              "pagina": 136,
+              "articulos": {
+                "desde": "1057",
+                "hasta": "1067"
+              },
+              "n_articulos": 11,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t6-c2",
+              "nombre": "Capítulo II",
+              "subtitulo": "De las servidumbres legales",
+              "nombre_fuente": "CAPITULO II",
+              "epigrafe_fuente": "De las servidumbres legales",
+              "pagina": 137,
+              "articulos": {
+                "desde": "1068",
+                "hasta": "1070"
+              },
+              "n_articulos": 3,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t6-c3",
+              "nombre": "Capítulo III",
+              "subtitulo": "De la servidumbre legal de desagüe",
+              "nombre_fuente": "CAPITULO III",
+              "epigrafe_fuente": "De la servidumbre legal de desagüe",
+              "pagina": 137,
+              "articulos": {
+                "desde": "1071",
+                "hasta": "1077"
+              },
+              "n_articulos": 7,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t6-c4",
+              "nombre": "Capítulo IV",
+              "subtitulo": "De la servidumbre legal de acueducto",
+              "nombre_fuente": "CAPITULO IV",
+              "epigrafe_fuente": "De la servidumbre legal de acueducto",
+              "pagina": 138,
+              "articulos": {
+                "desde": "1078",
+                "hasta": "1096"
+              },
+              "n_articulos": 19,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t6-c5",
+              "nombre": "Capítulo V",
+              "subtitulo": "De la servidumbre legal de paso",
+              "nombre_fuente": "CAPITULO V",
+              "epigrafe_fuente": "De la servidumbre legal de paso",
+              "pagina": 139,
+              "articulos": {
+                "desde": "1097",
+                "hasta": "1108"
+              },
+              "n_articulos": 12,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t6-c6",
+              "nombre": "Capítulo VI",
+              "subtitulo": "De las servidumbres voluntarias",
+              "nombre_fuente": "CAPITULO VI",
+              "epigrafe_fuente": "De las servidumbres voluntarias",
+              "pagina": 141,
+              "articulos": {
+                "desde": "1109",
+                "hasta": "1112"
+              },
+              "n_articulos": 4,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t6-c7",
+              "nombre": "Capítulo VII",
+              "subtitulo": "Cómo se adquieren las servidumbres voluntarias",
+              "nombre_fuente": "CAPITULO VII",
+              "epigrafe_fuente": "Cómo se adquieren las servidumbres voluntarias",
+              "pagina": 141,
+              "articulos": {
+                "desde": "1113",
+                "hasta": "1117"
+              },
+              "n_articulos": 5,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t6-c8",
+              "nombre": "Capítulo VIII",
+              "subtitulo": "Derechos y obligaciones de los propietarios de los predios entre los que está constituída alguna servidumbre voluntaria",
+              "nombre_fuente": "CAPITULO VIII",
+              "epigrafe_fuente": "Derechos y obligaciones de los propietarios de los predios entre los que está constituída alguna servidumbre voluntaria",
+              "pagina": 141,
+              "articulos": {
+                "desde": "1118",
+                "hasta": "1127"
+              },
+              "n_articulos": 10,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t6-c9",
+              "nombre": "Capítulo IX",
+              "subtitulo": "De la extinción de las servidumbres",
+              "nombre_fuente": "CAPITULO IX",
+              "epigrafe_fuente": "De la extinción de las servidumbres",
+              "pagina": 142,
+              "articulos": {
+                "desde": "1128",
+                "hasta": "1134"
+              },
+              "n_articulos": 7,
+              "n_derogados": 0
+            }
+          ],
           "articulos": {
             "desde": "1057",
             "hasta": "1134"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 78,
+          "n_derogados": 0
         },
         {
           "tipo": "titulo",
           "id": "l2-t7",
           "nombre": "Título Séptimo",
-          "subtitulo": "De la Prescripción",
+          "subtitulo": "De la prescripción",
+          "nombre_fuente": "TITULO SEPTIMO",
+          "epigrafe_fuente": "De la prescripción",
+          "pagina": 143,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l2-t7-c1",
+              "nombre": "Capítulo I",
+              "subtitulo": "Disposiciones generales",
+              "nombre_fuente": "CAPITULO I",
+              "epigrafe_fuente": "Disposiciones generales",
+              "pagina": 143,
+              "articulos": {
+                "desde": "1135",
+                "hasta": "1150"
+              },
+              "n_articulos": 16,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t7-c2",
+              "nombre": "Capítulo II",
+              "subtitulo": "De la prescripción positiva",
+              "nombre_fuente": "CAPITULO II",
+              "epigrafe_fuente": "De la prescripción positiva",
+              "pagina": 145,
+              "articulos": {
+                "desde": "1151",
+                "hasta": "1157"
+              },
+              "n_articulos": 7,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t7-c3",
+              "nombre": "Capítulo III",
+              "subtitulo": "De la prescripción negativa",
+              "nombre_fuente": "CAPITULO III",
+              "epigrafe_fuente": "De la prescripción negativa",
+              "pagina": 146,
+              "articulos": {
+                "desde": "1158",
+                "hasta": "1164"
+              },
+              "n_articulos": 7,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t7-c4",
+              "nombre": "Capítulo IV",
+              "subtitulo": "De la suspensión de la prescripción",
+              "nombre_fuente": "CAPITULO IV",
+              "epigrafe_fuente": "De la suspensión de la prescripción",
+              "pagina": 147,
+              "articulos": {
+                "desde": "1165",
+                "hasta": "1167"
+              },
+              "n_articulos": 3,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t7-c5",
+              "nombre": "Capítulo V",
+              "subtitulo": "De la interrupción de la prescripción",
+              "nombre_fuente": "CAPITULO V",
+              "epigrafe_fuente": "De la interrupción de la prescripción",
+              "pagina": 147,
+              "articulos": {
+                "desde": "1168",
+                "hasta": "1175"
+              },
+              "n_articulos": 8,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t7-c6",
+              "nombre": "Capítulo VI",
+              "subtitulo": "De la manera de contar el tiempo para la prescripción",
+              "nombre_fuente": "CAPITULO VI",
+              "epigrafe_fuente": "De la manera de contar el tiempo para la prescripción",
+              "pagina": 148,
+              "articulos": {
+                "desde": "1176",
+                "hasta": "1180"
+              },
+              "n_articulos": 5,
+              "n_derogados": 0
+            }
+          ],
           "articulos": {
             "desde": "1135",
             "hasta": "1180"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 46,
+          "n_derogados": 0
+        },
+        {
+          "tipo": "titulo",
+          "id": "l2-t8",
+          "nombre": "Título Octavo",
+          "subtitulo": "De los derechos de autor",
+          "nombre_fuente": "TITULO OCTAVO",
+          "epigrafe_fuente": "De los derechos de autor",
+          "pagina": 148,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l2-t8-c1",
+              "nombre": "Capítulo I",
+              "subtitulo": null,
+              "nombre_fuente": "CAPITULO I",
+              "epigrafe_fuente": null,
+              "pagina": 148,
+              "articulos": {
+                "desde": "1181",
+                "hasta": "1243"
+              },
+              "n_articulos": 63,
+              "n_derogados": 63
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t8-c2",
+              "nombre": "Capítulo II",
+              "subtitulo": null,
+              "nombre_fuente": "CAPITULO II",
+              "epigrafe_fuente": null,
+              "pagina": 151,
+              "articulos": {
+                "desde": "1244",
+                "hasta": "1254"
+              },
+              "n_articulos": 11,
+              "n_derogados": 11
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l2-t8-c3",
+              "nombre": "Capítulo III",
+              "subtitulo": null,
+              "nombre_fuente": "CAPITULO III",
+              "epigrafe_fuente": null,
+              "pagina": 151,
+              "articulos": {
+                "desde": "1255",
+                "hasta": "1280"
+              },
+              "n_articulos": 26,
+              "n_derogados": 26
+            }
+          ],
+          "articulos": {
+            "desde": "1181",
+            "hasta": "1280"
+          },
+          "n_articulos": 100,
+          "n_derogados": 100
         }
-      ],
-      "nombre_por_cotejar": true
+      ]
     },
     {
       "tipo": "libro",
       "id": "l3",
       "nombre": "Libro Tercero",
       "subtitulo": "De las Sucesiones",
+      "nombre_fuente": "LIBRO TERCERO",
+      "epigrafe_fuente": "DE LAS SUCESIONES",
+      "pagina": 152,
       "hijos": [
         {
           "tipo": "titulo",
           "id": "l3-t1",
           "nombre": "Título Primero",
-          "subtitulo": "Disposiciones Generales",
+          "subtitulo": "Disposiciones preliminares",
+          "nombre_fuente": "TITULO PRIMERO",
+          "epigrafe_fuente": "Disposiciones preliminares",
+          "pagina": 152,
           "articulos": {
             "desde": "1281",
             "hasta": "1294"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 14,
+          "n_derogados": 0
         },
         {
           "tipo": "titulo",
           "id": "l3-t2",
           "nombre": "Título Segundo",
-          "subtitulo": "De la Sucesión por Testamento",
+          "subtitulo": "De la sucesión por testamento",
+          "nombre_fuente": "TITULO SEGUNDO",
+          "epigrafe_fuente": "De la sucesión por testamento",
+          "pagina": 153,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l3-t2-c1",
+              "nombre": "Capítulo I",
+              "subtitulo": "De los testamentos en general",
+              "nombre_fuente": "CAPITULO I",
+              "epigrafe_fuente": "De los testamentos en general",
+              "pagina": 153,
+              "articulos": {
+                "desde": "1295",
+                "hasta": "1304"
+              },
+              "n_articulos": 10,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t2-c2",
+              "nombre": "Capítulo II",
+              "subtitulo": "De la capacidad para testar",
+              "nombre_fuente": "CAPITULO II",
+              "epigrafe_fuente": "De la capacidad para testar",
+              "pagina": 154,
+              "articulos": {
+                "desde": "1305",
+                "hasta": "1312"
+              },
+              "n_articulos": 8,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t2-c3",
+              "nombre": "Capítulo III",
+              "subtitulo": "De la capacidad para heredar",
+              "nombre_fuente": "CAPITULO III",
+              "epigrafe_fuente": "De la capacidad para heredar",
+              "pagina": 155,
+              "articulos": {
+                "desde": "1313",
+                "hasta": "1343"
+              },
+              "n_articulos": 31,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t2-c4",
+              "nombre": "Capítulo IV",
+              "subtitulo": "De las condiciones que pueden ponerse en los testamentos",
+              "nombre_fuente": "CAPITULO IV",
+              "epigrafe_fuente": "De las condiciones que pueden ponerse en los testamentos",
+              "pagina": 158,
+              "articulos": {
+                "desde": "1344",
+                "hasta": "1367"
+              },
+              "n_articulos": 24,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t2-c5",
+              "nombre": "Capítulo V",
+              "subtitulo": "De los bienes de que se puede disponer por testamento, y de los testamentos inoficiosos",
+              "nombre_fuente": "CAPITULO V",
+              "epigrafe_fuente": "De los bienes de que se puede disponer por testamento, y de los testamentos inoficiosos",
+              "pagina": 160,
+              "articulos": {
+                "desde": "1368",
+                "hasta": "1377"
+              },
+              "n_articulos": 10,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t2-c6",
+              "nombre": "Capítulo VI",
+              "subtitulo": "De la institución de heredero",
+              "nombre_fuente": "CAPITULO VI",
+              "epigrafe_fuente": "De la institución de heredero",
+              "pagina": 162,
+              "articulos": {
+                "desde": "1378",
+                "hasta": "1390"
+              },
+              "n_articulos": 13,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t2-c7",
+              "nombre": "Capítulo VII",
+              "subtitulo": "De los legados",
+              "nombre_fuente": "CAPITULO VII",
+              "epigrafe_fuente": "De los legados",
+              "pagina": 163,
+              "articulos": {
+                "desde": "1391",
+                "hasta": "1471"
+              },
+              "n_articulos": 82,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t2-c8",
+              "nombre": "Capítulo VIII",
+              "subtitulo": "De las substituciones",
+              "nombre_fuente": "CAPITULO VIII",
+              "epigrafe_fuente": "De las substituciones",
+              "pagina": 169,
+              "articulos": {
+                "desde": "1472",
+                "hasta": "1483"
+              },
+              "n_articulos": 12,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t2-c9",
+              "nombre": "Capítulo IX",
+              "subtitulo": "De la nulidad, revocación y caducidad de los testamentos",
+              "nombre_fuente": "CAPITULO IX",
+              "epigrafe_fuente": "De la nulidad, revocación y caducidad de los testamentos",
+              "pagina": 170,
+              "articulos": {
+                "desde": "1484",
+                "hasta": "1498"
+              },
+              "n_articulos": 15,
+              "n_derogados": 0
+            }
+          ],
           "articulos": {
             "desde": "1295",
             "hasta": "1498"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 205,
+          "n_derogados": 0
         },
         {
           "tipo": "titulo",
           "id": "l3-t3",
           "nombre": "Título Tercero",
-          "subtitulo": "De la Forma de los Testamentos",
+          "subtitulo": "De la forma de los testamentos",
+          "nombre_fuente": "TITULO TERCERO",
+          "epigrafe_fuente": "De la forma de los testamentos",
+          "pagina": 171,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l3-t3-c1",
+              "nombre": "Capítulo I",
+              "subtitulo": "Disposiciones generales",
+              "nombre_fuente": "CAPITULO I",
+              "epigrafe_fuente": "Disposiciones generales",
+              "pagina": 171,
+              "articulos": {
+                "desde": "1499",
+                "hasta": "1510"
+              },
+              "n_articulos": 12,
+              "n_derogados": 3
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t3-c2",
+              "nombre": "Capítulo II",
+              "subtitulo": "Del testamento público abierto",
+              "nombre_fuente": "CAPITULO II",
+              "epigrafe_fuente": "Del testamento público abierto",
+              "pagina": 172,
+              "articulos": {
+                "desde": "1511",
+                "hasta": "1520 ter"
+              },
+              "n_articulos": 12,
+              "n_derogados": 2
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t3-c3",
+              "nombre": "Capítulo III",
+              "subtitulo": null,
+              "nombre_fuente": "CAPITULO III",
+              "epigrafe_fuente": null,
+              "pagina": 174,
+              "articulos": {
+                "desde": "1521",
+                "hasta": "1549 Bis"
+              },
+              "n_articulos": 30,
+              "n_derogados": 30
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t3-c4",
+              "nombre": "Capítulo IV",
+              "subtitulo": null,
+              "nombre_fuente": "CAPITULO IV",
+              "epigrafe_fuente": null,
+              "pagina": 175,
+              "articulos": {
+                "desde": "1550",
+                "hasta": "1564"
+              },
+              "n_articulos": 15,
+              "n_derogados": 15
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t3-c5",
+              "nombre": "Capítulo V",
+              "subtitulo": null,
+              "nombre_fuente": "CAPITULO V",
+              "epigrafe_fuente": null,
+              "pagina": 176,
+              "articulos": {
+                "desde": "1565",
+                "hasta": "1578"
+              },
+              "n_articulos": 14,
+              "n_derogados": 14
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t3-c6",
+              "nombre": "Capítulo VI",
+              "subtitulo": null,
+              "nombre_fuente": "CAPITULO VI",
+              "epigrafe_fuente": null,
+              "pagina": 176,
+              "articulos": {
+                "desde": "1579",
+                "hasta": "1582"
+              },
+              "n_articulos": 4,
+              "n_derogados": 4
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t3-c7",
+              "nombre": "Capítulo VII",
+              "subtitulo": null,
+              "nombre_fuente": "CAPITULO VII",
+              "epigrafe_fuente": null,
+              "pagina": 177,
+              "articulos": {
+                "desde": "1583",
+                "hasta": "1592"
+              },
+              "n_articulos": 10,
+              "n_derogados": 10
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t3-c8",
+              "nombre": "Capítulo VIII",
+              "subtitulo": "Del testamento hecho en país extranjero",
+              "nombre_fuente": "CAPITULO VIII",
+              "epigrafe_fuente": "Del testamento hecho en país extranjero",
+              "pagina": 177,
+              "articulos": {
+                "desde": "1593",
+                "hasta": "1598"
+              },
+              "n_articulos": 6,
+              "n_derogados": 4
+            }
+          ],
           "articulos": {
             "desde": "1499",
             "hasta": "1598"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 103,
+          "n_derogados": 82
         },
         {
           "tipo": "titulo",
           "id": "l3-t4",
           "nombre": "Título Cuarto",
-          "subtitulo": "De la Sucesión Legítima",
+          "subtitulo": "De la sucesión legítima",
+          "nombre_fuente": "TITULO CUARTO",
+          "epigrafe_fuente": "De la sucesión legítima",
+          "pagina": 177,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l3-t4-c1",
+              "nombre": "Capítulo I",
+              "subtitulo": "Disposiciones generales",
+              "nombre_fuente": "CAPITULO I",
+              "epigrafe_fuente": "Disposiciones generales",
+              "pagina": 178,
+              "articulos": {
+                "desde": "1599",
+                "hasta": "1606"
+              },
+              "n_articulos": 8,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t4-c2",
+              "nombre": "Capítulo II",
+              "subtitulo": "De la sucesión de los descendientes",
+              "nombre_fuente": "CAPITULO II",
+              "epigrafe_fuente": "De la sucesión de los descendientes",
+              "pagina": 178,
+              "articulos": {
+                "desde": "1607",
+                "hasta": "1614"
+              },
+              "n_articulos": 8,
+              "n_derogados": 1
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t4-c3",
+              "nombre": "Capítulo III",
+              "subtitulo": "De la sucesión de los ascendientes",
+              "nombre_fuente": "CAPITULO III",
+              "epigrafe_fuente": "De la sucesión de los ascendientes",
+              "pagina": 179,
+              "articulos": {
+                "desde": "1615",
+                "hasta": "1623"
+              },
+              "n_articulos": 9,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t4-c4",
+              "nombre": "Capítulo IV",
+              "subtitulo": "De la sucesión del cónyuge",
+              "nombre_fuente": "CAPITULO IV",
+              "epigrafe_fuente": "De la sucesión del cónyuge",
+              "pagina": 180,
+              "articulos": {
+                "desde": "1624",
+                "hasta": "1629"
+              },
+              "n_articulos": 6,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t4-c5",
+              "nombre": "Capítulo V",
+              "subtitulo": "De la sucesión de los colaterales",
+              "nombre_fuente": "CAPITULO V",
+              "epigrafe_fuente": "De la sucesión de los colaterales",
+              "pagina": 180,
+              "articulos": {
+                "desde": "1630",
+                "hasta": "1634"
+              },
+              "n_articulos": 5,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t4-c6",
+              "nombre": "Capítulo VI",
+              "subtitulo": "De la Sucesión de los Concubinos",
+              "nombre_fuente": "CAPITULO VI",
+              "epigrafe_fuente": "De la Sucesión de los Concubinos",
+              "pagina": 180,
+              "articulos": {
+                "desde": "1635",
+                "hasta": "1635"
+              },
+              "n_articulos": 1,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t4-c7",
+              "nombre": "Capítulo VII",
+              "subtitulo": "De la sucesión de la Beneficencia Pública",
+              "nombre_fuente": "CAPITULO VII",
+              "epigrafe_fuente": "De la sucesión de la Beneficencia Pública",
+              "pagina": 181,
+              "articulos": {
+                "desde": "1636",
+                "hasta": "1637"
+              },
+              "n_articulos": 2,
+              "n_derogados": 0
+            }
+          ],
           "articulos": {
             "desde": "1599",
             "hasta": "1637"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 39,
+          "n_derogados": 1
         },
         {
           "tipo": "titulo",
           "id": "l3-t5",
           "nombre": "Título Quinto",
-          "subtitulo": "Disposiciones Comunes a las Sucesiones Testamentaria y Legítima",
+          "subtitulo": "Disposiciones comunes a las sucesiones testamentaria y legítima",
+          "nombre_fuente": "TITULO QUINTO",
+          "epigrafe_fuente": "Disposiciones comunes a las sucesiones testamentaria y legítima",
+          "pagina": 181,
+          "hijos": [
+            {
+              "tipo": "capitulo",
+              "id": "l3-t5-c1",
+              "nombre": "Capítulo I",
+              "subtitulo": "De las precauciones que deben adoptarse cuando la viuda quede encinta",
+              "nombre_fuente": "CAPITULO I",
+              "epigrafe_fuente": "De las precauciones que deben adoptarse cuando la viuda quede encinta",
+              "pagina": 181,
+              "articulos": {
+                "desde": "1638",
+                "hasta": "1648"
+              },
+              "n_articulos": 11,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t5-c2",
+              "nombre": "Capítulo II",
+              "subtitulo": "De la apertura y transmisión de la herencia",
+              "nombre_fuente": "CAPITULO II",
+              "epigrafe_fuente": "De la apertura y transmisión de la herencia",
+              "pagina": 182,
+              "articulos": {
+                "desde": "1649",
+                "hasta": "1652"
+              },
+              "n_articulos": 4,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t5-c3",
+              "nombre": "Capítulo III",
+              "subtitulo": "De la aceptación y de la repudiación de la herencia",
+              "nombre_fuente": "CAPITULO III",
+              "epigrafe_fuente": "De la aceptación y de la repudiación de la herencia",
+              "pagina": 182,
+              "articulos": {
+                "desde": "1653",
+                "hasta": "1678"
+              },
+              "n_articulos": 26,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t5-c4",
+              "nombre": "Capítulo IV",
+              "subtitulo": "De los albaceas",
+              "nombre_fuente": "CAPITULO IV",
+              "epigrafe_fuente": "De los albaceas",
+              "pagina": 184,
+              "articulos": {
+                "desde": "1679",
+                "hasta": "1749"
+              },
+              "n_articulos": 72,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t5-c5",
+              "nombre": "Capítulo V",
+              "subtitulo": "Del inventario y de la liquidación de la herencia",
+              "nombre_fuente": "CAPITULO V",
+              "epigrafe_fuente": "Del inventario y de la liquidación de la herencia",
+              "pagina": 191,
+              "articulos": {
+                "desde": "1750",
+                "hasta": "1766"
+              },
+              "n_articulos": 17,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t5-c6",
+              "nombre": "Capítulo VI",
+              "subtitulo": "De la partición",
+              "nombre_fuente": "CAPITULO VI",
+              "epigrafe_fuente": "De la partición",
+              "pagina": 192,
+              "articulos": {
+                "desde": "1767",
+                "hasta": "1778"
+              },
+              "n_articulos": 12,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t5-c7",
+              "nombre": "Capítulo VII",
+              "subtitulo": "De los efectos de la partición",
+              "nombre_fuente": "CAPITULO VII",
+              "epigrafe_fuente": "De los efectos de la partición",
+              "pagina": 193,
+              "articulos": {
+                "desde": "1779",
+                "hasta": "1787"
+              },
+              "n_articulos": 9,
+              "n_derogados": 0
+            },
+            {
+              "tipo": "capitulo",
+              "id": "l3-t5-c8",
+              "nombre": "Capítulo VIII",
+              "subtitulo": "De la rescisión y nulidad de las particiones",
+              "nombre_fuente": "CAPITULO VIII",
+              "epigrafe_fuente": "De la rescisión y nulidad de las particiones",
+              "pagina": 194,
+              "articulos": {
+                "desde": "1788",
+                "hasta": "1791"
+              },
+              "n_articulos": 4,
+              "n_derogados": 0
+            }
+          ],
           "articulos": {
             "desde": "1638",
             "hasta": "1791"
           },
-          "rango_por_cotejar": true,
-          "nombre_por_cotejar": true
+          "n_articulos": 155,
+          "n_derogados": 0
         }
-      ],
-      "nombre_por_cotejar": true
+      ]
     },
     {
       "tipo": "libro",
       "id": "l4",
       "nombre": "Libro Cuarto",
       "subtitulo": "De las Obligaciones",
+      "nombre_fuente": "LIBRO CUARTO",
+      "epigrafe_fuente": "DE LAS OBLIGACIONES",
+      "pagina": 194,
       "hijos": [
         {
           "tipo": "parte",
           "id": "l4-p1",
           "nombre": "Primera Parte",
-          "subtitulo": "De las Obligaciones en General",
+          "subtitulo": "De las obligaciones en general",
+          "nombre_fuente": "PRIMERA PARTE",
+          "epigrafe_fuente": "De las obligaciones en general",
+          "pagina": 194,
           "hijos": [
             {
               "tipo": "titulo",
               "id": "l4-p1-t1",
               "nombre": "Título Primero",
-              "subtitulo": "Fuentes de las Obligaciones",
+              "subtitulo": "Fuentes de las obligaciones",
+              "nombre_fuente": "TITULO PRIMERO",
+              "epigrafe_fuente": "Fuentes de las obligaciones",
+              "pagina": 194,
+              "hijos": [
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p1-t1-c1",
+                  "nombre": "Capítulo I",
+                  "subtitulo": "Contratos",
+                  "nombre_fuente": "CAPITULO I",
+                  "epigrafe_fuente": "Contratos",
+                  "pagina": 194,
+                  "articulos": {
+                    "desde": "1792",
+                    "hasta": "1859"
+                  },
+                  "n_articulos": 70,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p1-t1-c2",
+                  "nombre": "Capítulo II",
+                  "subtitulo": "De la declaración unilateral de la voluntad",
+                  "nombre_fuente": "CAPITULO II",
+                  "epigrafe_fuente": "De la declaración unilateral de la voluntad",
+                  "pagina": 201,
+                  "articulos": {
+                    "desde": "1860",
+                    "hasta": "1881"
+                  },
+                  "n_articulos": 22,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p1-t1-c3",
+                  "nombre": "Capítulo III",
+                  "subtitulo": "Del enriquecimiento ilegítimo",
+                  "nombre_fuente": "CAPITULO III",
+                  "epigrafe_fuente": "Del enriquecimiento ilegítimo",
+                  "pagina": 203,
+                  "articulos": {
+                    "desde": "1882",
+                    "hasta": "1895"
+                  },
+                  "n_articulos": 14,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p1-t1-c4",
+                  "nombre": "Capítulo IV",
+                  "subtitulo": "De la gestión de negocios",
+                  "nombre_fuente": "CAPITULO IV",
+                  "epigrafe_fuente": "De la gestión de negocios",
+                  "pagina": 204,
+                  "articulos": {
+                    "desde": "1896",
+                    "hasta": "1909"
+                  },
+                  "n_articulos": 14,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p1-t1-c5",
+                  "nombre": "Capítulo V",
+                  "subtitulo": "De las obligaciones que nacen de los actos ilícitos",
+                  "nombre_fuente": "CAPITULO V",
+                  "epigrafe_fuente": "De las obligaciones que nacen de los actos ilícitos",
+                  "pagina": 205,
+                  "articulos": {
+                    "desde": "1910",
+                    "hasta": "1934"
+                  },
+                  "n_articulos": 26,
+                  "n_derogados": 1
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p1-t1-c6",
+                  "nombre": "Capítulo VI",
+                  "subtitulo": "Del riesgo profesional",
+                  "nombre_fuente": "CAPITULO VI",
+                  "epigrafe_fuente": "Del riesgo profesional",
+                  "pagina": 208,
+                  "articulos": {
+                    "desde": "1935",
+                    "hasta": "1937"
+                  },
+                  "n_articulos": 3,
+                  "n_derogados": 0
+                }
+              ],
               "articulos": {
                 "desde": "1792",
-                "hasta": "1934"
+                "hasta": "1937"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 149,
+              "n_derogados": 1
             },
             {
               "tipo": "titulo",
               "id": "l4-p1-t2",
               "nombre": "Título Segundo",
-              "subtitulo": "Modalidades de las Obligaciones",
+              "subtitulo": "Modalidades de las obligaciones",
+              "nombre_fuente": "TITULO SEGUNDO",
+              "epigrafe_fuente": "Modalidades de las obligaciones",
+              "pagina": 208,
+              "hijos": [
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p1-t2-c1",
+                  "nombre": "Capítulo I",
+                  "subtitulo": "De las obligaciones condicionales",
+                  "nombre_fuente": "CAPITULO I",
+                  "epigrafe_fuente": "De las obligaciones condicionales",
+                  "pagina": 209,
+                  "articulos": {
+                    "desde": "1938",
+                    "hasta": "1952"
+                  },
+                  "n_articulos": 15,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p1-t2-c2",
+                  "nombre": "Capítulo II",
+                  "subtitulo": "De las obligaciones a plazo",
+                  "nombre_fuente": "CAPITULO II",
+                  "epigrafe_fuente": "De las obligaciones a plazo",
+                  "pagina": 210,
+                  "articulos": {
+                    "desde": "1953",
+                    "hasta": "1960"
+                  },
+                  "n_articulos": 8,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p1-t2-c3",
+                  "nombre": "Capítulo III",
+                  "subtitulo": "De las obligaciones conjuntivas y alternativas",
+                  "nombre_fuente": "CAPITULO III",
+                  "epigrafe_fuente": "De las obligaciones conjuntivas y alternativas",
+                  "pagina": 211,
+                  "articulos": {
+                    "desde": "1961",
+                    "hasta": "1983"
+                  },
+                  "n_articulos": 23,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p1-t2-c4",
+                  "nombre": "Capítulo IV",
+                  "subtitulo": "De las obligaciones mancomunadas",
+                  "nombre_fuente": "CAPITULO IV",
+                  "epigrafe_fuente": "De las obligaciones mancomunadas",
+                  "pagina": 213,
+                  "articulos": {
+                    "desde": "1984",
+                    "hasta": "2010"
+                  },
+                  "n_articulos": 27,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p1-t2-c5",
+                  "nombre": "Capítulo V",
+                  "subtitulo": "De las obligaciones de dar",
+                  "nombre_fuente": "CAPITULO V",
+                  "epigrafe_fuente": "De las obligaciones de dar",
+                  "pagina": 215,
+                  "articulos": {
+                    "desde": "2011",
+                    "hasta": "2026"
+                  },
+                  "n_articulos": 16,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p1-t2-c6",
+                  "nombre": "Capítulo VI",
+                  "subtitulo": "De las obligaciones de hacer o de no hacer",
+                  "nombre_fuente": "CAPITULO VI",
+                  "epigrafe_fuente": "De las obligaciones de hacer o de no hacer",
+                  "pagina": 217,
+                  "articulos": {
+                    "desde": "2027",
+                    "hasta": "2028"
+                  },
+                  "n_articulos": 2,
+                  "n_derogados": 0
+                }
+              ],
               "articulos": {
-                "desde": "1935",
-                "hasta": "1987"
+                "desde": "1938",
+                "hasta": "2028"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 91,
+              "n_derogados": 0
             },
             {
               "tipo": "titulo",
               "id": "l4-p1-t3",
               "nombre": "Título Tercero",
-              "subtitulo": "De la Transmisión de las Obligaciones",
+              "subtitulo": "De la transmisión de las obligaciones",
+              "nombre_fuente": "TITULO TERCERO",
+              "epigrafe_fuente": "De la transmisión de las obligaciones",
+              "pagina": 217,
+              "hijos": [
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p1-t3-c1",
+                  "nombre": "Capítulo I",
+                  "subtitulo": "De la cesión de derechos",
+                  "nombre_fuente": "CAPITULO I",
+                  "epigrafe_fuente": "De la cesión de derechos",
+                  "pagina": 217,
+                  "articulos": {
+                    "desde": "2029",
+                    "hasta": "2050"
+                  },
+                  "n_articulos": 22,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p1-t3-c2",
+                  "nombre": "Capítulo II",
+                  "subtitulo": "De la cesión de deudas",
+                  "nombre_fuente": "CAPITULO II",
+                  "epigrafe_fuente": "De la cesión de deudas",
+                  "pagina": 219,
+                  "articulos": {
+                    "desde": "2051",
+                    "hasta": "2057"
+                  },
+                  "n_articulos": 7,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p1-t3-c3",
+                  "nombre": "Capítulo III",
+                  "subtitulo": "De la subrogación",
+                  "nombre_fuente": "CAPITULO III",
+                  "epigrafe_fuente": "De la subrogación",
+                  "pagina": 220,
+                  "articulos": {
+                    "desde": "2058",
+                    "hasta": "2061"
+                  },
+                  "n_articulos": 4,
+                  "n_derogados": 0
+                }
+              ],
               "articulos": {
-                "desde": "1988",
+                "desde": "2029",
                 "hasta": "2061"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 33,
+              "n_derogados": 0
             },
             {
               "tipo": "titulo",
               "id": "l4-p1-t4",
               "nombre": "Título Cuarto",
-              "subtitulo": "Efectos de las Obligaciones",
+              "subtitulo": "Efectos de las obligaciones",
+              "nombre_fuente": "TITULO CUARTO",
+              "epigrafe_fuente": "Efectos de las obligaciones I.- Efectos de las obligaciones entre las partes Cumplimiento de las obligaciones",
+              "pagina": 220,
+              "hijos": [
+                {
+                  "tipo": "seccion",
+                  "id": "l4-p1-t4-s1",
+                  "nombre": "I.- Efectos de las obligaciones entre las partes",
+                  "subtitulo": "Cumplimiento de las obligaciones",
+                  "nombre_fuente": "I.- Efectos de las obligaciones entre las partes / Cumplimiento de las obligaciones",
+                  "pagina": 220,
+                  "articulos": {
+                    "desde": "2062",
+                    "hasta": "2103"
+                  },
+                  "n_articulos": 42,
+                  "hijos": [
+                    {
+                      "tipo": "capitulo",
+                      "id": "l4-p1-t4-s1-c1",
+                      "nombre": "Capítulo I",
+                      "subtitulo": "Del pago",
+                      "nombre_fuente": "CAPITULO I",
+                      "epigrafe_fuente": "Del pago",
+                      "pagina": 220,
+                      "articulos": {
+                        "desde": "2062",
+                        "hasta": "2096"
+                      },
+                      "n_articulos": 35,
+                      "n_derogados": 0
+                    },
+                    {
+                      "tipo": "capitulo",
+                      "id": "l4-p1-t4-s1-c2",
+                      "nombre": "Capítulo II",
+                      "subtitulo": "Del ofrecimiento del pago y de la consignación",
+                      "nombre_fuente": "CAPITULO II",
+                      "epigrafe_fuente": "Del ofrecimiento del pago y de la consignación",
+                      "pagina": 223,
+                      "articulos": {
+                        "desde": "2097",
+                        "hasta": "2103"
+                      },
+                      "n_articulos": 7,
+                      "n_derogados": 0
+                    }
+                  ]
+                },
+                {
+                  "tipo": "seccion",
+                  "id": "l4-p1-t4-s2",
+                  "nombre": "I.- Efectos de las obligaciones entre las partes",
+                  "subtitulo": "Incumplimiento de las obligaciones",
+                  "nombre_fuente": "I.- Efectos de las obligaciones entre las partes / Incumplimiento de las obligaciones",
+                  "pagina": 223,
+                  "articulos": {
+                    "desde": "2104",
+                    "hasta": "2162"
+                  },
+                  "n_articulos": 59,
+                  "hijos": [
+                    {
+                      "tipo": "capitulo",
+                      "id": "l4-p1-t4-s2-c1",
+                      "nombre": "Capítulo I",
+                      "subtitulo": "Consecuencias del incumplimiento de las obligaciones",
+                      "nombre_fuente": "CAPITULO I",
+                      "epigrafe_fuente": "Consecuencias del incumplimiento de las obligaciones",
+                      "pagina": 223,
+                      "articulos": {
+                        "desde": "2104",
+                        "hasta": "2118"
+                      },
+                      "n_articulos": 15,
+                      "n_derogados": 0
+                    },
+                    {
+                      "tipo": "capitulo",
+                      "id": "l4-p1-t4-s2-c2",
+                      "nombre": "Capítulo II",
+                      "subtitulo": "De la evicción y saneamiento",
+                      "nombre_fuente": "CAPITULO II",
+                      "epigrafe_fuente": "De la evicción y saneamiento",
+                      "pagina": 225,
+                      "articulos": {
+                        "desde": "2119",
+                        "hasta": "2162"
+                      },
+                      "n_articulos": 44,
+                      "n_derogados": 0
+                    }
+                  ]
+                },
+                {
+                  "tipo": "seccion",
+                  "id": "l4-p1-t4-s3",
+                  "nombre": "II.- Efectos de las obligaciones con relación a tercero",
+                  "subtitulo": null,
+                  "nombre_fuente": "II.- Efectos de las obligaciones con relación a tercero",
+                  "pagina": 229,
+                  "articulos": {
+                    "desde": "2163",
+                    "hasta": "2184"
+                  },
+                  "n_articulos": 22,
+                  "hijos": [
+                    {
+                      "tipo": "capitulo",
+                      "id": "l4-p1-t4-s3-c1",
+                      "nombre": "Capítulo I",
+                      "subtitulo": "De los actos celebrados en fraude de los acreedores",
+                      "nombre_fuente": "CAPITULO I",
+                      "epigrafe_fuente": "De los actos celebrados en fraude de los acreedores",
+                      "pagina": 229,
+                      "articulos": {
+                        "desde": "2163",
+                        "hasta": "2179"
+                      },
+                      "n_articulos": 17,
+                      "n_derogados": 0
+                    },
+                    {
+                      "tipo": "capitulo",
+                      "id": "l4-p1-t4-s3-c2",
+                      "nombre": "Capítulo II",
+                      "subtitulo": "De la simulación de los actos jurídicos",
+                      "nombre_fuente": "CAPITULO II",
+                      "epigrafe_fuente": "De la simulación de los actos jurídicos",
+                      "pagina": 230,
+                      "articulos": {
+                        "desde": "2180",
+                        "hasta": "2184"
+                      },
+                      "n_articulos": 5,
+                      "n_derogados": 0
+                    }
+                  ]
+                }
+              ],
               "articulos": {
                 "desde": "2062",
                 "hasta": "2184"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 123,
+              "n_derogados": 0
             },
             {
               "tipo": "titulo",
               "id": "l4-p1-t5",
               "nombre": "Título Quinto",
-              "subtitulo": "Extinción de las Obligaciones",
+              "subtitulo": "Extinción de las obligaciones",
+              "nombre_fuente": "TITULO QUINTO",
+              "epigrafe_fuente": "Extinción de las obligaciones",
+              "pagina": 230,
+              "hijos": [
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p1-t5-c1",
+                  "nombre": "Capítulo I",
+                  "subtitulo": "De la compensación",
+                  "nombre_fuente": "CAPITULO I",
+                  "epigrafe_fuente": "De la compensación",
+                  "pagina": 230,
+                  "articulos": {
+                    "desde": "2185",
+                    "hasta": "2205"
+                  },
+                  "n_articulos": 21,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p1-t5-c2",
+                  "nombre": "Capítulo II",
+                  "subtitulo": "De la confusión de derechos",
+                  "nombre_fuente": "CAPITULO II",
+                  "epigrafe_fuente": "De la confusión de derechos",
+                  "pagina": 232,
+                  "articulos": {
+                    "desde": "2206",
+                    "hasta": "2208"
+                  },
+                  "n_articulos": 3,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p1-t5-c3",
+                  "nombre": "Capítulo III",
+                  "subtitulo": "De la remisión de la deuda",
+                  "nombre_fuente": "CAPITULO III",
+                  "epigrafe_fuente": "De la remisión de la deuda",
+                  "pagina": 232,
+                  "articulos": {
+                    "desde": "2209",
+                    "hasta": "2212"
+                  },
+                  "n_articulos": 4,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p1-t5-c4",
+                  "nombre": "Capítulo IV",
+                  "subtitulo": "De la novación",
+                  "nombre_fuente": "CAPITULO IV",
+                  "epigrafe_fuente": "De la novación",
+                  "pagina": 233,
+                  "articulos": {
+                    "desde": "2213",
+                    "hasta": "2223"
+                  },
+                  "n_articulos": 11,
+                  "n_derogados": 0
+                }
+              ],
               "articulos": {
                 "desde": "2185",
                 "hasta": "2223"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 39,
+              "n_derogados": 0
             },
             {
               "tipo": "titulo",
               "id": "l4-p1-t6",
               "nombre": "Título Sexto",
-              "subtitulo": "De la Inexistencia y de la Nulidad",
+              "subtitulo": "De la inexistencia y de la nulidad",
+              "nombre_fuente": "TITULO SEXTO",
+              "epigrafe_fuente": "De la inexistencia y de la nulidad",
+              "pagina": 233,
               "articulos": {
                 "desde": "2224",
                 "hasta": "2242"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 19,
+              "n_derogados": 0
             }
-          ],
-          "nombre_por_cotejar": true
+          ]
         },
         {
           "tipo": "parte",
           "id": "l4-p2",
-          "nombre": "Segunda Parte",
-          "subtitulo": "De las Diversas Especies de Contratos",
+          "nombre": "Parte Segunda",
+          "subtitulo": "De las diversas especies de contratos",
+          "nombre_fuente": "PARTE SEGUNDA",
+          "epigrafe_fuente": "De las diversas especies de contratos",
+          "pagina": 235,
           "hijos": [
             {
               "tipo": "titulo",
               "id": "l4-p2-t1",
               "nombre": "Título Primero",
-              "subtitulo": "De los Contratos Preparatorios. La Promesa",
+              "subtitulo": "De los contratos preparatorios.- La promesa.",
+              "nombre_fuente": "TITULO PRIMERO",
+              "epigrafe_fuente": "De los contratos preparatorios.- La promesa.",
+              "pagina": 235,
               "articulos": {
                 "desde": "2243",
                 "hasta": "2247"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 5,
+              "n_derogados": 0
             },
             {
               "tipo": "titulo",
               "id": "l4-p2-t2",
               "nombre": "Título Segundo",
-              "subtitulo": "De la Compraventa",
+              "subtitulo": "De la compra-venta",
+              "nombre_fuente": "TITULO SEGUNDO",
+              "epigrafe_fuente": "De la compra-venta",
+              "pagina": 235,
+              "hijos": [
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t2-c1",
+                  "nombre": "Capítulo I",
+                  "subtitulo": "Disposiciones generales",
+                  "nombre_fuente": "CAPITULO I",
+                  "epigrafe_fuente": "Disposiciones generales",
+                  "pagina": 235,
+                  "articulos": {
+                    "desde": "2248",
+                    "hasta": "2268"
+                  },
+                  "n_articulos": 21,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t2-c2",
+                  "nombre": "Capítulo II",
+                  "subtitulo": "De la materia de la compra-venta",
+                  "nombre_fuente": "CAPITULO II",
+                  "epigrafe_fuente": "De la materia de la compra-venta",
+                  "pagina": 237,
+                  "articulos": {
+                    "desde": "2269",
+                    "hasta": "2273"
+                  },
+                  "n_articulos": 5,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t2-c3",
+                  "nombre": "Capítulo III",
+                  "subtitulo": "De los que pueden vender y comprar",
+                  "nombre_fuente": "CAPITULO III",
+                  "epigrafe_fuente": "De los que pueden vender y comprar",
+                  "pagina": 237,
+                  "articulos": {
+                    "desde": "2274",
+                    "hasta": "2282"
+                  },
+                  "n_articulos": 9,
+                  "n_derogados": 1
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t2-c4",
+                  "nombre": "Capítulo IV",
+                  "subtitulo": "De las obligaciones del vendedor",
+                  "nombre_fuente": "CAPITULO IV",
+                  "epigrafe_fuente": "De las obligaciones del vendedor",
+                  "pagina": 238,
+                  "articulos": {
+                    "desde": "2283",
+                    "hasta": "2283"
+                  },
+                  "n_articulos": 1,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t2-c5",
+                  "nombre": "Capítulo V",
+                  "subtitulo": "De la entrega de la cosa vendida",
+                  "nombre_fuente": "CAPITULO V",
+                  "epigrafe_fuente": "De la entrega de la cosa vendida",
+                  "pagina": 238,
+                  "articulos": {
+                    "desde": "2284",
+                    "hasta": "2292"
+                  },
+                  "n_articulos": 9,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t2-c6",
+                  "nombre": "Capítulo VI",
+                  "subtitulo": "De las obligaciones del comprador",
+                  "nombre_fuente": "CAPITULO VI",
+                  "epigrafe_fuente": "De las obligaciones del comprador",
+                  "pagina": 239,
+                  "articulos": {
+                    "desde": "2293",
+                    "hasta": "2300"
+                  },
+                  "n_articulos": 8,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t2-c7",
+                  "nombre": "Capítulo VII",
+                  "subtitulo": "De algunas modalidades del contrato de compra-venta",
+                  "nombre_fuente": "CAPITULO VII",
+                  "epigrafe_fuente": "De algunas modalidades del contrato de compra-venta",
+                  "pagina": 240,
+                  "articulos": {
+                    "desde": "2301",
+                    "hasta": "2315"
+                  },
+                  "n_articulos": 15,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t2-c8",
+                  "nombre": "Capítulo VIII",
+                  "subtitulo": "De la forma del contrato de compra-venta",
+                  "nombre_fuente": "CAPITULO VIII",
+                  "epigrafe_fuente": "De la forma del contrato de compra-venta",
+                  "pagina": 242,
+                  "articulos": {
+                    "desde": "2316",
+                    "hasta": "2322"
+                  },
+                  "n_articulos": 7,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t2-c9",
+                  "nombre": "Capítulo IX",
+                  "subtitulo": "De las ventas judiciales",
+                  "nombre_fuente": "CAPITULO IX",
+                  "epigrafe_fuente": "De las ventas judiciales",
+                  "pagina": 243,
+                  "articulos": {
+                    "desde": "2323",
+                    "hasta": "2326"
+                  },
+                  "n_articulos": 4,
+                  "n_derogados": 0
+                }
+              ],
               "articulos": {
                 "desde": "2248",
                 "hasta": "2326"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 79,
+              "n_derogados": 1
             },
             {
               "tipo": "titulo",
               "id": "l4-p2-t3",
               "nombre": "Título Tercero",
-              "subtitulo": "De la Permuta",
+              "subtitulo": "De la permuta",
+              "nombre_fuente": "TITULO TERCERO",
+              "epigrafe_fuente": "De la permuta",
+              "pagina": 243,
               "articulos": {
                 "desde": "2327",
                 "hasta": "2331"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 5,
+              "n_derogados": 0
             },
             {
               "tipo": "titulo",
               "id": "l4-p2-t4",
               "nombre": "Título Cuarto",
-              "subtitulo": "De las Donaciones",
+              "subtitulo": "De las donaciones",
+              "nombre_fuente": "TITULO CUARTO",
+              "epigrafe_fuente": "De las donaciones",
+              "pagina": 244,
+              "hijos": [
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t4-c1",
+                  "nombre": "Capítulo I",
+                  "subtitulo": "De las donaciones en general",
+                  "nombre_fuente": "CAPITULO I",
+                  "epigrafe_fuente": "De las donaciones en general",
+                  "pagina": 244,
+                  "articulos": {
+                    "desde": "2332",
+                    "hasta": "2356"
+                  },
+                  "n_articulos": 25,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t4-c2",
+                  "nombre": "Capítulo II",
+                  "subtitulo": "De las personas que pueden recibir donaciones",
+                  "nombre_fuente": "CAPITULO II",
+                  "epigrafe_fuente": "De las personas que pueden recibir donaciones",
+                  "pagina": 246,
+                  "articulos": {
+                    "desde": "2357",
+                    "hasta": "2358"
+                  },
+                  "n_articulos": 2,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t4-c3",
+                  "nombre": "Capítulo III",
+                  "subtitulo": "De la revocación y reducción de las donaciones",
+                  "nombre_fuente": "CAPITULO III",
+                  "epigrafe_fuente": "De la revocación y reducción de las donaciones",
+                  "pagina": 246,
+                  "articulos": {
+                    "desde": "2359",
+                    "hasta": "2383"
+                  },
+                  "n_articulos": 25,
+                  "n_derogados": 0
+                }
+              ],
               "articulos": {
                 "desde": "2332",
                 "hasta": "2383"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 52,
+              "n_derogados": 0
             },
             {
               "tipo": "titulo",
               "id": "l4-p2-t5",
               "nombre": "Título Quinto",
-              "subtitulo": "Del Mutuo",
+              "subtitulo": "Del mutuo",
+              "nombre_fuente": "TITULO QUINTO",
+              "epigrafe_fuente": "Del mutuo",
+              "pagina": 248,
+              "hijos": [
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t5-c1",
+                  "nombre": "Capítulo I",
+                  "subtitulo": "Del mutuo simple",
+                  "nombre_fuente": "CAPITULO I",
+                  "epigrafe_fuente": "Del mutuo simple",
+                  "pagina": 248,
+                  "articulos": {
+                    "desde": "2384",
+                    "hasta": "2392"
+                  },
+                  "n_articulos": 9,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t5-c2",
+                  "nombre": "Capítulo II",
+                  "subtitulo": "Del mutuo con interés",
+                  "nombre_fuente": "CAPITULO II",
+                  "epigrafe_fuente": "Del mutuo con interés",
+                  "pagina": 249,
+                  "articulos": {
+                    "desde": "2393",
+                    "hasta": "2397"
+                  },
+                  "n_articulos": 5,
+                  "n_derogados": 0
+                }
+              ],
               "articulos": {
                 "desde": "2384",
                 "hasta": "2397"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 14,
+              "n_derogados": 0
             },
             {
               "tipo": "titulo",
               "id": "l4-p2-t6",
               "nombre": "Título Sexto",
-              "subtitulo": "Del Arrendamiento",
+              "subtitulo": "Del arrendamiento",
+              "nombre_fuente": "TITULO SEXTO",
+              "epigrafe_fuente": "Del arrendamiento",
+              "pagina": 249,
+              "hijos": [
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t6-c1",
+                  "nombre": "Capítulo I",
+                  "subtitulo": "Disposiciones generales",
+                  "nombre_fuente": "CAPITULO I",
+                  "epigrafe_fuente": "Disposiciones generales",
+                  "pagina": 249,
+                  "articulos": {
+                    "desde": "2398",
+                    "hasta": "2411"
+                  },
+                  "n_articulos": 14,
+                  "n_derogados": 1
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t6-c2",
+                  "nombre": "Capítulo II",
+                  "subtitulo": "De los derechos y obligaciones del arrendador",
+                  "nombre_fuente": "CAPITULO II",
+                  "epigrafe_fuente": "De los derechos y obligaciones del arrendador",
+                  "pagina": 251,
+                  "articulos": {
+                    "desde": "2412",
+                    "hasta": "2424"
+                  },
+                  "n_articulos": 13,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t6-c3",
+                  "nombre": "Capítulo III",
+                  "subtitulo": "De los derechos y obligaciones del arrendatario",
+                  "nombre_fuente": "CAPITULO III",
+                  "epigrafe_fuente": "De los derechos y obligaciones del arrendatario",
+                  "pagina": 252,
+                  "articulos": {
+                    "desde": "2425",
+                    "hasta": "2447"
+                  },
+                  "n_articulos": 23,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t6-c4",
+                  "nombre": "Capítulo IV",
+                  "subtitulo": "Del arrendamiento de fincas urbanas destinadas a la Habitación",
+                  "nombre_fuente": "CAPITULO IV",
+                  "epigrafe_fuente": "Del arrendamiento de fincas urbanas destinadas a la Habitación",
+                  "pagina": 254,
+                  "articulos": {
+                    "desde": "2448",
+                    "hasta": "2452"
+                  },
+                  "n_articulos": 17,
+                  "n_derogados": 7
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t6-c5",
+                  "nombre": "Capítulo V",
+                  "subtitulo": "Del arrendamiento de fincas rústicas",
+                  "nombre_fuente": "CAPITULO V",
+                  "epigrafe_fuente": "Del arrendamiento de fincas rústicas",
+                  "pagina": 257,
+                  "articulos": {
+                    "desde": "2453",
+                    "hasta": "2458"
+                  },
+                  "n_articulos": 6,
+                  "n_derogados": 1
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t6-c6",
+                  "nombre": "Capítulo VI",
+                  "subtitulo": "Del arrendamiento de bienes muebles",
+                  "nombre_fuente": "CAPITULO VI",
+                  "epigrafe_fuente": "Del arrendamiento de bienes muebles",
+                  "pagina": 258,
+                  "articulos": {
+                    "desde": "2459",
+                    "hasta": "2477"
+                  },
+                  "n_articulos": 19,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t6-c7",
+                  "nombre": "Capítulo VII",
+                  "subtitulo": "Disposiciones especiales respecto de los arrendamientos por tiempo indefinido",
+                  "nombre_fuente": "CAPITULO VII",
+                  "epigrafe_fuente": "Disposiciones especiales respecto de los arrendamientos por tiempo indefinido",
+                  "pagina": 260,
+                  "articulos": {
+                    "desde": "2478",
+                    "hasta": "2479"
+                  },
+                  "n_articulos": 2,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t6-c8",
+                  "nombre": "Capítulo VIII",
+                  "subtitulo": "Del subarriendo",
+                  "nombre_fuente": "CAPITULO VIII",
+                  "epigrafe_fuente": "Del subarriendo",
+                  "pagina": 260,
+                  "articulos": {
+                    "desde": "2480",
+                    "hasta": "2482"
+                  },
+                  "n_articulos": 3,
+                  "n_derogados": 1
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t6-c9",
+                  "nombre": "Capítulo IX",
+                  "subtitulo": "Del modo de terminar el arrendamiento",
+                  "nombre_fuente": "CAPITULO IX",
+                  "epigrafe_fuente": "Del modo de terminar el arrendamiento",
+                  "pagina": 260,
+                  "articulos": {
+                    "desde": "2483",
+                    "hasta": "2496"
+                  },
+                  "n_articulos": 14,
+                  "n_derogados": 5
+                }
+              ],
               "articulos": {
                 "desde": "2398",
                 "hasta": "2496"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 111,
+              "n_derogados": 15
             },
             {
               "tipo": "titulo",
               "id": "l4-p2-t7",
               "nombre": "Título Séptimo",
-              "subtitulo": "Del Comodato",
+              "subtitulo": "Del comodato",
+              "nombre_fuente": "TITULO SEPTIMO",
+              "epigrafe_fuente": "Del comodato",
+              "pagina": 262,
               "articulos": {
                 "desde": "2497",
                 "hasta": "2515"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 19,
+              "n_derogados": 0
             },
             {
               "tipo": "titulo",
               "id": "l4-p2-t8",
               "nombre": "Título Octavo",
-              "subtitulo": "Del Depósito y del Secuestro",
+              "subtitulo": "Del depósito y del secuestro",
+              "nombre_fuente": "TITULO OCTAVO",
+              "epigrafe_fuente": "Del depósito y del secuestro",
+              "pagina": 263,
+              "hijos": [
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t8-c1",
+                  "nombre": "Capítulo I",
+                  "subtitulo": "Del depósito",
+                  "nombre_fuente": "CAPITULO I",
+                  "epigrafe_fuente": "Del depósito",
+                  "pagina": 263,
+                  "articulos": {
+                    "desde": "2516",
+                    "hasta": "2538"
+                  },
+                  "n_articulos": 23,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t8-c2",
+                  "nombre": "Capítulo II",
+                  "subtitulo": "Del secuestro",
+                  "nombre_fuente": "CAPITULO II",
+                  "epigrafe_fuente": "Del secuestro",
+                  "pagina": 265,
+                  "articulos": {
+                    "desde": "2539",
+                    "hasta": "2545"
+                  },
+                  "n_articulos": 7,
+                  "n_derogados": 0
+                }
+              ],
               "articulos": {
                 "desde": "2516",
                 "hasta": "2545"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 30,
+              "n_derogados": 0
             },
             {
               "tipo": "titulo",
               "id": "l4-p2-t9",
               "nombre": "Título Noveno",
-              "subtitulo": "Del Mandato",
+              "subtitulo": "Del mandato",
+              "nombre_fuente": "TITULO NOVENO",
+              "epigrafe_fuente": "Del mandato",
+              "pagina": 266,
+              "hijos": [
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t9-c1",
+                  "nombre": "Capítulo I",
+                  "subtitulo": "Disposiciones generales",
+                  "nombre_fuente": "CAPITULO I",
+                  "epigrafe_fuente": "Disposiciones generales",
+                  "pagina": 266,
+                  "articulos": {
+                    "desde": "2546",
+                    "hasta": "2561"
+                  },
+                  "n_articulos": 16,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t9-c2",
+                  "nombre": "Capítulo II",
+                  "subtitulo": "De las obligaciones del mandatario con respecto al mandante",
+                  "nombre_fuente": "CAPITULO II",
+                  "epigrafe_fuente": "De las obligaciones del mandatario con respecto al mandante",
+                  "pagina": 268,
+                  "articulos": {
+                    "desde": "2562",
+                    "hasta": "2576"
+                  },
+                  "n_articulos": 15,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t9-c3",
+                  "nombre": "Capítulo III",
+                  "subtitulo": "De las obligaciones del mandante con relación al mandatario",
+                  "nombre_fuente": "CAPITULO III",
+                  "epigrafe_fuente": "De las obligaciones del mandante con relación al mandatario",
+                  "pagina": 269,
+                  "articulos": {
+                    "desde": "2577",
+                    "hasta": "2580"
+                  },
+                  "n_articulos": 4,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t9-c4",
+                  "nombre": "Capítulo IV",
+                  "subtitulo": "De las obligaciones y derechos del mandante y del mandatario con relación a tercero",
+                  "nombre_fuente": "CAPITULO IV",
+                  "epigrafe_fuente": "De las obligaciones y derechos del mandante y del mandatario con relación a tercero",
+                  "pagina": 269,
+                  "articulos": {
+                    "desde": "2581",
+                    "hasta": "2584"
+                  },
+                  "n_articulos": 4,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t9-c5",
+                  "nombre": "Capítulo V",
+                  "subtitulo": "Del mandato judicial",
+                  "nombre_fuente": "CAPITULO V",
+                  "epigrafe_fuente": "Del mandato judicial",
+                  "pagina": 270,
+                  "articulos": {
+                    "desde": "2585",
+                    "hasta": "2594"
+                  },
+                  "n_articulos": 10,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t9-c6",
+                  "nombre": "Capítulo VI",
+                  "subtitulo": "De los diversos modos de terminar el mandato",
+                  "nombre_fuente": "CAPITULO VI",
+                  "epigrafe_fuente": "De los diversos modos de terminar el mandato",
+                  "pagina": 271,
+                  "articulos": {
+                    "desde": "2595",
+                    "hasta": "2604"
+                  },
+                  "n_articulos": 10,
+                  "n_derogados": 0
+                }
+              ],
               "articulos": {
                 "desde": "2546",
                 "hasta": "2604"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 59,
+              "n_derogados": 0
             },
             {
               "tipo": "titulo",
               "id": "l4-p2-t10",
               "nombre": "Título Décimo",
-              "subtitulo": "Del Contrato de Prestación de Servicios",
+              "subtitulo": "Del contrato de prestación de servicios",
+              "nombre_fuente": "TITULO DECIMO",
+              "epigrafe_fuente": "Del contrato de prestación de servicios",
+              "pagina": 272,
+              "hijos": [
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t10-c1",
+                  "nombre": "Capítulo I",
+                  "subtitulo": "Del servicio doméstico, del servicio por jornal, del servicio a precio alzado en el que el operario sólo pone su trabajo y del contrato de aprendizaje",
+                  "nombre_fuente": "CAPITULO I",
+                  "epigrafe_fuente": "Del servicio doméstico, del servicio por jornal, del servicio a precio alzado en el que el operario sólo pone su trabajo y del contrato de aprendizaje",
+                  "pagina": 273,
+                  "articulos": {
+                    "desde": "2605",
+                    "hasta": "2605"
+                  },
+                  "n_articulos": 1,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t10-c2",
+                  "nombre": "Capítulo II",
+                  "subtitulo": "De la prestación de servicios profesionales",
+                  "nombre_fuente": "CAPITULO II",
+                  "epigrafe_fuente": "De la prestación de servicios profesionales",
+                  "pagina": 273,
+                  "articulos": {
+                    "desde": "2606",
+                    "hasta": "2615"
+                  },
+                  "n_articulos": 10,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t10-c3",
+                  "nombre": "Capítulo III",
+                  "subtitulo": "Del contrato de obras a precio alzado",
+                  "nombre_fuente": "CAPITULO III",
+                  "epigrafe_fuente": "Del contrato de obras a precio alzado",
+                  "pagina": 274,
+                  "articulos": {
+                    "desde": "2616",
+                    "hasta": "2645"
+                  },
+                  "n_articulos": 30,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t10-c4",
+                  "nombre": "Capítulo IV",
+                  "subtitulo": "De los porteadores y alquiladores",
+                  "nombre_fuente": "CAPITULO IV",
+                  "epigrafe_fuente": "De los porteadores y alquiladores",
+                  "pagina": 276,
+                  "articulos": {
+                    "desde": "2646",
+                    "hasta": "2665"
+                  },
+                  "n_articulos": 20,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t10-c5",
+                  "nombre": "Capítulo V",
+                  "subtitulo": "Del Contrato de Hospedaje",
+                  "nombre_fuente": "CAPITULO V",
+                  "epigrafe_fuente": "Del Contrato de Hospedaje",
+                  "pagina": 278,
+                  "articulos": {
+                    "desde": "2666",
+                    "hasta": "2669"
+                  },
+                  "n_articulos": 4,
+                  "n_derogados": 0
+                }
+              ],
               "articulos": {
                 "desde": "2605",
                 "hasta": "2669"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 65,
+              "n_derogados": 0
             },
             {
               "tipo": "titulo",
               "id": "l4-p2-t11",
-              "nombre": "Título Undécimo",
-              "subtitulo": "De las Asociaciones y de las Sociedades",
+              "nombre": "Título Decimoprimero",
+              "subtitulo": "De las asociaciones y de las sociedades",
+              "nombre_fuente": "TITULO DECIMOPRIMERO",
+              "epigrafe_fuente": "De las asociaciones y de las sociedades I De las asociaciones",
+              "pagina": 278,
+              "hijos": [
+                {
+                  "tipo": "seccion",
+                  "id": "l4-p2-t11-s1",
+                  "nombre": "I",
+                  "subtitulo": "De las asociaciones",
+                  "nombre_fuente": "I / De las asociaciones",
+                  "pagina": 279,
+                  "articulos": {
+                    "desde": "2670",
+                    "hasta": "2687"
+                  },
+                  "n_articulos": 18,
+                  "hijos": []
+                },
+                {
+                  "tipo": "seccion",
+                  "id": "l4-p2-t11-s2",
+                  "nombre": "II",
+                  "subtitulo": "De las sociedades",
+                  "nombre_fuente": "II / De las sociedades",
+                  "pagina": 280,
+                  "articulos": {
+                    "desde": "2688",
+                    "hasta": "2763"
+                  },
+                  "n_articulos": 76,
+                  "hijos": [
+                    {
+                      "tipo": "capitulo",
+                      "id": "l4-p2-t11-s2-c1",
+                      "nombre": "Capítulo I",
+                      "subtitulo": "Disposiciones generales",
+                      "nombre_fuente": "CAPITULO I",
+                      "epigrafe_fuente": "Disposiciones generales",
+                      "pagina": 280,
+                      "articulos": {
+                        "desde": "2688",
+                        "hasta": "2701"
+                      },
+                      "n_articulos": 14,
+                      "n_derogados": 0
+                    },
+                    {
+                      "tipo": "capitulo",
+                      "id": "l4-p2-t11-s2-c2",
+                      "nombre": "Capítulo II",
+                      "subtitulo": "De los socios",
+                      "nombre_fuente": "CAPITULO II",
+                      "epigrafe_fuente": "De los socios",
+                      "pagina": 282,
+                      "articulos": {
+                        "desde": "2702",
+                        "hasta": "2708"
+                      },
+                      "n_articulos": 7,
+                      "n_derogados": 0
+                    },
+                    {
+                      "tipo": "capitulo",
+                      "id": "l4-p2-t11-s2-c3",
+                      "nombre": "Capítulo III",
+                      "subtitulo": "De la administración de la sociedad",
+                      "nombre_fuente": "CAPITULO III",
+                      "epigrafe_fuente": "De la administración de la sociedad",
+                      "pagina": 282,
+                      "articulos": {
+                        "desde": "2709",
+                        "hasta": "2719"
+                      },
+                      "n_articulos": 11,
+                      "n_derogados": 0
+                    },
+                    {
+                      "tipo": "capitulo",
+                      "id": "l4-p2-t11-s2-c4",
+                      "nombre": "Capítulo IV",
+                      "subtitulo": "De la disolución de las sociedades",
+                      "nombre_fuente": "CAPITULO IV",
+                      "epigrafe_fuente": "De la disolución de las sociedades",
+                      "pagina": 284,
+                      "articulos": {
+                        "desde": "2720",
+                        "hasta": "2725"
+                      },
+                      "n_articulos": 6,
+                      "n_derogados": 0
+                    },
+                    {
+                      "tipo": "capitulo",
+                      "id": "l4-p2-t11-s2-c5",
+                      "nombre": "Capítulo V",
+                      "subtitulo": "De la liquidación de la sociedad",
+                      "nombre_fuente": "CAPITULO V",
+                      "epigrafe_fuente": "De la liquidación de la sociedad",
+                      "pagina": 285,
+                      "articulos": {
+                        "desde": "2726",
+                        "hasta": "2735"
+                      },
+                      "n_articulos": 10,
+                      "n_derogados": 0
+                    },
+                    {
+                      "tipo": "capitulo",
+                      "id": "l4-p2-t11-s2-c6",
+                      "nombre": "Capítulo VI",
+                      "subtitulo": "De las Personas Morales Extranjeras de Naturaleza Privada",
+                      "nombre_fuente": "CAPITULO VI",
+                      "epigrafe_fuente": "De las Personas Morales Extranjeras de Naturaleza Privada",
+                      "pagina": 286,
+                      "articulos": {
+                        "desde": "2736",
+                        "hasta": "2738"
+                      },
+                      "n_articulos": 3,
+                      "n_derogados": 2
+                    },
+                    {
+                      "tipo": "capitulo",
+                      "id": "l4-p2-t11-s2-c7",
+                      "nombre": "Capítulo VII",
+                      "subtitulo": "De la aparcería rural",
+                      "nombre_fuente": "CAPITULO VII",
+                      "epigrafe_fuente": "De la aparcería rural",
+                      "pagina": 286,
+                      "articulos": {
+                        "desde": "2739",
+                        "hasta": "2763"
+                      },
+                      "n_articulos": 25,
+                      "n_derogados": 0
+                    }
+                  ]
+                }
+              ],
               "articulos": {
                 "desde": "2670",
-                "hasta": "2738"
+                "hasta": "2763"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 94,
+              "n_derogados": 2
             },
             {
               "tipo": "titulo",
               "id": "l4-p2-t12",
-              "nombre": "Título Duodécimo",
-              "subtitulo": "De la Aparcería Rural",
-              "articulos": {
-                "desde": "2739",
-                "hasta": "2763"
-              },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
-            },
-            {
-              "tipo": "titulo",
-              "id": "l4-p2-t13",
-              "nombre": "Título Décimo Tercero",
-              "subtitulo": "De los Contratos Aleatorios",
+              "nombre": "Título Decimosegundo",
+              "subtitulo": "De los contratos aleatorios",
+              "nombre_fuente": "TITULO DECIMOSEGUNDO",
+              "epigrafe_fuente": "De los contratos aleatorios",
+              "pagina": 288,
+              "hijos": [
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t12-c1",
+                  "nombre": "Capítulo I",
+                  "subtitulo": "Del juego y de la apuesta",
+                  "nombre_fuente": "CAPITULO I",
+                  "epigrafe_fuente": "Del juego y de la apuesta",
+                  "pagina": 288,
+                  "articulos": {
+                    "desde": "2764",
+                    "hasta": "2773"
+                  },
+                  "n_articulos": 10,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t12-c2",
+                  "nombre": "Capítulo II",
+                  "subtitulo": "De la renta vitalicia",
+                  "nombre_fuente": "CAPITULO II",
+                  "epigrafe_fuente": "De la renta vitalicia",
+                  "pagina": 289,
+                  "articulos": {
+                    "desde": "2774",
+                    "hasta": "2791"
+                  },
+                  "n_articulos": 18,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t12-c3",
+                  "nombre": "Capítulo III",
+                  "subtitulo": "De la compra de esperanza",
+                  "nombre_fuente": "CAPITULO III",
+                  "epigrafe_fuente": "De la compra de esperanza",
+                  "pagina": 290,
+                  "articulos": {
+                    "desde": "2792",
+                    "hasta": "2793"
+                  },
+                  "n_articulos": 2,
+                  "n_derogados": 0
+                }
+              ],
               "articulos": {
                 "desde": "2764",
                 "hasta": "2793"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 30,
+              "n_derogados": 0
             },
             {
               "tipo": "titulo",
-              "id": "l4-p2-t14",
-              "nombre": "Título Décimo Cuarto",
-              "subtitulo": "De la Fianza",
+              "id": "l4-p2-t13",
+              "nombre": "Título Decimotercero",
+              "subtitulo": "De la fianza",
+              "nombre_fuente": "TITULO DECIMOTERCERO",
+              "epigrafe_fuente": "De la fianza",
+              "pagina": 291,
+              "hijos": [
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t13-c1",
+                  "nombre": "Capítulo I",
+                  "subtitulo": "De la fianza en general",
+                  "nombre_fuente": "CAPITULO I",
+                  "epigrafe_fuente": "De la fianza en general",
+                  "pagina": 291,
+                  "articulos": {
+                    "desde": "2794",
+                    "hasta": "2811"
+                  },
+                  "n_articulos": 18,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t13-c2",
+                  "nombre": "Capítulo II",
+                  "subtitulo": "De los efectos de la fianza entre el fiador y el acreedor",
+                  "nombre_fuente": "CAPITULO II",
+                  "epigrafe_fuente": "De los efectos de la fianza entre el fiador y el acreedor",
+                  "pagina": 292,
+                  "articulos": {
+                    "desde": "2812",
+                    "hasta": "2827"
+                  },
+                  "n_articulos": 16,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t13-c3",
+                  "nombre": "Capítulo III",
+                  "subtitulo": "De los efectos de la fianza entre el fiador y el deudor",
+                  "nombre_fuente": "CAPITULO III",
+                  "epigrafe_fuente": "De los efectos de la fianza entre el fiador y el deudor",
+                  "pagina": 294,
+                  "articulos": {
+                    "desde": "2828",
+                    "hasta": "2836"
+                  },
+                  "n_articulos": 9,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t13-c4",
+                  "nombre": "Capítulo IV",
+                  "subtitulo": "De los efectos de la fianza entre los cofiadores",
+                  "nombre_fuente": "CAPITULO IV",
+                  "epigrafe_fuente": "De los efectos de la fianza entre los cofiadores",
+                  "pagina": 295,
+                  "articulos": {
+                    "desde": "2837",
+                    "hasta": "2841"
+                  },
+                  "n_articulos": 5,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t13-c5",
+                  "nombre": "Capítulo V",
+                  "subtitulo": "De la extinción de la fianza",
+                  "nombre_fuente": "CAPITULO V",
+                  "epigrafe_fuente": "De la extinción de la fianza",
+                  "pagina": 295,
+                  "articulos": {
+                    "desde": "2842",
+                    "hasta": "2849"
+                  },
+                  "n_articulos": 8,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t13-c6",
+                  "nombre": "Capítulo VI",
+                  "subtitulo": "De la fianza legal o judicial",
+                  "nombre_fuente": "CAPITULO VI",
+                  "epigrafe_fuente": "De la fianza legal o judicial",
+                  "pagina": 296,
+                  "articulos": {
+                    "desde": "2850",
+                    "hasta": "2855"
+                  },
+                  "n_articulos": 6,
+                  "n_derogados": 0
+                }
+              ],
               "articulos": {
                 "desde": "2794",
                 "hasta": "2855"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 62,
+              "n_derogados": 0
             },
             {
               "tipo": "titulo",
-              "id": "l4-p2-t15",
-              "nombre": "Título Décimo Quinto",
-              "subtitulo": "De la Prenda",
+              "id": "l4-p2-t14",
+              "nombre": "Título Decimocuarto",
+              "subtitulo": "De la prenda",
+              "nombre_fuente": "TITULO DECIMOCUARTO",
+              "epigrafe_fuente": "De la prenda",
+              "pagina": 297,
               "articulos": {
                 "desde": "2856",
                 "hasta": "2892"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 37,
+              "n_derogados": 1
             },
             {
               "tipo": "titulo",
-              "id": "l4-p2-t16",
-              "nombre": "Título Décimo Sexto",
-              "subtitulo": "De la Hipoteca",
+              "id": "l4-p2-t15",
+              "nombre": "Título Decimoquinto",
+              "subtitulo": "De la hipoteca",
+              "nombre_fuente": "TITULO DECIMOQUINTO",
+              "epigrafe_fuente": "De la hipoteca",
+              "pagina": 300,
+              "hijos": [
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t15-c1",
+                  "nombre": "Capítulo I",
+                  "subtitulo": "De la hipoteca en general",
+                  "nombre_fuente": "CAPITULO I",
+                  "epigrafe_fuente": "De la hipoteca en general",
+                  "pagina": 300,
+                  "articulos": {
+                    "desde": "2893",
+                    "hasta": "2919"
+                  },
+                  "n_articulos": 27,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t15-c2",
+                  "nombre": "Capítulo II",
+                  "subtitulo": "De la hipoteca voluntaria",
+                  "nombre_fuente": "CAPITULO II",
+                  "epigrafe_fuente": "De la hipoteca voluntaria",
+                  "pagina": 303,
+                  "articulos": {
+                    "desde": "2920",
+                    "hasta": "2930"
+                  },
+                  "n_articulos": 11,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t15-c3",
+                  "nombre": "Capítulo III",
+                  "subtitulo": "De la hipoteca necesaria",
+                  "nombre_fuente": "CAPITULO III",
+                  "epigrafe_fuente": "De la hipoteca necesaria",
+                  "pagina": 305,
+                  "articulos": {
+                    "desde": "2931",
+                    "hasta": "2939 Decies"
+                  },
+                  "n_articulos": 14,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p2-t15-c4",
+                  "nombre": "Capítulo IV",
+                  "subtitulo": "De la extinción de las hipotecas",
+                  "nombre_fuente": "CAPITULO IV",
+                  "epigrafe_fuente": "De la extinción de las hipotecas",
+                  "pagina": 308,
+                  "articulos": {
+                    "desde": "2940",
+                    "hasta": "2943"
+                  },
+                  "n_articulos": 4,
+                  "n_derogados": 0
+                }
+              ],
               "articulos": {
                 "desde": "2893",
                 "hasta": "2943"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 56,
+              "n_derogados": 0
             },
             {
               "tipo": "titulo",
-              "id": "l4-p2-t17",
-              "nombre": "Título Décimo Séptimo",
-              "subtitulo": "De las Transacciones",
+              "id": "l4-p2-t16",
+              "nombre": "Título Decimosexto",
+              "subtitulo": "De las transacciones",
+              "nombre_fuente": "TITULO DECIMOSEXTO",
+              "epigrafe_fuente": "De las transacciones",
+              "pagina": 309,
               "articulos": {
                 "desde": "2944",
                 "hasta": "2963"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 20,
+              "n_derogados": 0
             }
-          ],
-          "nombre_por_cotejar": true
+          ]
         },
         {
           "tipo": "parte",
           "id": "l4-p3",
           "nombre": "Tercera Parte",
-          "subtitulo": "De la Concurrencia y Prelación de los Créditos",
+          "subtitulo": "",
+          "nombre_fuente": "TERCERA PARTE",
+          "epigrafe_fuente": "",
+          "pagina": 310,
           "hijos": [
             {
               "tipo": "titulo",
               "id": "l4-p3-t1",
               "nombre": "Título Primero",
-              "subtitulo": "De la Concurrencia y Prelación de los Créditos",
+              "subtitulo": "De la concurrencia y prelación de los créditos",
+              "nombre_fuente": "TITULO PRIMERO",
+              "epigrafe_fuente": "De la concurrencia y prelación de los créditos",
+              "pagina": 311,
+              "hijos": [
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p3-t1-c1",
+                  "nombre": "Capítulo I",
+                  "subtitulo": "Disposiciones generales",
+                  "nombre_fuente": "CAPITULO I",
+                  "epigrafe_fuente": "Disposiciones generales",
+                  "pagina": 311,
+                  "articulos": {
+                    "desde": "2964",
+                    "hasta": "2979"
+                  },
+                  "n_articulos": 16,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p3-t1-c2",
+                  "nombre": "Capítulo II",
+                  "subtitulo": "De los créditos hipotecarios y pignoraticios y de algunos otros privilegiados",
+                  "nombre_fuente": "CAPITULO II",
+                  "epigrafe_fuente": "De los créditos hipotecarios y pignoraticios y de algunos otros privilegiados",
+                  "pagina": 312,
+                  "articulos": {
+                    "desde": "2980",
+                    "hasta": "2992"
+                  },
+                  "n_articulos": 13,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p3-t1-c3",
+                  "nombre": "Capítulo III",
+                  "subtitulo": "De algunos acreedores preferentes sobre determinados bienes",
+                  "nombre_fuente": "CAPITULO III",
+                  "epigrafe_fuente": "De algunos acreedores preferentes sobre determinados bienes",
+                  "pagina": 314,
+                  "articulos": {
+                    "desde": "2993",
+                    "hasta": "2993"
+                  },
+                  "n_articulos": 1,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p3-t1-c4",
+                  "nombre": "Capítulo IV",
+                  "subtitulo": "Acreedores de primera clase",
+                  "nombre_fuente": "CAPITULO IV",
+                  "epigrafe_fuente": "Acreedores de primera clase",
+                  "pagina": 315,
+                  "articulos": {
+                    "desde": "2994",
+                    "hasta": "2994"
+                  },
+                  "n_articulos": 1,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p3-t1-c5",
+                  "nombre": "Capítulo V",
+                  "subtitulo": "Acreedores de segunda clase",
+                  "nombre_fuente": "CAPITULO V",
+                  "epigrafe_fuente": "Acreedores de segunda clase",
+                  "pagina": 315,
+                  "articulos": {
+                    "desde": "2995",
+                    "hasta": "2995"
+                  },
+                  "n_articulos": 1,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p3-t1-c6",
+                  "nombre": "Capítulo VI",
+                  "subtitulo": "Acreedores de tercera clase",
+                  "nombre_fuente": "CAPITULO VI",
+                  "epigrafe_fuente": "Acreedores de tercera clase",
+                  "pagina": 316,
+                  "articulos": {
+                    "desde": "2996",
+                    "hasta": "2996"
+                  },
+                  "n_articulos": 1,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p3-t1-c7",
+                  "nombre": "Capítulo VII",
+                  "subtitulo": "Acreedores de cuarta clase",
+                  "nombre_fuente": "CAPITULO VII",
+                  "epigrafe_fuente": "Acreedores de cuarta clase",
+                  "pagina": 316,
+                  "articulos": {
+                    "desde": "2997",
+                    "hasta": "2998"
+                  },
+                  "n_articulos": 2,
+                  "n_derogados": 0
+                }
+              ],
               "articulos": {
                 "desde": "2964",
                 "hasta": "2998"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
-            }
-          ],
-          "nombre_por_cotejar": true
-        },
-        {
-          "tipo": "parte",
-          "id": "l4-p4",
-          "nombre": "Cuarta Parte",
-          "subtitulo": "Del Registro Público",
-          "hijos": [
+              "n_articulos": 35,
+              "n_derogados": 0
+            },
             {
               "tipo": "titulo",
-              "id": "l4-p4-t1",
-              "nombre": "Título Primero",
-              "subtitulo": "Del Registro Público",
+              "id": "l4-p3-t2",
+              "nombre": "Título Segundo",
+              "subtitulo": "Del registro publico",
+              "nombre_fuente": "TITULO SEGUNDO",
+              "epigrafe_fuente": "Del registro publico",
+              "pagina": 316,
+              "hijos": [
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p3-t2-c1",
+                  "nombre": "Capítulo I",
+                  "subtitulo": "De su organización",
+                  "nombre_fuente": "CAPITULO I",
+                  "epigrafe_fuente": "De su organización",
+                  "pagina": 316,
+                  "articulos": {
+                    "desde": "2999",
+                    "hasta": "3004"
+                  },
+                  "n_articulos": 6,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p3-t2-c2",
+                  "nombre": "Capítulo II",
+                  "subtitulo": "Disposiciones comunes de los documentos registrables",
+                  "nombre_fuente": "CAPITULO II",
+                  "epigrafe_fuente": "Disposiciones comunes de los documentos registrables",
+                  "pagina": 317,
+                  "articulos": {
+                    "desde": "3005",
+                    "hasta": "3041"
+                  },
+                  "n_articulos": 40,
+                  "n_derogados": 0
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p3-t2-c3",
+                  "nombre": "Capítulo III",
+                  "subtitulo": "Del registro de la propiedad inmueble y de los títulos inscribibles y anotables",
+                  "nombre_fuente": "CAPITULO III",
+                  "epigrafe_fuente": "Del registro de la propiedad inmueble y de los títulos inscribibles y anotables",
+                  "pagina": 327,
+                  "articulos": {
+                    "desde": "3042",
+                    "hasta": "3068"
+                  },
+                  "n_articulos": 28,
+                  "n_derogados": 7
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p3-t2-c4",
+                  "nombre": "Capítulo IV",
+                  "subtitulo": "Del registro de operaciones sobre bienes muebles",
+                  "nombre_fuente": "CAPITULO IV",
+                  "epigrafe_fuente": "Del registro de operaciones sobre bienes muebles",
+                  "pagina": 331,
+                  "articulos": {
+                    "desde": "3069",
+                    "hasta": "3070"
+                  },
+                  "n_articulos": 2,
+                  "n_derogados": 2
+                },
+                {
+                  "tipo": "capitulo",
+                  "id": "l4-p3-t2-c5",
+                  "nombre": "Capítulo V",
+                  "subtitulo": "Del registro de personas morales",
+                  "nombre_fuente": "CAPITULO V",
+                  "epigrafe_fuente": "Del registro de personas morales",
+                  "pagina": 332,
+                  "articulos": {
+                    "desde": "3071",
+                    "hasta": "3074"
+                  },
+                  "n_articulos": 4,
+                  "n_derogados": 0
+                }
+              ],
               "articulos": {
                 "desde": "2999",
                 "hasta": "3074"
               },
-              "rango_por_cotejar": true,
-              "nombre_por_cotejar": true
+              "n_articulos": 80,
+              "n_derogados": 9
             }
-          ],
-          "nombre_por_cotejar": true
+          ]
         }
-      ],
-      "nombre_por_cotejar": true
+      ]
     }
   ],
   "articulos": {
     "1": {
       "numero": "1",
-      "estado": "pendiente",
+      "id_colab": "ARTICULO 1°",
+      "estado": "vigente",
       "tema": "Ámbito de aplicación del Código",
-      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
-      "texto": null,
-      "versiones": []
+      "texto": "Las disposiciones de este Código regirán en el Distrito Federal. N. DE E. EN RELACIÓN CON LA ENTRADA EN VIGOR DEL PRESENTE ARTÍCULO, VER ARTÍCULO SEGUNDO TRANSITORIO DEL DECRETO DE REFORMAS AL CÓDIGO.",
+      "texto_2020": "Las disposiciones de este Código regirán en el Distrito Federal.",
+      "total_reformas": 3,
+      "ultima_reforma": {
+        "id_reforma": "REF-111",
+        "fecha": "2024-08-28",
+        "medio": "Gaceta Oficial (DF / CDMX)",
+        "edicion": null,
+        "vigencia_desde": null,
+        "vigencia_verificada": false,
+        "url_oficial": null,
+        "nota": "Detectado en encabezado/transitorios del decreto",
+        "fuente": "data/ccdf/datos_cccdmx.json"
+      },
+      "reformas": [
+        {
+          "id_reforma": "REF-001",
+          "fecha": "1932-09-01",
+          "medio": "DOF (Diario Oficial de la Federación)",
+          "edicion": null,
+          "vigencia_desde": null,
+          "nota": "Fe de Erratas original al Código Civil (D.O.F. 1 de septiembre de 1932)",
+          "url_oficial": "https://www.dof.gob.mx/index.php?year=1932&month=09&day=01",
+          "url_busqueda": null
+        },
+        {
+          "id_reforma": "REF-063",
+          "fecha": "2008-10-10",
+          "medio": "Gaceta Oficial (DF / CDMX)",
+          "edicion": null,
+          "vigencia_desde": null,
+          "nota": "(REFORMADO, G.O. 10 DE OCTUBRE DE 2008)",
+          "url_oficial": null,
+          "url_busqueda": "https://www.google.com/search?q=%22Gaceta%20Oficial%22%20%2210%20DE%20OCTUBRE%20DE%202008%22%20%22C%C3%B3digo%20Civil%22"
+        },
+        {
+          "id_reforma": "REF-111",
+          "fecha": "2024-08-28",
+          "medio": "Gaceta Oficial (DF / CDMX)",
+          "edicion": null,
+          "vigencia_desde": null,
+          "nota": "Detectado en encabezado/transitorios del decreto",
+          "url_oficial": null,
+          "url_busqueda": "https://www.google.com/search?q=%22Gaceta%20Oficial%22%20%2228%20DE%20AGOSTO%20DE%202024%22%20%22C%C3%B3digo%20Civil%22"
+        }
+      ],
+      "versiones": [],
+      "fuente_texto": "data/ccdf/datos_cccdmx.json",
+      "nota": "Texto vigente importado literalmente de data/ccdf/datos_cccdmx.json (incluye al final la nota editorial «N. DE E. EN RELACIÓN CON LA ENTRADA EN VIGOR…» del documento fuente). Registra 3 decretos: REF-001 (DOF 01-09-1932, con enlace oficial a dof.gob.mx), REF-063 (Gaceta 10-10-2008) y REF-111 (Gaceta 28-08-2024). Campos edicion, vigencia_desde y url_oficial de Gaceta quedan en null por no figurar en datos_cccdmx.json."
     },
     "22": {
       "numero": "22",
-      "estado": "pendiente",
+      "id_colab": "ARTICULO 22",
+      "estado": "vigente",
       "tema": "Capacidad jurídica de las personas físicas",
-      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
-      "texto": null,
-      "versiones": []
+      "texto": "La capacidad jurídica de las personas físicas se adquiere por el nacimiento y se pierde por la muerte; pero desde el momento en que un individuo es concebido, entra bajo la protección de la ley y se le tiene por nacido para los efectos declarados en el presente Código.",
+      "texto_2020": "La capacidad jurídica de las personas físicas se adquiere por el nacimiento y se pierde por la muerte; pero desde el momento en que un individuo es concebido, entra bajo la protección de la ley y se le tiene por nacido para los efectos declarados en el presente Código.",
+      "total_reformas": 1,
+      "ultima_reforma": {
+        "id_reforma": "REF-046",
+        "fecha": "2000-05-25",
+        "medio": "Gaceta Oficial (DF / CDMX)",
+        "edicion": null,
+        "vigencia_desde": null,
+        "vigencia_verificada": false,
+        "url_oficial": null,
+        "nota": "(REFORMADO, G.O. 25 DE MAYO DE 2000)",
+        "fuente": "data/ccdf/datos_cccdmx.json"
+      },
+      "reformas": [
+        {
+          "id_reforma": "REF-046",
+          "fecha": "2000-05-25",
+          "medio": "Gaceta Oficial (DF / CDMX)",
+          "edicion": null,
+          "vigencia_desde": null,
+          "nota": "(REFORMADO, G.O. 25 DE MAYO DE 2000)",
+          "url_oficial": null,
+          "url_busqueda": "https://www.google.com/search?q=%22Gaceta%20Oficial%22%20%2225%20DE%20MAYO%20DE%202000%22%20%22C%C3%B3digo%20Civil%22"
+        }
+      ],
+      "versiones": [],
+      "fuente_texto": "data/ccdf/datos_cccdmx.json",
+      "nota": "Texto vigente y relación de decretos importados literalmente de data/ccdf/datos_cccdmx.json. En los decretos de la Gaceta Oficial los campos edicion, vigencia_desde y url_oficial quedan en null por no figurar en el JSON del Colab."
     },
     "146": {
       "numero": "146",
-      "estado": "pendiente",
+      "id_colab": "ARTICULO 146",
+      "estado": "vigente",
       "tema": "Matrimonio",
-      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
-      "texto": null,
-      "versiones": []
+      "texto": "Matrimonio es la unión libre de dos personas para realizar la comunidad de vida, en donde ambos se procuran respeto, igualdad y ayuda mutua. Debe celebrarse ante el Juez del Registro Civil y con las formalidades que estipule el presente código.",
+      "texto_2020": "Matrimonio es la unión libre de dos personas para realizar la comunidad de vida, en donde ambos se procuran respeto, igualdad y ayuda mutua. Debe celebrarse ante el Juez del Registro Civil y con las formalidades que estipule el presente código.",
+      "total_reformas": 1,
+      "ultima_reforma": {
+        "id_reforma": "REF-046",
+        "fecha": "2000-05-25",
+        "medio": "Gaceta Oficial (DF / CDMX)",
+        "edicion": null,
+        "vigencia_desde": null,
+        "vigencia_verificada": false,
+        "url_oficial": null,
+        "nota": "(REFORMADO, G.O. 25 DE MAYO DE 2000)",
+        "fuente": "data/ccdf/datos_cccdmx.json"
+      },
+      "reformas": [
+        {
+          "id_reforma": "REF-046",
+          "fecha": "2000-05-25",
+          "medio": "Gaceta Oficial (DF / CDMX)",
+          "edicion": null,
+          "vigencia_desde": null,
+          "nota": "(REFORMADO, G.O. 25 DE MAYO DE 2000)",
+          "url_oficial": null,
+          "url_busqueda": "https://www.google.com/search?q=%22Gaceta%20Oficial%22%20%2225%20DE%20MAYO%20DE%202000%22%20%22C%C3%B3digo%20Civil%22"
+        }
+      ],
+      "versiones": [],
+      "fuente_texto": "data/ccdf/datos_cccdmx.json",
+      "nota": "Texto vigente y relación de decretos importados literalmente de data/ccdf/datos_cccdmx.json. En los decretos de la Gaceta Oficial los campos edicion, vigencia_desde y url_oficial quedan en null por no figurar en el JSON del Colab."
     },
     "308": {
       "numero": "308",
-      "estado": "pendiente",
+      "id_colab": "ARTICULO 308",
+      "estado": "vigente",
       "tema": "Alimentos",
-      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
-      "texto": null,
-      "versiones": []
+      "texto": "Los alimentos comprenden: I. La comida, el vestido, la habitación, la atención médica, la hospitalaria y en su caso, los gastos de embarazo y parto; II. Respecto de niñas, niños y adolescentes, además, los gastos para su educación y para proporcionarles oficio, arte o profesión adecuados a sus circunstancias personales; III. Con relación a las personas con algún tipo de discapacidad, lo necesario para lograr, en lo posible, su habilitación o rehabilitación y su desarrollo; y IV. Por lo que hace a los adultos mayores que carezcan de capacidad económica, además de todo lo necesario para su atención geriátrica, se procurará que los alimentos se les proporcionen, integrándolos a la familia.",
+      "texto_2020": "Los alimentos comprenden: I. La comida, el vestido, la habitación, la atención médica, la hospitalaria y en su caso, los gastos de embarazo y parto; II. Respecto de los menores, además, los gastos para su educación y para proporcionarles oficio, arte o profesión adecuados a sus circunstancias personales; III. Con relación a las personas con algún tipo de discapacidad o declarados en estado de interdicción, lo necesario para lograr, en lo posible, su habilitación o rehabilitación y su desarrollo; y IV. Por lo que hace a los adultos mayores que carezcan de capacidad económica, además de todo lo necesario para su atención geriátrica, se procurará que los alimentos se les proporcionen, integrándolos a la familia.",
+      "total_reformas": 1,
+      "ultima_reforma": {
+        "id_reforma": "REF-046",
+        "fecha": "2000-05-25",
+        "medio": "Gaceta Oficial (DF / CDMX)",
+        "edicion": null,
+        "vigencia_desde": null,
+        "vigencia_verificada": false,
+        "url_oficial": null,
+        "nota": "(REFORMADO, G.O. 25 DE MAYO DE 2000)",
+        "fuente": "data/ccdf/datos_cccdmx.json"
+      },
+      "reformas": [
+        {
+          "id_reforma": "REF-046",
+          "fecha": "2000-05-25",
+          "medio": "Gaceta Oficial (DF / CDMX)",
+          "edicion": null,
+          "vigencia_desde": null,
+          "nota": "(REFORMADO, G.O. 25 DE MAYO DE 2000)",
+          "url_oficial": null,
+          "url_busqueda": "https://www.google.com/search?q=%22Gaceta%20Oficial%22%20%2225%20DE%20MAYO%20DE%202000%22%20%22C%C3%B3digo%20Civil%22"
+        }
+      ],
+      "versiones": [],
+      "fuente_texto": "data/ccdf/datos_cccdmx.json",
+      "nota": "Texto vigente y relación de decretos importados literalmente de data/ccdf/datos_cccdmx.json. En los decretos de la Gaceta Oficial los campos edicion, vigencia_desde y url_oficial quedan en null por no figurar en el JSON del Colab."
     },
     "1281": {
       "numero": "1281",
-      "estado": "pendiente",
+      "id_colab": "ARTICULO 1281",
+      "estado": "vigente",
       "tema": "Herencia: sucesión testamentaria y legítima",
-      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
-      "texto": null,
-      "versiones": []
+      "texto": "Herencia es la sucesión en todos los bienes del difunto y en todos sus derechos y obligaciones que no se extinguen por la muerte.",
+      "texto_2020": "Herencia es la sucesión en todos los bienes del difunto y en todos sus derechos y obligaciones que no se extinguen por la muerte.",
+      "total_reformas": 0,
+      "ultima_reforma": null,
+      "reformas": [],
+      "versiones": [],
+      "fuente_texto": "data/ccdf/datos_cccdmx.json",
+      "nota": "Texto vigente importado literalmente de data/ccdf/datos_cccdmx.json. Sin reformas registradas en el pipeline (total_reformas: 0; ultima_reforma: null): conserva su redacción original de 1928 (en vigor desde el 01-10-1932)."
     },
     "1502": {
       "numero": "1502",
-      "estado": "pendiente",
+      "id_colab": "ARTICULO 1502",
+      "estado": "vigente",
       "tema": "Testamento: formalidades (fracción I reformada GOCDMX 20-08-2026)",
-      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
-      "texto": null,
-      "versiones": [],
+      "texto": "No pueden ser testigos del testamento: I. Los amanuenses del Notario que lo autorice; II. Los menores de dieciséis años; III. Los que no estén en su sano juicio; IV. DEROGADA V. Los que no entiendan el idioma que habla el testador; VI. Los herederos o legatarios; sus descendientes, ascendientes, cónyuge o hermanos. El concurso como testigo de una de las personas a que se refiere esta fracción, sólo produce como efecto la nulidad de la disposición que beneficie a ella o a sus mencionados parientes; VII. Los que hayan sido condenados por el delito de falsedad. Las personas con capacidades diferentes relativas a ceguera total o parcial, sordera, mudez o ambas, podrán ser testigos de un testamento con el apoyo de un intérprete pagado por el testador.",
+      "texto_2020": "No pueden ser testigos del testamento: I. Los amanuenses del notario que lo autorice; INSTITUTO DE INVESTIGACIONES LEGISLATIVAS 167 II. Los menores de dieciséis años; III. Los que no estén en su sano juicio; IV. Derogado; V. Los que no entiendan el idioma que habla el testador; VI. Los herederos o legatarios; sus descendientes, ascendientes, cónyuge o hermanos. El concurso como testigo de una de las personas a que se refiere esta fracción, solo produce como efecto la nulidad de la disposición que beneficie a ella o a sus mencionados parientes; y VII. Los que hayan sido condenados por el delito de falsedad. Las personas con capacidades diferentes relativas a ceguera total o parcial, sordera, mudez o ambas, podrán ser testigos de un testamento con el apoyo de un intérprete pagado por el testador.",
+      "total_reformas": 2,
       "ultima_reforma": {
         "fecha": "2026-08-20",
         "medio": "Gaceta Oficial de la Ciudad de México",
@@ -823,48 +4661,129 @@
         "vigencia_desde": "2026-08-21",
         "vigencia_verificada": true,
         "fraccion": "I",
-        "fuente": "docs/ccdf-sources-registry-entry.json (dictamen ccdf-cierre-ultima-reforma-2026-08-20)"
-      }
+        "fuente": "docs/ccdf-sources-registry-entry.json (dictamen ccdf-cierre-ultima-reforma-2026-08-20)",
+        "url_oficial": null
+      },
+      "reformas": [
+        {
+          "id_reforma": "REF-038",
+          "fecha": "1994-01-06",
+          "medio": "DOF (Diario Oficial de la Federación)",
+          "edicion": null,
+          "vigencia_desde": null,
+          "nota": "(REFORMADO, D.O.F. 6 DE ENERO DE 1994)",
+          "url_oficial": "https://www.dof.gob.mx/index.php?year=1994&month=01&day=06",
+          "url_busqueda": null
+        },
+        {
+          "id_reforma": "REF-065",
+          "fecha": "2008-12-04",
+          "medio": "Gaceta Oficial (DF / CDMX)",
+          "edicion": null,
+          "vigencia_desde": null,
+          "nota": "(REFORMADA [N. DE E. DEROGADA], G.O. 4 DE DICIEMBRE DE 2008) | (REFORMADO [N. DE E. ADICIONADO], G.O. 4 DE DICIEMBRE DE 2008)",
+          "url_oficial": null,
+          "url_busqueda": "https://www.google.com/search?q=%22Gaceta%20Oficial%22%20%224%20DE%20DICIEMBRE%20DE%202008%22%20%22C%C3%B3digo%20Civil%22"
+        }
+      ],
+      "versiones": [],
+      "fuente_texto": "data/ccdf/datos_cccdmx.json",
+      "nota": "Texto vigente importado literalmente de data/ccdf/datos_cccdmx.json. Registra en el pipeline REF-038 (DOF 06-01-1994, con enlace oficial a dof.gob.mx) y REF-065 (Gaceta 04-12-2008), además de la reforma a la fracción I publicada en GOCDMX 20-08-2026 (edición 1929 Bis, en vigor desde el 21-08-2026; url_oficial: null)."
     },
     "1792": {
       "numero": "1792",
-      "estado": "pendiente",
+      "id_colab": "ARTICULO 1792",
+      "estado": "vigente",
       "tema": "Convenio y contrato",
-      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
-      "texto": null,
-      "versiones": []
+      "texto": "Convenio es el acuerdo de dos o más personas para crear, transferir, modificar o extinguir obligaciones.",
+      "texto_2020": "Convenio es el acuerdo de dos o más personas para crear, transferir, modificar o extinguir obligaciones.",
+      "total_reformas": 0,
+      "ultima_reforma": null,
+      "reformas": [],
+      "versiones": [],
+      "fuente_texto": "data/ccdf/datos_cccdmx.json",
+      "nota": "Texto vigente importado literalmente de data/ccdf/datos_cccdmx.json. Sin reformas registradas en el pipeline (total_reformas: 0; ultima_reforma: null): conserva su redacción original de 1928 (en vigor desde el 01-10-1932)."
     },
     "1834": {
       "numero": "1834",
-      "estado": "pendiente",
+      "id_colab": "ARTICULO 1834",
+      "estado": "vigente",
       "tema": "Forma de los contratos (reformado GOCDMX 20-08-2026)",
-      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
-      "texto": null,
-      "versiones": [],
+      "texto": "Cuando se exija la forma escrita para el contrato, los documentos relativos deben ser firmados por todas las personas a las cuales se imponga esa obligación, de la siguiente manera: I. Con el uso de firma autógrafa. Si alguna de ellas no puede o no sabe firmar, lo hará otra a su ruego y en el documento se imprimirá la huella digital del interesado que no firmó. Con el uso de la Firma Electrónica Avanzada o de la Firma Electrónica de la Ciudad de México las cuales tendrán un valor jurídico equivalente al de la firma autógrafa; II. En los casos en que la ley establezca como requisito que un acto jurídico deba otorgarse en instrumento ante notario, dicho otorgamiento se hará en el protocolo ordinario o en el protocolo digital que tenga a su cargo en el ámbito de la actuación digital notarial en los términos establecidos por la Ley del Notariado de la Ciudad de México. Para la verificación, de los documentos a que se refiere la citada fracción, así como los que contengan la reproducción o representación de los instrumentos notariales a que se refiere la fracción II, podrá utilizarse una matriz de datos bidimensional o cualquier otra tecnología análoga existente o por existir que permita su consulta por medios electrónicos sin que la omisión de dicho elemento sea causa de su invalidez. División de los contratos",
+      "texto_2020": "Cuando se exija la forma escrita para el contrato, los documentos relativos deben ser firmados por todas las personas a las cuales se imponga esa obligación. INSTITUTO DE INVESTIGACIONES LEGISLATIVAS 195 Si alguna de ellas no puede o no sabe firmar, lo hará otra a su ruego y en el documento se imprimirá la huella digital del interesado que no firmó. División de los contratos",
+      "total_reformas": 0,
       "ultima_reforma": {
         "fecha": "2026-08-20",
         "medio": "Gaceta Oficial de la Ciudad de México",
         "edicion": "1929 Bis",
         "vigencia_desde": "2026-08-21",
         "vigencia_verificada": true,
-        "fuente": "docs/ccdf-sources-registry-entry.json (dictamen ccdf-cierre-ultima-reforma-2026-08-20)"
-      }
+        "fuente": "docs/ccdf-sources-registry-entry.json (dictamen ccdf-cierre-ultima-reforma-2026-08-20)",
+        "url_oficial": null
+      },
+      "reformas": [],
+      "versiones": [],
+      "fuente_texto": "data/ccdf/datos_cccdmx.json",
+      "nota": "Texto vigente importado literalmente de data/ccdf/datos_cccdmx.json (ya incorpora la reforma de GOCDMX 20-08-2026 sobre Firma Electrónica y protocolo digital, e incluye al final el epígrafe de sección «División de los contratos» del documento fuente). En datos_cccdmx.json el arreglo reformas está vacío ([]), por lo que ultima_reforma se conserva del dictamen verificado (GOCDMX 1929 Bis de 20-08-2026; url_oficial: null)."
     },
     "2248": {
       "numero": "2248",
-      "estado": "pendiente",
+      "id_colab": "ARTICULO 2248",
+      "estado": "vigente",
       "tema": "Compraventa",
-      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
-      "texto": null,
-      "versiones": []
+      "texto": "Habrá compra-venta cuando uno de los contratantes se obliga a transferir la propiedad de una cosa o de un derecho, y el otro a su vez se obliga a pagar por ellos un precio cierto y en dinero.",
+      "texto_2020": "Habrá compra-venta cuando uno de los contratantes se obliga a transferir la propiedad de una cosa o de un derecho, y el otro a su vez se obliga a pagar por ellos un precio cierto y en dinero.",
+      "total_reformas": 0,
+      "ultima_reforma": null,
+      "reformas": [],
+      "versiones": [],
+      "fuente_texto": "data/ccdf/datos_cccdmx.json",
+      "nota": "Texto vigente importado literalmente de data/ccdf/datos_cccdmx.json. Sin reformas registradas en el pipeline (total_reformas: 0; ultima_reforma: null): conserva su redacción original de 1928 (en vigor desde el 01-10-1932)."
     },
     "2999": {
       "numero": "2999",
-      "estado": "pendiente",
+      "id_colab": "ARTICULO 2999",
+      "estado": "vigente",
       "tema": "Registro Público de la Propiedad",
-      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
-      "texto": null,
-      "versiones": []
+      "texto": "La sede del Registro Público se establecerá en el Distrito Federal y estará ubicada en el lugar que determine el Jefe de Gobierno del Distrito Federal.",
+      "texto_2020": "La sede del Registro Público se establecerá en el Distrito Federal y estará ubicada en el lugar que determine el Jefe de Gobierno del Distrito Federal.",
+      "total_reformas": 2,
+      "ultima_reforma": {
+        "id_reforma": "REF-081",
+        "fecha": "2012-07-23",
+        "medio": "Gaceta Oficial (DF / CDMX)",
+        "edicion": null,
+        "vigencia_desde": null,
+        "vigencia_verificada": false,
+        "url_oficial": null,
+        "nota": "(REFORMADO, G.O. 23 DE JULIO DE 2012)",
+        "fuente": "data/ccdf/datos_cccdmx.json"
+      },
+      "reformas": [
+        {
+          "id_reforma": "REF-080",
+          "fecha": "2012-07-23",
+          "medio": "Gaceta Oficial (DF / CDMX)",
+          "edicion": null,
+          "vigencia_desde": null,
+          "nota": "(REFORMADO, G.O. 23 DE JULIO DE 2012)",
+          "url_oficial": null,
+          "url_busqueda": "https://www.google.com/search?q=%22Gaceta%20Oficial%22%20%2223%20DE%20JULIO%20DE%202012%22%20%22C%C3%B3digo%20Civil%22"
+        },
+        {
+          "id_reforma": "REF-081",
+          "fecha": "2012-07-23",
+          "medio": "Gaceta Oficial (DF / CDMX)",
+          "edicion": null,
+          "vigencia_desde": null,
+          "nota": "(REFORMADO, G.O. 23 DE JULIO DE 2012)",
+          "url_oficial": null,
+          "url_busqueda": "https://www.google.com/search?q=%22Gaceta%20Oficial%22%20%2223%20DE%20JULIO%20DE%202012%22%20%22C%C3%B3digo%20Civil%22"
+        }
+      ],
+      "versiones": [],
+      "fuente_texto": "data/ccdf/datos_cccdmx.json",
+      "nota": "Texto vigente y relación de decretos importados literalmente de data/ccdf/datos_cccdmx.json. En los decretos de la Gaceta Oficial los campos edicion, vigencia_desde y url_oficial quedan en null por no figurar en el JSON del Colab."
     }
   }
 }
