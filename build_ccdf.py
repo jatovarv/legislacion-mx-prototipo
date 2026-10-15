@@ -168,17 +168,23 @@ def pagina_indice(data, site_url, fecha_build, b):
     fuentes = "".join(f'<li><a href="{b.esc(f["url"])}" target="_blank" rel="noopener noreferrer">{b.esc(f["nombre"])}</a></li>' for f in norma.get("fuentes", []))
     tc = norma["texto_consolidado"]
     pub = norma["publicacion_original"]
+    tc_hash_marca = "" if tc.get("sha256") else f' — <span class="por-cotejar" title="{b.esc(tc.get("nota", ""))}">hash SHA-256 pendiente</span>'
     meta = [
         ("Última reforma verificada", f"{b.esc(b.fmt_fecha(ur['fecha']))} — {b.esc(ur['medio'])}, edición {b.esc(ur['edicion'])} (arts. {b.esc(', '.join(ur['articulos_afectados']))})"),
         ("Vigencia de la última reforma", f"desde el {b.esc(b.fmt_fecha(ur['vigencia_desde']))}" + ("" if ur.get("vigencia_verificada") else ' <span class="por-cotejar">por cotejar</span>')),
         ("Publicación original", f"{b.esc(pub['medio'])}, {b.esc(', '.join(b.fmt_fecha(f, corto=True) for f in pub['fechas']))}"),
-        ("Texto consolidado", f"{b.esc(tc['fuente'])} — <span class=\"por-cotejar\" title=\"{b.esc(tc['nota'])}\">pendiente de descarga y hash</span>"),
-        ("Artículos cargados", f"{len(arts)} ({n_texto} con texto cotejado, {len(arts) - n_texto} pendientes de cotejo)"),
+        ("Texto consolidado", f"{b.esc(tc['fuente'])}{tc_hash_marca}"),
+        ("Artículos cargados", f"{len(arts)} ({n_texto} con texto vigente publicado, {len(arts) - n_texto} pendientes de cotejo)"),
     ]
     meta_html = "".join(f"<dt>{k}</dt><dd>{v}</dd>" for k, v in meta)
     cm = norma.get("conflicto_metadatos")
     cotejada = norma.get("estructura_cotejada", True)
     robots = "" if cotejada else '\n<meta name="robots" content="noindex,follow">'
+    badge_articulos = (
+        f'<span class="badge historial" title="{b.esc(norma["aviso"])}">Muestra de {n_texto} artículos con texto vigente</span>'
+        if n_texto == len(arts) and n_texto > 0
+        else f'<span class="badge pendiente" title="{b.esc(norma["aviso"])}">Texto de los artículos por cotejar</span>'
+    )
     return cabecera(titulo, descripcion, url, ld, b, extra_head=robots) + f"""<body>
 <header class="topbar">
   <a class="brand" href="../index.html">Legislación MX <span class="pill">Prototipo</span></a>
@@ -188,7 +194,7 @@ def pagina_indice(data, site_url, fecha_build, b):
   <nav class="breadcrumb" aria-label="Ubicación"><a href="../index.html">Legislación MX</a> <span aria-hidden="true">›</span> <b>{b.esc(norma['siglas'])}</b></nav>
   <article>
     <h1>{b.esc(norma['nombre'])}</h1>
-    <div class="badges"><span class="badge vigente">Texto vigente</span>{'<span class="badge verificado" title="Índice cotejado con el PDF oficial del Congreso de la Ciudad de México">Índice cotejado</span>' if norma.get('estructura_cotejada') else ''}<span class="badge pendiente" title="{b.esc(norma['aviso'])}">Texto de los artículos por cotejar</span></div>
+    <div class="badges"><span class="badge vigente">Texto vigente</span>{'<span class="badge verificado" title="Índice cotejado con el PDF oficial del Congreso de la Ciudad de México">Índice cotejado</span>' if norma.get('estructura_cotejada') else ''}{badge_articulos}</div>
     <p class="tema">También citado como {b.esc(' / '.join(norma.get('aliases', [])))}. Jurisdicción: {b.esc(norma.get('jurisdiccion', ''))}.</p>
     <dl class="meta">{meta_html}</dl>
     <p class="aviso-historial">{b.esc(norma['aviso'])}</p>
@@ -240,24 +246,84 @@ def pagina_articulo(data, art, site_url, fecha_build, b):
         "isPartOf": {"@id": f"{site_url}/ccdf/index.html"},
     }
     ra = art.get("ultima_reforma")
+    reformas = art.get("reformas", [])
+    pub_orig = norma["publicacion_original"]
     if ra:
-        ld_art["legislationDateVersion"] = ra["vigencia_desde"]
-        ld_art["datePublished"] = ra["fecha"]
+        if ra.get("vigencia_desde"):
+            ld_art["legislationDateVersion"] = ra["vigencia_desde"]
+        if ra.get("fecha"):
+            ld_art["datePublished"] = ra["fecha"]
+        if ra.get("url_oficial"):
+            ld_art["sameAs"] = ra["url_oficial"]
+    else:
+        ld_art["legislationDateVersion"] = pub_orig["vigencia_desde"]
     ld = {"@context": "https://schema.org", "@graph": [ld_art, ld_norma(norma, site_url), {
         "@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": norma["nombre"], "item": f"{site_url}/ccdf/index.html"},
             {"@type": "ListItem", "position": 2, "name": f"Artículo {num}", "item": url}]}]}
     meta = []
     if ra:
-        meta.append(("Última reforma del artículo", f"{b.esc(b.fmt_fecha(ra['fecha']))} — {b.esc(ra['medio'])}, edición {b.esc(ra['edicion'])}" + (f" (fracción {b.esc(ra['fraccion'])})" if ra.get("fraccion") else "")))
-        meta.append(("Vigencia", f"desde el {b.esc(b.fmt_fecha(ra['vigencia_desde']))}" + ("" if ra.get("vigencia_verificada") else ' <span class="por-cotejar">por cotejar</span>')))
+        ed_html = f", edición {b.esc(ra['edicion'])}" if ra.get("edicion") else ' (<span class="por-cotejar" title="Campo edicion: null en datos_cccdmx.json">edición pendiente</span>)'
+        frac_html = f" (fracción {b.esc(ra['fraccion'])})" if ra.get("fraccion") else ""
+        id_html = f" [{b.esc(ra['id_reforma'])}]" if ra.get("id_reforma") else ""
+        meta.append(("Última reforma del artículo", f"{b.esc(b.fmt_fecha(ra['fecha']))} — {b.esc(ra['medio'])}{ed_html}{frac_html}{id_html}"))
+        if ra.get("vigencia_desde"):
+            meta.append(("Vigencia", f"desde el {b.esc(b.fmt_fecha(ra['vigencia_desde']))}" + ("" if ra.get("vigencia_verificada") else ' <span class="por-cotejar">por cotejar</span>')))
+        else:
+            meta.append(("Vigencia", '<span class="por-cotejar" title="Campo vigencia_desde: null en datos_cccdmx.json">fecha de inicio de vigencia pendiente</span>'))
+    else:
+        meta.append(("Última reforma del artículo", "Sin reformas registradas (texto original de 1928)"))
+        meta.append(("Vigencia", f"desde el {b.esc(b.fmt_fecha(pub_orig['vigencia_desde']))} (entrada en vigor original)"))
+
+    enlaces_dof = [
+        f'<a class="dof-link" href="{b.esc(r["url_oficial"])}" target="_blank" rel="noopener noreferrer">DOF {b.esc(b.fmt_fecha(r["fecha"], corto=True))} ({b.esc(r["id_reforma"])}) ↗</a>'
+        for r in reformas if r.get("url_oficial")
+    ]
+    if ra and ra.get("url_oficial") and not enlaces_dof:
+        enlaces_dof.append(f'<a class="dof-link" href="{b.esc(ra["url_oficial"])}" target="_blank" rel="noopener noreferrer">Ver publicación oficial ↗</a>')
+    tiene_gaceta_sin_url = any(not r.get("url_oficial") for r in reformas) or (ra is not None and not ra.get("url_oficial"))
+    if enlaces_dof and tiene_gaceta_sin_url:
+        pub_html = ", ".join(enlaces_dof) + ' · <span class="por-cotejar" title="Campo url_oficial: null para Gaceta Oficial en datos_cccdmx.json">enlace directo a Gaceta pendiente</span> (<a class="dof-link" href="https://www.consejeria.cdmx.gob.mx/gaceta-oficial" target="_blank" rel="noopener noreferrer">portal GOCDMX ↗</a>)'
+    elif enlaces_dof:
+        pub_html = ", ".join(enlaces_dof)
+    elif tiene_gaceta_sin_url:
+        pub_html = '<span class="por-cotejar" title="Campo url_oficial: null para Gaceta Oficial en datos_cccdmx.json">enlace directo a Gaceta Oficial pendiente</span> (<a class="dof-link" href="https://www.consejeria.cdmx.gob.mx/gaceta-oficial" target="_blank" rel="noopener noreferrer">portal GOCDMX ↗</a>)'
+    else:
+        pub_html = 'Diario Oficial de la Federación (publicaciones originales de 1928) · <a class="dof-link" href="https://www.dof.gob.mx/" target="_blank" rel="noopener noreferrer">DOF ↗</a>'
+    meta.append(("Publicación oficial (DOF / Gaceta)", pub_html))
     meta.append(("Última reforma del Código", f"{b.esc(b.fmt_fecha(ur['fecha']))} (GOCDMX {b.esc(ur['edicion'])})"))
     if camino:
         meta.append(("Ubicación", b.esc(" › ".join(n["nombre"] + (f" — {n['subtitulo']}" if n.get("subtitulo") else "") for n in camino))))
-    meta.append(("Texto", "cotejado con el texto consolidado de la Consejería Jurídica" if con_texto else '<span class="por-cotejar" title="' + b.esc(art.get("nota", "")) + '">pendiente de cotejo</span>'))
+    meta.append(("Fuente del texto vigente", f"<code>{b.esc(art.get('fuente_texto', 'data/ccdf/datos_cccdmx.json'))}</code> (pipeline Colab CCDF)" if con_texto else '<span class="por-cotejar" title="' + b.esc(art.get("nota", "")) + '">pendiente de cotejo</span>'))
     meta_html = "".join(f"<dt>{k}</dt><dd>{v}</dd>" for k, v in meta)
     cuerpo = (f'<div class="texto" id="texto-vigente">\n{b.texto_html(art["texto"])}\n    </div>' if con_texto else
               f'<div class="pendiente-box" id="texto-vigente"><b>Texto pendiente de cotejo.</b> {b.esc(art.get("nota", ""))}</div>')
+    aviso_art = f'<p class="aviso-historial">{b.esc(art["nota"])}</p>' if (con_texto and art.get("nota")) else ""
+
+    items_ref = []
+    for r in reformas:
+        link_r = (f' — <a class="dof-link" href="{b.esc(r["url_oficial"])}" target="_blank" rel="noopener noreferrer">Ver en el DOF ↗</a>'
+                  if r.get("url_oficial") else ' — <span class="por-cotejar" title="url_oficial: null en datos_cccdmx.json">enlace directo pendiente</span>')
+        items_ref.append(
+            f'<li><b>{b.esc(b.fmt_fecha(r["fecha"]))}</b> · <code>{b.esc(r["id_reforma"])}</code> — {b.esc(r["medio"])}'
+            f' ({b.esc(r["nota"])}){link_r}</li>'
+        )
+    if ra and not any(r.get("fecha") == ra.get("fecha") for r in reformas):
+        ed_r = f", edición {b.esc(ra['edicion'])}" if ra.get("edicion") else ""
+        frac_r = f" (fracción {b.esc(ra['fraccion'])})" if ra.get("fraccion") else ""
+        vig_r = f", en vigor desde el {b.esc(b.fmt_fecha(ra['vigencia_desde']))}" if ra.get("vigencia_desde") else ""
+        items_ref.append(
+            f'<li><b>{b.esc(b.fmt_fecha(ra["fecha"]))}</b> — {b.esc(ra["medio"])}{ed_r}{frac_r}{vig_r}'
+            f' — <span class="por-cotejar" title="url_oficial: null">enlace directo pendiente</span></li>'
+        )
+    reformas_html = ""
+    if items_ref:
+        reformas_html = (
+            f'<section id="reformas" class="fuentes" aria-labelledby="h-reformas">'
+            f'<h2 id="h-reformas">Decretos de reforma registrados ({len(items_ref)})</h2>'
+            f'<ul>{"".join(items_ref)}</ul></section>'
+        )
+
     robots = "" if con_texto else '\n<meta name="robots" content="noindex,follow">'
     fuentes = "".join(f'<li><a href="{b.esc(f["url"])}" target="_blank" rel="noopener noreferrer">{b.esc(f["nombre"])}</a></li>' for f in norma.get("fuentes", []))
     return cabecera(titulo, descripcion, url, ld, b, extra_head=robots, og_type="article") + f"""<body>
@@ -272,14 +338,16 @@ def pagina_articulo(data, art, site_url, fecha_build, b):
     <div class="badges">{'<span class="badge vigente">Texto vigente</span>' if con_texto else '<span class="badge pendiente" title="' + b.esc(art.get("nota", "")) + '">Texto pendiente de cotejo</span>'}</div>
     {f'<p class="tema">Tema: {b.esc(art["tema"])}</p>' if art.get("tema") else ''}
     <dl class="meta">{meta_html}</dl>
+    {aviso_art}
     {cuerpo}
+    {reformas_html}
     <div class="acciones">
       <a class="btn" href="../index.html#h-indice">Índice del Código</a>
       <a class="btn secondary" href="../../index.html">Constitución (CPEUM)</a>
     </div>
     <section id="fuentes" class="fuentes" aria-labelledby="h-fuentes">
       <h2 id="h-fuentes">Fuentes oficiales</h2>
-      <p>{'Texto tomado del texto consolidado de la Consejería Jurídica y de Servicios Legales de la Ciudad de México.' if con_texto else b.esc(norma['texto_consolidado']['nota'])} Última reforma verificada del Código: {b.esc(b.fmt_fecha(ur['fecha']))}, {b.esc(ur['medio'])} {b.esc(ur['edicion'])}.</p>
+      <p>{'Texto vigente importado literalmente de <code>data/ccdf/datos_cccdmx.json</code> (extraído del texto consolidado de la Consejería Jurídica y de Servicios Legales de la Ciudad de México).' if con_texto else b.esc(norma['texto_consolidado']['nota'])} Última reforma verificada del Código: {b.esc(b.fmt_fecha(ur['fecha']))}, {b.esc(ur['medio'])} {b.esc(ur['edicion'])}.</p>
       <ul>{fuentes}</ul>
     </section>
   </article>

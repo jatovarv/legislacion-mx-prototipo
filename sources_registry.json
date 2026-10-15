@@ -141,9 +141,28 @@
       ],
       "ultima_reforma_verificada": "2026-08-20",
       "vigencia_desde": "2026-08-21",
-      "fecha_actualizacion": "2026-10-14",
-      "estado": "estructura_cotejada_sin_texto",
-      "observaciones": "Índice cotejado con ccdf-congreso-pdf-iil (51 Títulos, 224 Capítulos, página del PDF en cada nodo; docs/reporte_ajuste_indice_ccdf.md). 10 artículos de muestra sin texto (noindex, fuera del sitemap). Texto normativo pendiente del DOCX de la Consejería."
+      "fecha_actualizacion": "2026-10-15",
+      "estado": "estructura_cotejada_muestra_10_articulos",
+      "observaciones": "Índice cotejado con ccdf-congreso-pdf-iil (51 Títulos, 224 Capítulos, página del PDF en cada nodo; docs/reporte_ajuste_indice_ccdf.md). 10 artículos de muestra (1, 22, 146, 308, 1281, 1502, 1792, 1834, 2248, 2999) publicados en ccdf/articulos/N.html con texto vigente e historial relacional de decretos importados de data/ccdf/datos_cccdmx.json, e incluidos en sitemap.xml (148 URL en total)."
+    },
+    {
+      "source_id": "ccdf-colab-pipeline-json",
+      "norma": "CCDF",
+      "tipo": "extraccion_estructurada_json",
+      "archivo": "data/ccdf/datos_cccdmx.json",
+      "autoridad_origen": "Consejería Jurídica y de Servicios Legales de la Ciudad de México (DOCX procesado en Colab)",
+      "articulos_totales": 3218,
+      "decretos_totales": 120,
+      "vinculos_totales": 1321,
+      "fecha_importacion": "2026-10-15",
+      "prioridad": 1,
+      "estado": "importado_en_repositorio",
+      "campos_nulos_documentados": [
+        "edicion (en decretos de Gaceta Oficial)",
+        "vigencia_desde (en decretos individuales)",
+        "url_oficial (en decretos de Gaceta Oficial; el JSON incluye url de búsqueda)"
+      ],
+      "observaciones": "Prevalece para el texto_vigente de los artículos. Los decretos publicados en el DOF (1932–1998) cuentan con enlace directo a dof.gob.mx."
     },
     {
       "source_id": "ccdf-congreso-pdf-iil",
@@ -186,8 +205,8 @@
     },
     {
       "id": "ccdf-estructura-cotejo",
-      "descripcion": "Con el DOCX de la Consejería (hash verificado): cotejar los rangos de artículos de cada Título, añadir los Capítulos y cargar el texto vigente de los artículos de ccdf.json (empezando por 1834 y 1502-I). [2026-10-14: rangos, Títulos y Capítulos cotejados con el PDF del Congreso (ccdf-congreso-pdf-iil); el texto sigue pendiente del DOCX.]",
-      "estado": "resuelto_con_pdf_congreso",
+      "descripcion": "Con el DOCX de la Consejería (hash verificado): cotejar los rangos de artículos de cada Título, añadir los Capítulos y cargar el texto vigente de los artículos de ccdf.json (empezando por 1834 y 1502-I). [2026-10-14: rangos, Títulos y Capítulos cotejados con el PDF del Congreso (ccdf-congreso-pdf-iil); 2026-10-15: texto vigente de los 10 artículos de muestra importado de data/ccdf/datos_cccdmx.json.]",
+      "estado": "resuelto_con_pdf_congreso_y_json_colab",
       "depende_de": "ccdf-docx-hash"
     }
   ]

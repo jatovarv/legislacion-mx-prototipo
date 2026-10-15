@@ -41,11 +41,21 @@
       "tratamiento": "No se usa como evento de reforma mientras no se localice el decreto (sources_registry.json, conflicto ccdf-congreso-02-09-2026)."
     },
     "texto_consolidado": {
-      "fuente": "Consejería Jurídica y de Servicios Legales de la Ciudad de México (DOCX)",
+      "fuente": "Consejería Jurídica y de Servicios Legales de la Ciudad de México (DOCX extraído en data/ccdf/datos_cccdmx.json)",
+      "archivo_local": "data/ccdf/datos_cccdmx.json",
       "url": "https://data.consejeria.cdmx.gob.mx/images/leyes/2025/CODIGOS_2025/CODIGO_CIVIL_PARA_EL_DF_15.4.docx",
       "sha256": null,
-      "estado": "pendiente_descarga_y_hash",
-      "nota": "No está en el repositorio: las páginas se generan con marcador «pendiente de cotejo» y sin texto normativo."
+      "estado": "importado_pipeline_colab",
+      "total_articulos_pipeline": 3218,
+      "total_decretos_pipeline": 120,
+      "total_vinculos_pipeline": 1321,
+      "campos_faltantes_json": {
+        "edicion": null,
+        "vigencia_desde": null,
+        "url_oficial_gaceta": null,
+        "nota": "En data/ccdf/datos_cccdmx.json las reformas de la Gaceta Oficial no incluyen número de edición (edicion: null), fecha de inicio de vigencia (vigencia_desde: null) ni enlace directo al PDF de la Gaceta (url_oficial: null; el pipeline genera sólo una URL de búsqueda). Los decretos federales en el DOF (1932–1998) sí incluyen enlace oficial a dof.gob.mx."
+      },
+      "nota": "Texto vigente importado literalmente de data/ccdf/datos_cccdmx.json (pipeline Colab CCDF). El hash SHA-256 del DOCX fuente queda como null hasta su verificación directa."
     },
     "fuentes": [
       {
@@ -61,18 +71,19 @@
         "url": "https://www.congresocdmx.gob.mx/media/documentos/e793ac29adb26ebcde17cd1aeab3faf4150fd489.pdf"
       }
     ],
-    "aviso": "Índice del Código Civil para el Distrito Federal cotejado con el PDF oficial del Congreso de la Ciudad de México. El texto de cada artículo está pendiente de cotejo con el texto consolidado de la Consejería Jurídica; no se reproduce texto normativo sin cotejar. No constituye texto oficial.",
-    "estructura_nota": "Estructura cotejada con el PDF del Código publicado por el Congreso de la Ciudad de México (SHA-256 985e3bfa…): Disposiciones preliminares, 4 Libros (el Cuarto con Primera Parte, Parte Segunda y Tercera Parte), 51 Títulos y 224 Capítulos, con el rango de artículos de cada nodo tomado del propio PDF (página citada en cada nodo). Los textos de los artículos siguen pendientes de cotejo.",
+    "aviso": "Índice del Código Civil para el Distrito Federal cotejado con el PDF oficial del Congreso de la Ciudad de México (51 Títulos, 224 Capítulos). El texto vigente y la relación de decretos de los 10 artículos de muestra se importaron literalmente de data/ccdf/datos_cccdmx.json (pipeline Colab CCDF). Los campos no disponibles en el JSON (edición de Gaceta, inicio de vigencia por decreto y enlace directo a la Gaceta Oficial) se conservan como null y se marcan como pendientes. No constituye texto oficial.",
+    "estructura_nota": "Estructura cotejada con el PDF del Código publicado por el Congreso de la Ciudad de México (SHA-256 985e3bfa…): Disposiciones preliminares, 4 Libros (el Cuarto con Primera Parte, Parte Segunda y Tercera Parte), 51 Títulos y 224 Capítulos, con el rango de artículos de cada nodo tomado del propio PDF (página citada en cada nodo). Muestra inicial de 10 artículos publicada con texto vigente importado de data/ccdf/datos_cccdmx.json.",
     "estructura_cotejada": true,
     "cotejo_pendiente": {
       "fuente_usada": "PDF del Congreso CDMX (ver fuente_estructura)",
       "resueltas": [
         "Nombres y rangos de los 51 Títulos: cotejados (ver docs/reporte_ajuste_indice_ccdf.md).",
         "Salto 1180→1281: el Libro Segundo tiene un Título Octavo «De los derechos de autor» (arts. 1181–1280, los 100 derogados; PDF pp. 148–152).",
-        "Libro Tercero, Título Primero: el PDF lo titula «Disposiciones preliminares» (p. 152)."
+        "Libro Tercero, Título Primero: el PDF lo titula «Disposiciones preliminares» (p. 152).",
+        "Texto vigente y relación de decretos de los 10 artículos de muestra (1, 22, 146, 308, 1281, 1502, 1792, 1834, 2248, 2999): importados literalmente de data/ccdf/datos_cccdmx.json."
       ],
       "abiertas": [
-        "Texto de los artículos: pendiente (DOCX de la Consejería con SHA-256).",
+        "Resto del articulado en ccdf.json (3,208 artículos adicionales ya disponibles en data/ccdf/datos_cccdmx.json) y campos faltantes en el JSON del Colab (edicion: null, vigencia_desde: null, url_oficial: null para decretos en Gaceta Oficial; sha256: null del DOCX fuente).",
         "Capítulo IV del Título Quinto (Libro Primero) trae en el PDF el subencabezado «Disposiciones generales» bajo «Del Matrimonio con relación a los bienes»; el Capítulo V del Título Séptimo se divide en Secciones. Ninguno de los dos niveles se modela por ahora.",
         "El PDF repite el encabezado «CAPITULO III DE LA VIOLENCIA FAMILIAR» antes del art. 323 Séptimus (p. 54); se tomó como continuación del mismo Capítulo."
       ],
@@ -4463,51 +4474,186 @@
   "articulos": {
     "1": {
       "numero": "1",
-      "estado": "pendiente",
+      "id_colab": "ARTICULO 1°",
+      "estado": "vigente",
       "tema": "Ámbito de aplicación del Código",
-      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
-      "texto": null,
-      "versiones": []
+      "texto": "Las disposiciones de este Código regirán en el Distrito Federal. N. DE E. EN RELACIÓN CON LA ENTRADA EN VIGOR DEL PRESENTE ARTÍCULO, VER ARTÍCULO SEGUNDO TRANSITORIO DEL DECRETO DE REFORMAS AL CÓDIGO.",
+      "texto_2020": "Las disposiciones de este Código regirán en el Distrito Federal.",
+      "total_reformas": 3,
+      "ultima_reforma": {
+        "id_reforma": "REF-111",
+        "fecha": "2024-08-28",
+        "medio": "Gaceta Oficial (DF / CDMX)",
+        "edicion": null,
+        "vigencia_desde": null,
+        "vigencia_verificada": false,
+        "url_oficial": null,
+        "nota": "Detectado en encabezado/transitorios del decreto",
+        "fuente": "data/ccdf/datos_cccdmx.json"
+      },
+      "reformas": [
+        {
+          "id_reforma": "REF-001",
+          "fecha": "1932-09-01",
+          "medio": "DOF (Diario Oficial de la Federación)",
+          "edicion": null,
+          "vigencia_desde": null,
+          "nota": "Fe de Erratas original al Código Civil (D.O.F. 1 de septiembre de 1932)",
+          "url_oficial": "https://www.dof.gob.mx/index.php?year=1932&month=09&day=01",
+          "url_busqueda": null
+        },
+        {
+          "id_reforma": "REF-063",
+          "fecha": "2008-10-10",
+          "medio": "Gaceta Oficial (DF / CDMX)",
+          "edicion": null,
+          "vigencia_desde": null,
+          "nota": "(REFORMADO, G.O. 10 DE OCTUBRE DE 2008)",
+          "url_oficial": null,
+          "url_busqueda": "https://www.google.com/search?q=%22Gaceta%20Oficial%22%20%2210%20DE%20OCTUBRE%20DE%202008%22%20%22C%C3%B3digo%20Civil%22"
+        },
+        {
+          "id_reforma": "REF-111",
+          "fecha": "2024-08-28",
+          "medio": "Gaceta Oficial (DF / CDMX)",
+          "edicion": null,
+          "vigencia_desde": null,
+          "nota": "Detectado en encabezado/transitorios del decreto",
+          "url_oficial": null,
+          "url_busqueda": "https://www.google.com/search?q=%22Gaceta%20Oficial%22%20%2228%20DE%20AGOSTO%20DE%202024%22%20%22C%C3%B3digo%20Civil%22"
+        }
+      ],
+      "versiones": [],
+      "fuente_texto": "data/ccdf/datos_cccdmx.json",
+      "nota": "Texto vigente importado literalmente de data/ccdf/datos_cccdmx.json (incluye al final la nota editorial «N. DE E. EN RELACIÓN CON LA ENTRADA EN VIGOR…» del documento fuente). Registra 3 decretos: REF-001 (DOF 01-09-1932, con enlace oficial a dof.gob.mx), REF-063 (Gaceta 10-10-2008) y REF-111 (Gaceta 28-08-2024). Campos edicion, vigencia_desde y url_oficial de Gaceta quedan en null por no figurar en datos_cccdmx.json."
     },
     "22": {
       "numero": "22",
-      "estado": "pendiente",
+      "id_colab": "ARTICULO 22",
+      "estado": "vigente",
       "tema": "Capacidad jurídica de las personas físicas",
-      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
-      "texto": null,
-      "versiones": []
+      "texto": "La capacidad jurídica de las personas físicas se adquiere por el nacimiento y se pierde por la muerte; pero desde el momento en que un individuo es concebido, entra bajo la protección de la ley y se le tiene por nacido para los efectos declarados en el presente Código.",
+      "texto_2020": "La capacidad jurídica de las personas físicas se adquiere por el nacimiento y se pierde por la muerte; pero desde el momento en que un individuo es concebido, entra bajo la protección de la ley y se le tiene por nacido para los efectos declarados en el presente Código.",
+      "total_reformas": 1,
+      "ultima_reforma": {
+        "id_reforma": "REF-046",
+        "fecha": "2000-05-25",
+        "medio": "Gaceta Oficial (DF / CDMX)",
+        "edicion": null,
+        "vigencia_desde": null,
+        "vigencia_verificada": false,
+        "url_oficial": null,
+        "nota": "(REFORMADO, G.O. 25 DE MAYO DE 2000)",
+        "fuente": "data/ccdf/datos_cccdmx.json"
+      },
+      "reformas": [
+        {
+          "id_reforma": "REF-046",
+          "fecha": "2000-05-25",
+          "medio": "Gaceta Oficial (DF / CDMX)",
+          "edicion": null,
+          "vigencia_desde": null,
+          "nota": "(REFORMADO, G.O. 25 DE MAYO DE 2000)",
+          "url_oficial": null,
+          "url_busqueda": "https://www.google.com/search?q=%22Gaceta%20Oficial%22%20%2225%20DE%20MAYO%20DE%202000%22%20%22C%C3%B3digo%20Civil%22"
+        }
+      ],
+      "versiones": [],
+      "fuente_texto": "data/ccdf/datos_cccdmx.json",
+      "nota": "Texto vigente y relación de decretos importados literalmente de data/ccdf/datos_cccdmx.json. En los decretos de la Gaceta Oficial los campos edicion, vigencia_desde y url_oficial quedan en null por no figurar en el JSON del Colab."
     },
     "146": {
       "numero": "146",
-      "estado": "pendiente",
+      "id_colab": "ARTICULO 146",
+      "estado": "vigente",
       "tema": "Matrimonio",
-      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
-      "texto": null,
-      "versiones": []
+      "texto": "Matrimonio es la unión libre de dos personas para realizar la comunidad de vida, en donde ambos se procuran respeto, igualdad y ayuda mutua. Debe celebrarse ante el Juez del Registro Civil y con las formalidades que estipule el presente código.",
+      "texto_2020": "Matrimonio es la unión libre de dos personas para realizar la comunidad de vida, en donde ambos se procuran respeto, igualdad y ayuda mutua. Debe celebrarse ante el Juez del Registro Civil y con las formalidades que estipule el presente código.",
+      "total_reformas": 1,
+      "ultima_reforma": {
+        "id_reforma": "REF-046",
+        "fecha": "2000-05-25",
+        "medio": "Gaceta Oficial (DF / CDMX)",
+        "edicion": null,
+        "vigencia_desde": null,
+        "vigencia_verificada": false,
+        "url_oficial": null,
+        "nota": "(REFORMADO, G.O. 25 DE MAYO DE 2000)",
+        "fuente": "data/ccdf/datos_cccdmx.json"
+      },
+      "reformas": [
+        {
+          "id_reforma": "REF-046",
+          "fecha": "2000-05-25",
+          "medio": "Gaceta Oficial (DF / CDMX)",
+          "edicion": null,
+          "vigencia_desde": null,
+          "nota": "(REFORMADO, G.O. 25 DE MAYO DE 2000)",
+          "url_oficial": null,
+          "url_busqueda": "https://www.google.com/search?q=%22Gaceta%20Oficial%22%20%2225%20DE%20MAYO%20DE%202000%22%20%22C%C3%B3digo%20Civil%22"
+        }
+      ],
+      "versiones": [],
+      "fuente_texto": "data/ccdf/datos_cccdmx.json",
+      "nota": "Texto vigente y relación de decretos importados literalmente de data/ccdf/datos_cccdmx.json. En los decretos de la Gaceta Oficial los campos edicion, vigencia_desde y url_oficial quedan en null por no figurar en el JSON del Colab."
     },
     "308": {
       "numero": "308",
-      "estado": "pendiente",
+      "id_colab": "ARTICULO 308",
+      "estado": "vigente",
       "tema": "Alimentos",
-      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
-      "texto": null,
-      "versiones": []
+      "texto": "Los alimentos comprenden: I. La comida, el vestido, la habitación, la atención médica, la hospitalaria y en su caso, los gastos de embarazo y parto; II. Respecto de niñas, niños y adolescentes, además, los gastos para su educación y para proporcionarles oficio, arte o profesión adecuados a sus circunstancias personales; III. Con relación a las personas con algún tipo de discapacidad, lo necesario para lograr, en lo posible, su habilitación o rehabilitación y su desarrollo; y IV. Por lo que hace a los adultos mayores que carezcan de capacidad económica, además de todo lo necesario para su atención geriátrica, se procurará que los alimentos se les proporcionen, integrándolos a la familia.",
+      "texto_2020": "Los alimentos comprenden: I. La comida, el vestido, la habitación, la atención médica, la hospitalaria y en su caso, los gastos de embarazo y parto; II. Respecto de los menores, además, los gastos para su educación y para proporcionarles oficio, arte o profesión adecuados a sus circunstancias personales; III. Con relación a las personas con algún tipo de discapacidad o declarados en estado de interdicción, lo necesario para lograr, en lo posible, su habilitación o rehabilitación y su desarrollo; y IV. Por lo que hace a los adultos mayores que carezcan de capacidad económica, además de todo lo necesario para su atención geriátrica, se procurará que los alimentos se les proporcionen, integrándolos a la familia.",
+      "total_reformas": 1,
+      "ultima_reforma": {
+        "id_reforma": "REF-046",
+        "fecha": "2000-05-25",
+        "medio": "Gaceta Oficial (DF / CDMX)",
+        "edicion": null,
+        "vigencia_desde": null,
+        "vigencia_verificada": false,
+        "url_oficial": null,
+        "nota": "(REFORMADO, G.O. 25 DE MAYO DE 2000)",
+        "fuente": "data/ccdf/datos_cccdmx.json"
+      },
+      "reformas": [
+        {
+          "id_reforma": "REF-046",
+          "fecha": "2000-05-25",
+          "medio": "Gaceta Oficial (DF / CDMX)",
+          "edicion": null,
+          "vigencia_desde": null,
+          "nota": "(REFORMADO, G.O. 25 DE MAYO DE 2000)",
+          "url_oficial": null,
+          "url_busqueda": "https://www.google.com/search?q=%22Gaceta%20Oficial%22%20%2225%20DE%20MAYO%20DE%202000%22%20%22C%C3%B3digo%20Civil%22"
+        }
+      ],
+      "versiones": [],
+      "fuente_texto": "data/ccdf/datos_cccdmx.json",
+      "nota": "Texto vigente y relación de decretos importados literalmente de data/ccdf/datos_cccdmx.json. En los decretos de la Gaceta Oficial los campos edicion, vigencia_desde y url_oficial quedan en null por no figurar en el JSON del Colab."
     },
     "1281": {
       "numero": "1281",
-      "estado": "pendiente",
+      "id_colab": "ARTICULO 1281",
+      "estado": "vigente",
       "tema": "Herencia: sucesión testamentaria y legítima",
-      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
-      "texto": null,
-      "versiones": []
+      "texto": "Herencia es la sucesión en todos los bienes del difunto y en todos sus derechos y obligaciones que no se extinguen por la muerte.",
+      "texto_2020": "Herencia es la sucesión en todos los bienes del difunto y en todos sus derechos y obligaciones que no se extinguen por la muerte.",
+      "total_reformas": 0,
+      "ultima_reforma": null,
+      "reformas": [],
+      "versiones": [],
+      "fuente_texto": "data/ccdf/datos_cccdmx.json",
+      "nota": "Texto vigente importado literalmente de data/ccdf/datos_cccdmx.json. Sin reformas registradas en el pipeline (total_reformas: 0; ultima_reforma: null): conserva su redacción original de 1928 (en vigor desde el 01-10-1932)."
     },
     "1502": {
       "numero": "1502",
-      "estado": "pendiente",
+      "id_colab": "ARTICULO 1502",
+      "estado": "vigente",
       "tema": "Testamento: formalidades (fracción I reformada GOCDMX 20-08-2026)",
-      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
-      "texto": null,
-      "versiones": [],
+      "texto": "No pueden ser testigos del testamento: I. Los amanuenses del Notario que lo autorice; II. Los menores de dieciséis años; III. Los que no estén en su sano juicio; IV. DEROGADA V. Los que no entiendan el idioma que habla el testador; VI. Los herederos o legatarios; sus descendientes, ascendientes, cónyuge o hermanos. El concurso como testigo de una de las personas a que se refiere esta fracción, sólo produce como efecto la nulidad de la disposición que beneficie a ella o a sus mencionados parientes; VII. Los que hayan sido condenados por el delito de falsedad. Las personas con capacidades diferentes relativas a ceguera total o parcial, sordera, mudez o ambas, podrán ser testigos de un testamento con el apoyo de un intérprete pagado por el testador.",
+      "texto_2020": "No pueden ser testigos del testamento: I. Los amanuenses del notario que lo autorice; INSTITUTO DE INVESTIGACIONES LEGISLATIVAS 167 II. Los menores de dieciséis años; III. Los que no estén en su sano juicio; IV. Derogado; V. Los que no entiendan el idioma que habla el testador; VI. Los herederos o legatarios; sus descendientes, ascendientes, cónyuge o hermanos. El concurso como testigo de una de las personas a que se refiere esta fracción, solo produce como efecto la nulidad de la disposición que beneficie a ella o a sus mencionados parientes; y VII. Los que hayan sido condenados por el delito de falsedad. Las personas con capacidades diferentes relativas a ceguera total o parcial, sordera, mudez o ambas, podrán ser testigos de un testamento con el apoyo de un intérprete pagado por el testador.",
+      "total_reformas": 2,
       "ultima_reforma": {
         "fecha": "2026-08-20",
         "medio": "Gaceta Oficial de la Ciudad de México",
@@ -4515,48 +4661,129 @@
         "vigencia_desde": "2026-08-21",
         "vigencia_verificada": true,
         "fraccion": "I",
-        "fuente": "docs/ccdf-sources-registry-entry.json (dictamen ccdf-cierre-ultima-reforma-2026-08-20)"
-      }
+        "fuente": "docs/ccdf-sources-registry-entry.json (dictamen ccdf-cierre-ultima-reforma-2026-08-20)",
+        "url_oficial": null
+      },
+      "reformas": [
+        {
+          "id_reforma": "REF-038",
+          "fecha": "1994-01-06",
+          "medio": "DOF (Diario Oficial de la Federación)",
+          "edicion": null,
+          "vigencia_desde": null,
+          "nota": "(REFORMADO, D.O.F. 6 DE ENERO DE 1994)",
+          "url_oficial": "https://www.dof.gob.mx/index.php?year=1994&month=01&day=06",
+          "url_busqueda": null
+        },
+        {
+          "id_reforma": "REF-065",
+          "fecha": "2008-12-04",
+          "medio": "Gaceta Oficial (DF / CDMX)",
+          "edicion": null,
+          "vigencia_desde": null,
+          "nota": "(REFORMADA [N. DE E. DEROGADA], G.O. 4 DE DICIEMBRE DE 2008) | (REFORMADO [N. DE E. ADICIONADO], G.O. 4 DE DICIEMBRE DE 2008)",
+          "url_oficial": null,
+          "url_busqueda": "https://www.google.com/search?q=%22Gaceta%20Oficial%22%20%224%20DE%20DICIEMBRE%20DE%202008%22%20%22C%C3%B3digo%20Civil%22"
+        }
+      ],
+      "versiones": [],
+      "fuente_texto": "data/ccdf/datos_cccdmx.json",
+      "nota": "Texto vigente importado literalmente de data/ccdf/datos_cccdmx.json. Registra en el pipeline REF-038 (DOF 06-01-1994, con enlace oficial a dof.gob.mx) y REF-065 (Gaceta 04-12-2008), además de la reforma a la fracción I publicada en GOCDMX 20-08-2026 (edición 1929 Bis, en vigor desde el 21-08-2026; url_oficial: null)."
     },
     "1792": {
       "numero": "1792",
-      "estado": "pendiente",
+      "id_colab": "ARTICULO 1792",
+      "estado": "vigente",
       "tema": "Convenio y contrato",
-      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
-      "texto": null,
-      "versiones": []
+      "texto": "Convenio es el acuerdo de dos o más personas para crear, transferir, modificar o extinguir obligaciones.",
+      "texto_2020": "Convenio es el acuerdo de dos o más personas para crear, transferir, modificar o extinguir obligaciones.",
+      "total_reformas": 0,
+      "ultima_reforma": null,
+      "reformas": [],
+      "versiones": [],
+      "fuente_texto": "data/ccdf/datos_cccdmx.json",
+      "nota": "Texto vigente importado literalmente de data/ccdf/datos_cccdmx.json. Sin reformas registradas en el pipeline (total_reformas: 0; ultima_reforma: null): conserva su redacción original de 1928 (en vigor desde el 01-10-1932)."
     },
     "1834": {
       "numero": "1834",
-      "estado": "pendiente",
+      "id_colab": "ARTICULO 1834",
+      "estado": "vigente",
       "tema": "Forma de los contratos (reformado GOCDMX 20-08-2026)",
-      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
-      "texto": null,
-      "versiones": [],
+      "texto": "Cuando se exija la forma escrita para el contrato, los documentos relativos deben ser firmados por todas las personas a las cuales se imponga esa obligación, de la siguiente manera: I. Con el uso de firma autógrafa. Si alguna de ellas no puede o no sabe firmar, lo hará otra a su ruego y en el documento se imprimirá la huella digital del interesado que no firmó. Con el uso de la Firma Electrónica Avanzada o de la Firma Electrónica de la Ciudad de México las cuales tendrán un valor jurídico equivalente al de la firma autógrafa; II. En los casos en que la ley establezca como requisito que un acto jurídico deba otorgarse en instrumento ante notario, dicho otorgamiento se hará en el protocolo ordinario o en el protocolo digital que tenga a su cargo en el ámbito de la actuación digital notarial en los términos establecidos por la Ley del Notariado de la Ciudad de México. Para la verificación, de los documentos a que se refiere la citada fracción, así como los que contengan la reproducción o representación de los instrumentos notariales a que se refiere la fracción II, podrá utilizarse una matriz de datos bidimensional o cualquier otra tecnología análoga existente o por existir que permita su consulta por medios electrónicos sin que la omisión de dicho elemento sea causa de su invalidez. División de los contratos",
+      "texto_2020": "Cuando se exija la forma escrita para el contrato, los documentos relativos deben ser firmados por todas las personas a las cuales se imponga esa obligación. INSTITUTO DE INVESTIGACIONES LEGISLATIVAS 195 Si alguna de ellas no puede o no sabe firmar, lo hará otra a su ruego y en el documento se imprimirá la huella digital del interesado que no firmó. División de los contratos",
+      "total_reformas": 0,
       "ultima_reforma": {
         "fecha": "2026-08-20",
         "medio": "Gaceta Oficial de la Ciudad de México",
         "edicion": "1929 Bis",
         "vigencia_desde": "2026-08-21",
         "vigencia_verificada": true,
-        "fuente": "docs/ccdf-sources-registry-entry.json (dictamen ccdf-cierre-ultima-reforma-2026-08-20)"
-      }
+        "fuente": "docs/ccdf-sources-registry-entry.json (dictamen ccdf-cierre-ultima-reforma-2026-08-20)",
+        "url_oficial": null
+      },
+      "reformas": [],
+      "versiones": [],
+      "fuente_texto": "data/ccdf/datos_cccdmx.json",
+      "nota": "Texto vigente importado literalmente de data/ccdf/datos_cccdmx.json (ya incorpora la reforma de GOCDMX 20-08-2026 sobre Firma Electrónica y protocolo digital, e incluye al final el epígrafe de sección «División de los contratos» del documento fuente). En datos_cccdmx.json el arreglo reformas está vacío ([]), por lo que ultima_reforma se conserva del dictamen verificado (GOCDMX 1929 Bis de 20-08-2026; url_oficial: null)."
     },
     "2248": {
       "numero": "2248",
-      "estado": "pendiente",
+      "id_colab": "ARTICULO 2248",
+      "estado": "vigente",
       "tema": "Compraventa",
-      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
-      "texto": null,
-      "versiones": []
+      "texto": "Habrá compra-venta cuando uno de los contratantes se obliga a transferir la propiedad de una cosa o de un derecho, y el otro a su vez se obliga a pagar por ellos un precio cierto y en dinero.",
+      "texto_2020": "Habrá compra-venta cuando uno de los contratantes se obliga a transferir la propiedad de una cosa o de un derecho, y el otro a su vez se obliga a pagar por ellos un precio cierto y en dinero.",
+      "total_reformas": 0,
+      "ultima_reforma": null,
+      "reformas": [],
+      "versiones": [],
+      "fuente_texto": "data/ccdf/datos_cccdmx.json",
+      "nota": "Texto vigente importado literalmente de data/ccdf/datos_cccdmx.json. Sin reformas registradas en el pipeline (total_reformas: 0; ultima_reforma: null): conserva su redacción original de 1928 (en vigor desde el 01-10-1932)."
     },
     "2999": {
       "numero": "2999",
-      "estado": "pendiente",
+      "id_colab": "ARTICULO 2999",
+      "estado": "vigente",
       "tema": "Registro Público de la Propiedad",
-      "nota": "Texto pendiente de cotejo: el texto consolidado del CCDF (DOCX de la Consejería Jurídica y de Servicios Legales de la CDMX) no está en el repositorio ni tiene hash verificado; no se reproduce texto normativo hasta cotejarlo.",
-      "texto": null,
-      "versiones": []
+      "texto": "La sede del Registro Público se establecerá en el Distrito Federal y estará ubicada en el lugar que determine el Jefe de Gobierno del Distrito Federal.",
+      "texto_2020": "La sede del Registro Público se establecerá en el Distrito Federal y estará ubicada en el lugar que determine el Jefe de Gobierno del Distrito Federal.",
+      "total_reformas": 2,
+      "ultima_reforma": {
+        "id_reforma": "REF-081",
+        "fecha": "2012-07-23",
+        "medio": "Gaceta Oficial (DF / CDMX)",
+        "edicion": null,
+        "vigencia_desde": null,
+        "vigencia_verificada": false,
+        "url_oficial": null,
+        "nota": "(REFORMADO, G.O. 23 DE JULIO DE 2012)",
+        "fuente": "data/ccdf/datos_cccdmx.json"
+      },
+      "reformas": [
+        {
+          "id_reforma": "REF-080",
+          "fecha": "2012-07-23",
+          "medio": "Gaceta Oficial (DF / CDMX)",
+          "edicion": null,
+          "vigencia_desde": null,
+          "nota": "(REFORMADO, G.O. 23 DE JULIO DE 2012)",
+          "url_oficial": null,
+          "url_busqueda": "https://www.google.com/search?q=%22Gaceta%20Oficial%22%20%2223%20DE%20JULIO%20DE%202012%22%20%22C%C3%B3digo%20Civil%22"
+        },
+        {
+          "id_reforma": "REF-081",
+          "fecha": "2012-07-23",
+          "medio": "Gaceta Oficial (DF / CDMX)",
+          "edicion": null,
+          "vigencia_desde": null,
+          "nota": "(REFORMADO, G.O. 23 DE JULIO DE 2012)",
+          "url_oficial": null,
+          "url_busqueda": "https://www.google.com/search?q=%22Gaceta%20Oficial%22%20%2223%20DE%20JULIO%20DE%202012%22%20%22C%C3%B3digo%20Civil%22"
+        }
+      ],
+      "versiones": [],
+      "fuente_texto": "data/ccdf/datos_cccdmx.json",
+      "nota": "Texto vigente y relación de decretos importados literalmente de data/ccdf/datos_cccdmx.json. En los decretos de la Gaceta Oficial los campos edicion, vigencia_desde y url_oficial quedan en null por no figurar en el JSON del Colab."
     }
   }
 }
